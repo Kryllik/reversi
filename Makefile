@@ -1,5 +1,8 @@
-all: Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Pawn.o
-	g++ Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Pawn.o Game.cpp -o projet
+all: Game.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Pawn.o
+	g++ Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Pawn.o Main.cpp -o projet
+
+Game.o:
+	g++ -c Game.cpp
 
 Board.o:
 	g++ -c Board.cpp

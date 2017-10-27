@@ -2,8 +2,4 @@
 
 #include "Pawn.h"
 
-class Pawn{
-	public:
-		Pawn();
-		~Pawn();
-};
+

@@ -2,8 +2,4 @@
 
 #include "Board.h"
 
-class Board{
-	public:
-		Board();
-		~Board();
-};
+

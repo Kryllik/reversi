@@ -2,8 +2,4 @@
 
 #include "FilePlayer.h"
 
-class FilePlayer : public Player{
-	public:
-		FilePlayer();
-		~FilePlayer();
-};
+

@@ -5,10 +5,6 @@
 //Main file of the game, includes main()
 
 #include <stdio.h>
+#include "Game.h"
 
-int main(int argc, char **argv)
-{
-	
-	return 0;
-}
 

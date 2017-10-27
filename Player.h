@@ -5,5 +5,7 @@ class Player{
 	public:
 		Player();
 		~Player();
+	private:
+		void makeMove();
 };
 

@@ -7,4 +7,4 @@ class HumanPlayer: public Player{
 			HumanPlayer();
 			~HumanPlayer();
 		private:
-}
+};

@@ -6,4 +6,4 @@ class FilePlayer : public Player{
 	public:
 		FilePlayer();
 		~FilePlayer();
-}
+};

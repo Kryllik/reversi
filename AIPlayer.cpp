@@ -6,4 +6,4 @@ class AIPlayer : public Player{
 	public:
 		AIPlayer();
 		~AIPlayer();
-}
+};

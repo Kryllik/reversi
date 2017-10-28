@@ -2,7 +2,7 @@
 
 class Board{
 	public:
-		Board(); //il faut faire un malloc (board sur le tas)
+		Board(); 
 		~Board();
 	private:
 		void initBoard();

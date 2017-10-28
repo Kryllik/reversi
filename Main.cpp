@@ -3,6 +3,7 @@
 #include <string>       // std::string
 #include <iostream>     // std::cout
 
+#include "Board.h"
 using namespace std;
 
 
@@ -10,5 +11,7 @@ int main(int argc, char **argv)
 {
 		
 	cout << "bienvenue dans ce super jeu" << endl;
+	Board *board = new Board(); //Crée un nouveau Board et l'initialise. Renvoie un pointeur.
+	delete board;
 	return 0;
 }

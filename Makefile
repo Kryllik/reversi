@@ -1,27 +1,39 @@
-all: Game.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Pawn.o
-	g++ Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Pawn.o Main.cpp -o projet
+all: Game.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o
+	g++ -std=c++11 Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o Main.cpp -o projet
 
-Game.o:
-	g++ -c Game.cpp
+#Game.o:
+#	g++ -std=c++11 -c Game.cpp
 
-Board.o:
-	g++ -c Board.cpp
+#Board.o:
+#	g++ -std=c++11 -c Board.cpp
 
-Player.o:
-	g++ -c Player.cpp
+#Player.o:
+	#g++ -std=c++11 -c Player.cpp
 
-HumanPlayer.o:
-	g++ -c HumanPlayer.cpp
+#HumanPlayer.o:
+#	g++ -std=c++11 -c HumanPlayer.cpp
 
-FilePlayer.o:
-	g++ -c FilePlayer.cpp
+#FilePlayer.o:
+#	g++ -std=c++11 -c FilePlayer.cpp
 
-AIPlayer.o:
-	g++ -c AIPlayer.cpp
+#AIPlayer.o:
+#	g++ -std=c++11 -c AIPlayer.cpp
 
-Pawn.o:
-	g++ -c Pawn.cpp
+#Cell.o:
+#	g++ -std=c++11 -c Cell.cpp
+
+
+
+### Permet d'éviter de devoir écrire la compilation en .o pour chaque nouveau fichier !
+### $@ correspond à l'entrée (.o) et $< correspond à la sortie (.cpp)
+
+%.o: %.c 
+	g++ -std=c++11 -c -o $@ $<
+
 
 
 clean:
 	rm *.o
+	rm projet
+
+

@@ -28,8 +28,8 @@ void Board::initBoard(){
 		//Initialise les positions initiales.
 	setContentAt(Position(3,3),Black);
 	setContentAt(Position(4,4),Black);	
-	setContentAt(Position(3,4),Black);
-	setContentAt(Position(4,3),Black);
+	setContentAt(Position(3,4),White);
+	setContentAt(Position(4,3),White);
 	
 	cout << "FIN initialisation du Board" << endl;
 }

@@ -8,7 +8,7 @@ all: Game.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o
 #	g++ -std=c++11 -c Board.cpp
 
 #Player.o:
-	#g++ -std=c++11 -c Player.cpp
+#	g++ -std=c++11 -c Player.cpp
 
 #HumanPlayer.o:
 #	g++ -std=c++11 -c HumanPlayer.cpp
@@ -27,7 +27,7 @@ all: Game.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o
 ### Permet d'éviter de devoir écrire la compilation en .o pour chaque nouveau fichier !
 ### $@ correspond à l'entrée (.o) et $< correspond à la sortie (.cpp)
 
-%.o: %.c 
+%.o: %.cpp
 	g++ -std=c++11 -c -o $@ $<
 
 

@@ -7,17 +7,16 @@
 
 //susing namespace std::pair;
  
-typedef enum {Black,White,Empty} cellContent;
+typedef enum {Black,White,Empty} cellContent; 
 
 
 class Cell{
 	public:
 		Cell();
 		~Cell();
-		void setColor();
+		void setContent(cellContent content);
 		cellContent getContent();
 	private:
-		//std::pair<int,int> position;
 		cellContent content;
 		void switchColor();
 };

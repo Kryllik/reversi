@@ -21,32 +21,32 @@ Board::~Board(){
 
 void Board::initBoard(){
 	cout << "DEBUT initialisation du Board" << endl;
-	for(unsigned int line = 0; line < BOARD_SIZE; line++){
-		for(unsigned int col =0; col< BOARD_SIZE; col++){
+	for(unsigned int line = 1; line <= BOARD_SIZE; line++){
+		for(unsigned int col =1; col<= BOARD_SIZE; col++){
 			setContentAt(Position(line,col), Empty); //Remplis l'ensemble du tableau avec des cases vides
 		}
 	}
 		//Initialise les positions initiales.
-	setContentAt(Position(3,3),Black);
-	setContentAt(Position(4,4),Black);	
-	setContentAt(Position(3,4),White);
-	setContentAt(Position(4,3),White);
+	setContentAt(Position(4,4),Black);
+	setContentAt(Position(5,5),Black);	
+	setContentAt(Position(4,5),White);
+	setContentAt(Position(5,4),White);
 	
 	cout << "FIN initialisation du Board" << endl;
 }
 
 void Board::Display(){
 	cout<<"       a b c d e f g h  " << endl; //Impression des numéros de ligne
-	for(unsigned int line =0; line < 8; line++){
-		cout<< "     "<<(line+1)<< " "; // Impression des numéros de colonne
-		for(unsigned int col = 0; col <8; col++){
+	for(unsigned int line =1; line <= 8; line++){
+		cout<< "     "<<(line)<< " "; // Impression des numéros de colonne
+		for(unsigned int col = 1; col <=8; col++){
 			switch(getContentAt(Position(line,col))){
 				case Empty: cout << ". "; break;
 				case Black: cout << "X "; break;
 				case White: cout << "O "; break;
 			}
 		}
-		cout << (line+1) << endl;
+		cout << (line) << endl;
 	}
 	cout<<"       a b c d e f g h  "<< endl;
 }
@@ -54,11 +54,11 @@ void Board::Display(){
 
 
 cellContent Board::getContentAt(Position pos){
-	return (this->array[pos.getLine()][pos.getCol()]).getContent();
+	return (this->array[pos.getY()-1][pos.getX()-1]).getContent();
 }
 
 void Board::setContentAt(Position pos, cellContent content){
-	(this->array[pos.getLine()][pos.getCol()]).setContent(content);
+	(this->array[pos.getY()-1][pos.getX()-1]).setContent(content);
 }
 
 

@@ -1,15 +1,19 @@
 //Header de Position.cpp
 
+#include <string>
+
 class Position {
 	public:
 		Position();
-		Position(int l, int c);
-		
-		void increment(int lAdd, int cAdd);
+		Position(int x, int y);
+		std::string toString();
+		static Position positionFromString(std::string s);
+		void increment(int xAdd, int yAdd);
+		Position incrementedBy(int xAdd, int yAdd);
 		bool isValid();
-		int getLine();
-		int getCol();
+		int getX();
+		int getY();
 	private:
-		int line;
-		int col;
+		int x;
+		int y;
 };

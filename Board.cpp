@@ -5,6 +5,7 @@
 #include <iostream>     // std::cout
 
 #include "Board.h"
+//#include "Position.h"
 //#include "Cell.h"
 using namespace std;
 
@@ -53,11 +54,11 @@ void Board::Display(){
 
 
 cellContent Board::getContentAt(Position pos){
-	return (this->array[pos.line][pos.col]).getContent();
+	return (this->array[pos.getLine()][pos.getCol()]).getContent();
 }
 
 void Board::setContentAt(Position pos, cellContent content){
-	(this->array[pos.line][pos.col]).setContent(content);
+	(this->array[pos.getLine()][pos.getCol()]).setContent(content);
 }
 
 

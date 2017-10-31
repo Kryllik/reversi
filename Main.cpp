@@ -12,24 +12,14 @@ int main(int argc, char **argv)
 		
 	Game *game = new Game();
 	
-	Position pos = Position::positionFromString("b3");
-	if (game->isValidMove(Black,pos)) {
-		cout << pos.toString() << " is valid move" << endl;
-	}
-	
-	pos = Position::positionFromString("d4");
-	if (game->isValidMove(Black,pos)) {
-		cout << pos.toString() << " is valid move" << endl;
-	}
-	
-	pos = Position::positionFromString("c5");
-	if (game->isValidMove(Black,pos)) {
-		cout << pos.toString() << " is valid move" << endl;
-	}
-	
-	pos = Position::positionFromString("e6");
-	if (game->isValidMove(Black,pos)) {
-		cout << pos.toString() << " is valid move" << endl;
+	vector<Position> v = game->validMoves(White);
+	cout << "Valid moves : ";
+	for (int i = 0; i<v.size(); i++) {
+		if (i != v.size()-1) {
+			cout << v[i].toString() << " - ";
+		} else {
+			cout << v[i].toString() << endl;
+		}
 	}
 	
 	delete game;

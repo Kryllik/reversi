@@ -23,36 +23,58 @@ Game::~Game() {
 }
 
 
+bool Game::validMovesExist(cellContent playerContent) {
+	bool res = true;
+	vector<Position> v = validMoves(playerContent);
+	if (v.size() == 0) {
+		res = false;
+	}
+	return res;
+}
 
+vector<Position> Game::validMoves(cellContent playerContent) {
+	vector<Position> v;
+	Position pos;
+	for (int i = 1; i<=8; i++) {
+		for (int j = 1; j<=8; j++) {
+			pos = Position(i,j);
+			if (isValidMove(playerContent,pos)) {
+				v.push_back(pos);
+			}
+		}
+	}
+	return v;
+}
 
 bool Game::isValidMove(cellContent playerContent, Position pos) {
 	cout << "\nTest if valid move - " << pos.toString() << endl;
 	if (board->getContentAt(pos) == Empty) {
-		cout << "Condition 1 ok, it's empty" << endl;
+		//cout << "Condition 1 ok, it's empty" << endl;
 		//test all 8 directions
 		for (int x=-1;x<=1;x++) {
 			for (int y=-1;y<=1;y++) {
 				if (!(x==0 && y==0)) {
 					if (winnerMoveAtDirection(pos,x,y,playerContent)) {
+						cout << pos.toString() << " is valid" << endl;
 						return true;
 					}
 				}
 			}
 		}
-		cout << "No win direction" << endl;
+		//cout << "No win direction" << endl;
 	} else {
-		cout << "Condition 1 not ok, not empty" << endl;
+		//cout << "Condition 1 not ok, not empty" << endl;
 	}
 	return false;
 }
 
 bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerContent) {
-	cout << "Test of direction x:" << x << " y:" << y << endl;
+	//cout << "Test of direction x:" << x << " y:" << y << endl;
 	Position newPos = pos.incrementedBy(x,y);
 	if (newPos.isValid()) {
 		cellContent newContent = board->getContentAt(newPos);
 		if (newContent!=playerContent && newContent != Empty) {
-			cout << "Condition 2 ok, first cell in direction x:" << x << " y:" << y << " is opposite color" << endl;
+			//cout << "Condition 2 ok, first cell in direction x:" << x << " y:" << y << " is opposite color" << endl;
 			while (true) {
 				newPos.increment(x,y);
 				newContent = board->getContentAt(newPos);
@@ -60,7 +82,7 @@ bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerCo
 					break;
 				}
 				if (newContent == playerContent) {
-					cout << "Condition 3 ok, cell at position " << newPos.toString() << " is same color" << endl;
+					//cout << "Condition 3 ok, cell at position " << newPos.toString() << " is same color" << endl;
 					return true;
 				}
 			}

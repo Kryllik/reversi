@@ -1,5 +1,5 @@
-all: Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o
-	g++ -std=c++11 Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o Main.cpp -o projet
+all: Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o IO.o
+	g++ -std=c++11 Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o IO.o Main.cpp -o projet
 
 #Game.o:
 #	g++ -std=c++11 -c Game.cpp

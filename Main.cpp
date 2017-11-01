@@ -4,6 +4,7 @@
 #include <iostream>     // std::cout
 
 #include "Game.h"
+#include "IO.h"
 using namespace std;
 
 
@@ -21,6 +22,7 @@ int main(int argc, char **argv)
 			cout << v[i].toString() << endl;
 		}
 	}
+	IO::moveInput();
 	
 	delete game;
 	

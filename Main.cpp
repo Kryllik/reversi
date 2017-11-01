@@ -22,9 +22,11 @@ int main(int argc, char **argv)
 			cout << v[i].toString() << endl;
 		}
 	}
+	/*
 	cellContent playerContent = White;
 	IO::moveInput(*game, playerContent);
-	
+	*/
+	game->gameStartPvP();
 	delete game;
 	
 	return 0;

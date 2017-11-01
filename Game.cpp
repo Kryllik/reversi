@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include "Game.h"
+#include "IO.h"
 
 using namespace std;
 
@@ -47,7 +48,7 @@ vector<Position> Game::validMoves(cellContent playerContent) {
 }
 
 bool Game::isValidMove(cellContent playerContent, Position pos) const {
-	cout << "\nTest if valid move - " << pos.toString() << endl;
+	//cout << "\nTest if valid move - " << pos.toString() << endl;
 	if (board->getContentAt(pos) == Empty) {
 		//cout << "Condition 1 ok, it's empty" << endl;
 		//test all 8 directions
@@ -55,7 +56,7 @@ bool Game::isValidMove(cellContent playerContent, Position pos) const {
 			for (int y=-1;y<=1;y++) {
 				if (!(x==0 && y==0)) {
 					if (winnerMoveAtDirection(pos,x,y,playerContent)) {
-						cout << pos.toString() << " is valid" << endl;
+						//cout << pos.toString() << " is valid" << endl;
 						return true;
 					}
 				}
@@ -90,6 +91,41 @@ bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerCo
 	}
 	return false;
 }
+
+cellContent Game::PlayerContentSwitch(cellContent playerContent){
+	if(playerContent == Black){
+		playerContent = White;
+	}
+	else{
+		playerContent = Black;
+	}
+	return playerContent;
+}
+
+
+void Game::gameStartPvP(){
+	bool actualPlayerCanPlay;
+	cellContent actualPlayerContent = Black;
+	while(actualPlayerCanPlay = validMovesExist(actualPlayerContent) || validMovesExist(PlayerContentSwitch(actualPlayerContent))){ //sortie du jeu si aucun mouvement n'est possible pour les 2 joueurs
+		if(actualPlayerCanPlay){
+			Position pos = IO::moveInput(*this, actualPlayerContent);
+			board->setContentAt(pos, actualPlayerContent);
+			IO::display(*board, actualPlayerContent);
+			actualPlayerContent=PlayerContentSwitch(actualPlayerContent);
+			}
+		else{
+			actualPlayerContent=PlayerContentSwitch(actualPlayerContent);
+			Position pos = IO::moveInput(*this, actualPlayerContent);
+			IO::display(*board, actualPlayerContent);
+			board->setContentAt(pos, actualPlayerContent);
+		}
+		
+	}
+	
+}
+
+
+	
 
 
 

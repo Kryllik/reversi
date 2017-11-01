@@ -1,5 +1,7 @@
-//Header de Pawn.cpp
+//Header de Cell.cpp
 
+#ifndef CELL_H
+#define CELL_H
 
 #include <utility>      // std::pair, std::make_pair
 #include <string>       // std::string
@@ -20,3 +22,5 @@ class Cell{
 		cellContent content;
 		void switchColor();
 };
+
+#endif

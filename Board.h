@@ -1,5 +1,8 @@
 //Header de Board.h
 
+#ifndef BOARD_H
+#define BOARD_H
+
 #include "Cell.h"
 #include "Position.h"
 
@@ -22,3 +25,5 @@ class Board{
 		Cell array[BOARD_SIZE][BOARD_SIZE];
 		void initBoard();
 };
+
+#endif

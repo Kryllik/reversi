@@ -1,4 +1,4 @@
-//Classe contenant les attributs et fonctions pour les pions
+//Classe contenant les attributs et fonctions pour les cases
 
 #include "Cell.h"
 using namespace std;

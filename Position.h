@@ -1,5 +1,8 @@
 //Header de Position.cpp
 
+#ifndef POSITION_H
+#define POSITION_H
+
 #include <string>
 
 class Position {
@@ -17,3 +20,5 @@ class Position {
 		int x;
 		int y;
 };
+
+#endif

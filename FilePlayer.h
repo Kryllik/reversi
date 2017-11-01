@@ -1,5 +1,8 @@
 //Header de FilePlayer
 
+#ifndef FILEPLAYER_H
+#define FILEPLAYER_H
+
 #include "Player.h"
 
 class FilePlayer : public Player{
@@ -7,3 +10,5 @@ class FilePlayer : public Player{
 		FilePlayer();
 		~FilePlayer();
 };
+
+#endif

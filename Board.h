@@ -17,7 +17,7 @@ class Board{
 	public:
 		Board(); 
 		~Board();
-		void Display();
+		void display();
 		cellContent getContentAt(Position pos);
 		void setContentAt(Position pos, cellContent content);
 		static constexpr int BOARD_SIZE = 8; //Taille standard d'un plateau de jeu

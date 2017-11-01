@@ -35,7 +35,7 @@ void Board::initBoard(){
 	cout << "FIN initialisation du Board" << endl;
 }
 
-void Board::Display(){
+void Board::display(){
 	cout<<"       a b c d e f g h  " << endl; //Impression des numéros de ligne
 	for(unsigned int line =1; line <= 8; line++){
 		cout<< "     "<<(line)<< " "; // Impression des numéros de colonne

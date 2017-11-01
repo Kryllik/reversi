@@ -16,6 +16,21 @@ Position IO::moveInput(Game const & game, cellContent playerContent){
 	
 }
 
+void IO::display(Board & board, cellContent playerContent){
+	string playerContentString;
+	if(playerContent== Black){
+		playerContentString = "Noir";
+	}
+	else{
+		playerContentString = "Blanc";
+	}
+	cout << "C'est au joueur " << playerContentString << " de jouer" << endl;
+	cout << "mise à jour du board " << endl;
+	board.display();
+	cout << "" << endl; 
+}
+	
+
 /*
 bool isValidInput(string s){
 	int a=s[1]-'0';

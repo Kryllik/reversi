@@ -17,6 +17,7 @@ class IO{
 	static Position moveInput(const Game & game, cellContent playerContent);
 	
 	private:
+	void display(Board & board, cellContent playerContent);
 	
 	};
 

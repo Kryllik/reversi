@@ -1,5 +1,4 @@
 #include "IO.h"
-#include "Position.h"
 
 //bool isValidInput(string s);
 

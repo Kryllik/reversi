@@ -3,6 +3,8 @@
 
 
 #include <iostream>
+#include "Position.h"
+
 using std::cout;
 using std::cin;
 using std::endl;

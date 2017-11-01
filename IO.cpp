@@ -1,5 +1,4 @@
 #include "IO.h"
-
 //bool isValidInput(string s);
 
 Position IO::moveInput(Game const & game, cellContent playerContent){
@@ -7,11 +6,10 @@ Position IO::moveInput(Game const & game, cellContent playerContent){
 	cout<<"Enter your move (column row)"<<endl;
 	cin>>move;
 	Position pos = Position::positionFromString(move);
-	while (!pos->isValid()){ // positionFromString() renvoie une Position(0,0) si le string n'est pas valide (donc pos.x =0)
+	while (!pos.isValid()){ // positionFromString() renvoie une Position(0,0) si le string n'est pas valide (donc pos.x =0)
 		cout<<"Not a correct syntax, try again"<<endl;
 		cin>>move;
 		pos = Position::positionFromString(move);
-		
 	}
 	cout << "syntax accepted" << endl;
 	

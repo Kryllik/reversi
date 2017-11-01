@@ -22,7 +22,8 @@ int main(int argc, char **argv)
 			cout << v[i].toString() << endl;
 		}
 	}
-	IO::moveInput();
+	cellContent playerContent = White;
+	IO::moveInput(*game, playerContent);
 	
 	delete game;
 	

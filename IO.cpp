@@ -2,18 +2,22 @@
 //bool isValidInput(string s);
 
 Position IO::moveInput(Game const & game, cellContent playerContent){
+	Position pos;
 	string move;
-	cout<<"Enter your move (column row)"<<endl;
-	cin>>move;
-	Position pos = Position::positionFromString(move);
-	while (!pos.isValid()){ // positionFromString() renvoie une Position(0,0) si le string n'est pas valide (donc pos.x =0)
-		cout<<"Not a correct syntax, try again"<<endl;
+	while (true) {
+		cout<<"Enter your move (column row)"<<endl;
 		cin>>move;
 		pos = Position::positionFromString(move);
+		if (pos.isValid()) {
+			if (game.isValidMove(playerContent,pos)) {
+				return pos;
+			} else {
+				cout << "not valid move" << endl;
+			}
+		} else {
+			cout << "Not a correct syntax, try again" << endl;
+		}
 	}
-	cout << "syntax accepted" << endl;
-	
-	
 }
 
 /*

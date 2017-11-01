@@ -46,7 +46,7 @@ vector<Position> Game::validMoves(cellContent playerContent) {
 	return v;
 }
 
-bool Game::isValidMove(cellContent playerContent, Position pos) {
+bool Game::isValidMove(cellContent playerContent, Position pos) const {
 	cout << "\nTest if valid move - " << pos.toString() << endl;
 	if (board->getContentAt(pos) == Empty) {
 		//cout << "Condition 1 ok, it's empty" << endl;
@@ -68,7 +68,7 @@ bool Game::isValidMove(cellContent playerContent, Position pos) {
 	return false;
 }
 
-bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerContent) {
+bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerContent) const {
 	//cout << "Test of direction x:" << x << " y:" << y << endl;
 	Position newPos = pos.incrementedBy(x,y);
 	if (newPos.isValid()) {

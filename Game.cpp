@@ -92,7 +92,7 @@ bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerCo
 	return false;
 }
 
-cellContent Game::PlayerContentSwitch(cellContent playerContent){
+cellContent Game::playerContentSwitch(cellContent playerContent){
 	if(playerContent == Black){
 		playerContent = White;
 	}
@@ -104,20 +104,20 @@ cellContent Game::PlayerContentSwitch(cellContent playerContent){
 
 
 void Game::gameStartPvP(){
-	bool actualPlayerCanPlay;
-	cellContent actualPlayerContent = Black;
-	while(actualPlayerCanPlay = validMovesExist(actualPlayerContent) || validMovesExist(PlayerContentSwitch(actualPlayerContent))){ //sortie du jeu si aucun mouvement n'est possible pour les 2 joueurs
-		if(actualPlayerCanPlay){
-			Position pos = IO::moveInput(*this, actualPlayerContent);
-			board->setContentAt(pos, actualPlayerContent);
-			IO::display(*board, actualPlayerContent);
-			actualPlayerContent=PlayerContentSwitch(actualPlayerContent);
+	bool currentPlayerCanPlay;
+	cellContent currentPlayerContent = Black;
+	while(currentPlayerCanPlay = validMovesExist(currentPlayerContent) || validMovesExist(playerContentSwitch(currentPlayerContent))){ //sortie du jeu si aucun mouvement n'est possible pour les 2 joueurs
+		if(currentPlayerCanPlay){
+			Position pos = IO::moveInput(*this, currentPlayerContent);
+			board->setContentAt(pos, currentPlayerContent);
+			IO::display(*board, currentPlayerContent);
+			currentPlayerContent=playerContentSwitch(currentPlayerContent);
 			}
 		else{
-			actualPlayerContent=PlayerContentSwitch(actualPlayerContent);
-			Position pos = IO::moveInput(*this, actualPlayerContent);
-			IO::display(*board, actualPlayerContent);
-			board->setContentAt(pos, actualPlayerContent);
+			currentPlayerContent=playerContentSwitch(currentPlayerContent);
+			Position pos = IO::moveInput(*this, currentPlayerContent);
+			IO::display(*board, currentPlayerContent);
+			board->setContentAt(pos, currentPlayerContent);
 		}
 		
 	}

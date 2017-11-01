@@ -18,7 +18,7 @@ class Game {
 	private:
 		void getScore(); //Imprime les scores
 		void getWinner();// Imprime le gagnant (compare getScore()
-		cellContent PlayerContentSwitch(cellContent playerContent);
+		cellContent playerContentSwitch(cellContent playerContent);
 		bool winnerMoveAtDirection(Position pos, int x, int y, cellContent playerContent) const;
 		
 		Board* board;

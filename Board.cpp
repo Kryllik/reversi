@@ -41,7 +41,7 @@ cellContent Board::getContentAt(Position pos){
 }
 
 void Board::setContentAt(Position pos, cellContent content){
-	(this->array[pos.getY()-1][pos.getX()-1]).setContent(content);
+	(this->array[pos.getX()-1][pos.getY()-1]).setContent(content);
 }
 
 

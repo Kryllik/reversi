@@ -13,7 +13,7 @@ using std::string;
 
 class IO{
 	public:
-	static void moveInput();
+	static Position moveInput();
 	
 	private:
 	

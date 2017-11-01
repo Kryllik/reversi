@@ -43,7 +43,6 @@ string Position::toString() {
 }
 
 Position Position::positionFromString(string s) {
-	
 	Position pos;
 	if (s.size() != 2) {
 		pos = Position(0,0);
@@ -52,9 +51,6 @@ Position Position::positionFromString(string s) {
 		char posYChar = s[1];
 		int posY = posYChar-'0';
 		pos = Position(posX,posY);
-		if (!pos.isValid()) {
-			pos = Position(0,0);
-		}
 	}
 	return pos;
 }

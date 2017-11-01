@@ -13,7 +13,7 @@ using namespace std;
 Game::Game() {
 	cout << "bienvenue dans ce super jeu" << endl;
 	Board *board = new Board(); //Crée un nouveau Board et l'initialise. Renvoie un pointeur.
-	board->display();
+	IO::boardDisplay(*board);
 	this->board = board;
 	
 }

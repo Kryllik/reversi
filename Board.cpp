@@ -35,23 +35,6 @@ void Board::initBoard(){
 	cout << "FIN initialisation du Board" << endl;
 }
 
-void Board::display(){
-	cout<<"       a b c d e f g h  " << endl; //Impression des numéros de ligne
-	for(unsigned int line =1; line <= 8; line++){
-		cout<< "     "<<(line)<< " "; // Impression des numéros de colonne
-		for(unsigned int col = 1; col <=8; col++){
-			switch(getContentAt(Position(line,col))){
-				case Empty: cout << ". "; break;
-				case Black: cout << "X "; break;
-				case White: cout << "O "; break;
-			}
-		}
-		cout << (line) << endl;
-	}
-	cout<<"       a b c d e f g h  "<< endl;
-}
-
-
 
 cellContent Board::getContentAt(Position pos){
 	return (this->array[pos.getY()-1][pos.getX()-1]).getContent();

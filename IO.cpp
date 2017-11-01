@@ -30,10 +30,26 @@ void IO::display(Board & board, cellContent playerContent){
 	}
 	cout << "C'est au joueur " << playerContentString << " de jouer" << endl;
 	cout << "mise à jour du board " << endl;
-	board.display();
+	boardDisplay(board);
 	cout << "" << endl; 
 }
 	
+	
+void IO::boardDisplay(Board & board){
+	cout<<"       a b c d e f g h  " << endl; //Impression des numéros de ligne
+	for(unsigned int line =1; line <= 8; line++){
+		cout<< "     "<<(line)<< " "; // Impression des numéros de colonne
+		for(unsigned int col = 1; col <=8; col++){
+			switch(board.getContentAt(Position(line,col))){
+				case Empty: cout << ". "; break;
+				case Black: cout << "X "; break;
+				case White: cout << "O "; break;
+			}
+		}
+		cout << (line) << endl;
+	}
+	cout<<"       a b c d e f g h  "<< endl;
+}
 
 /*
 bool isValidInput(string s){

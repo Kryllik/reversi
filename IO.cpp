@@ -58,14 +58,13 @@ void IO::displayValidMoves(cellContent playerContent, Game const& game) {
 		}
 	}
 }
-	
-	
+
 void IO::boardDisplay(Board & board){
 	cout<<"       a b c d e f g h  " << endl; //Impression des numéros de ligne
 	for(unsigned int line =1; line <= 8; line++){
 		cout<< "     "<<(line)<< " "; // Impression des numéros de colonne
 		for(unsigned int col = 1; col <=8; col++){
-			switch(board.getContentAt(Position(line,col))){
+			switch(board.getContentAt(Position(col,line))){
 				case Empty: cout << ". "; break;
 				case Black: cout << "B "; break;
 				case White: cout << "W "; break;
@@ -76,13 +75,6 @@ void IO::boardDisplay(Board & board){
 	cout<<"       a b c d e f g h  "<< endl;
 }
 
-/*
-bool isValidInput(string s){
-	int a=s[1]-'0';
-	if (s.size()==2 && s[0]<='h' && a>=1 && a<=8){
-		return true;
-	}	
-	else{
-		return false;
-	}
-}*/
+
+
+

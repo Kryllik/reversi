@@ -27,17 +27,17 @@ void Board::initBoard(){
 		}
 	}
 		//Initialise les positions initiales.
-	setContentAt(Position(4,4),Black);
-	setContentAt(Position(5,5),Black);	
-	setContentAt(Position(4,5),White);
-	setContentAt(Position(5,4),White);
+	setContentAt(Position(4,4),White);
+	setContentAt(Position(5,5),White);	
+	setContentAt(Position(4,5),Black);
+	setContentAt(Position(5,4),Black);
 	
 	cout << "FIN initialisation du Board" << endl;
 }
 
 
 cellContent Board::getContentAt(Position pos){
-	return (this->array[pos.getY()-1][pos.getX()-1]).getContent();
+	return (this->array[pos.getX()-1][pos.getY()-1]).getContent();
 }
 
 void Board::setContentAt(Position pos, cellContent content){

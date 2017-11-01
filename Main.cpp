@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 		
 	Game *game = new Game();
 	
-	vector<Position> v = game->validMoves(White);
+	vector<Position> v = game->validMoves(Black);
 	cout << "Valid moves : ";
 	for (int i = 0; i<v.size(); i++) {
 		if (i != v.size()-1) {

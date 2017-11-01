@@ -22,16 +22,19 @@ Position IO::moveInput(Game const & game, cellContent playerContent){
 
 void IO::display(Board & board, cellContent playerContent){
 	string playerContentString;
+	string otherPlayer;
 	if(playerContent== Black){
 		playerContentString = "Noir";
-	}
+		otherPlayer = "Blanc";
+		}
 	else{
 		playerContentString = "Blanc";
+		otherPlayer = "Noir";
 	}
-	cout << "C'est au joueur " << playerContentString << " de jouer" << endl;
+	cout << "Le joueur " << playerContentString << " vient de jouer" << endl;
 	cout << "mise à jour du board " << endl;
 	boardDisplay(board);
-	cout << "" << endl; 
+	cout << "Au joueur " << otherPlayer << " de jouer" << endl; 
 }
 	
 	
@@ -42,8 +45,8 @@ void IO::boardDisplay(Board & board){
 		for(unsigned int col = 1; col <=8; col++){
 			switch(board.getContentAt(Position(line,col))){
 				case Empty: cout << ". "; break;
-				case Black: cout << "X "; break;
-				case White: cout << "O "; break;
+				case Black: cout << "B "; break;
+				case White: cout << "W "; break;
 			}
 		}
 		cout << (line) << endl;

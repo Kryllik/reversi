@@ -12,20 +12,6 @@ int main(int argc, char **argv)
 {
 		
 	Game *game = new Game();
-	
-	vector<Position> v = game->validMoves(Black);
-	cout << "Valid moves : ";
-	for (int i = 0; i<v.size(); i++) {
-		if (i != v.size()-1) {
-			cout << v[i].toString() << " - ";
-		} else {
-			cout << v[i].toString() << endl;
-		}
-	}
-	/*
-	cellContent playerContent = White;
-	IO::moveInput(*game, playerContent);
-	*/
 	game->gameStartPvP();
 	delete game;
 	

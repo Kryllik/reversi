@@ -13,7 +13,6 @@ using namespace std;
 Game::Game() {
 	cout << "bienvenue dans ce super jeu" << endl;
 	Board *board = new Board(); //Crée un nouveau Board et l'initialise. Renvoie un pointeur.
-	IO::boardDisplay(*board);
 	this->board = board;
 	
 }
@@ -33,7 +32,7 @@ bool Game::validMovesExist(cellContent playerContent) {
 	return res;
 }
 
-vector<Position> Game::validMoves(cellContent playerContent) {
+vector<Position> Game::validMoves(cellContent playerContent) const {
 	vector<Position> v;
 	Position pos;
 	for (int i = 1; i<=8; i++) {
@@ -104,24 +103,22 @@ cellContent Game::playerContentSwitch(cellContent playerContent){
 
 
 void Game::gameStartPvP(){
+	IO::displayFirstTurn(*board,*this);
 	bool currentPlayerCanPlay;
 	cellContent currentPlayerContent = Black;
 	while(currentPlayerCanPlay = validMovesExist(currentPlayerContent) || validMovesExist(playerContentSwitch(currentPlayerContent))){ //sortie du jeu si aucun mouvement n'est possible pour les 2 joueurs
 		if(currentPlayerCanPlay){
 			Position pos = IO::moveInput(*this, currentPlayerContent);
 			board->setContentAt(pos, currentPlayerContent);
-			IO::display(*board, currentPlayerContent);
+			IO::display(*board, currentPlayerContent,*this);
 			currentPlayerContent=playerContentSwitch(currentPlayerContent);
-			}
-		else{
+		}else{
 			currentPlayerContent=playerContentSwitch(currentPlayerContent);
 			Position pos = IO::moveInput(*this, currentPlayerContent);
-			IO::display(*board, currentPlayerContent);
+			IO::display(*board, currentPlayerContent,*this);
 			board->setContentAt(pos, currentPlayerContent);
 		}
-		
 	}
-	
 }
 
 

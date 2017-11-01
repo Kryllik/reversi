@@ -15,10 +15,12 @@ using std::string;
 class IO{
 	public:
 	static Position moveInput(const Game & game, cellContent playerContent);
-	static void display(Board & board, cellContent playerContent);
-	static void boardDisplay(Board & board);
+	static void display(Board & board, cellContent playerContent, Game const& game);
+	static void displayFirstTurn(Board & board, Game const& game);
 
 	private:
-	};
+	static void boardDisplay(Board & board);
+	static void displayValidMoves(cellContent playerContent, Game const& game);
+};
 
 #endif

@@ -1,4 +1,5 @@
 #include "IO.h"
+#include <vector>
 //bool isValidInput(string s);
 
 Position IO::moveInput(Game const & game, cellContent playerContent){
@@ -20,21 +21,42 @@ Position IO::moveInput(Game const & game, cellContent playerContent){
 	}
 }
 
-void IO::display(Board & board, cellContent playerContent){
+void IO::display(Board & board, cellContent playerContent, Game const& game){
 	string playerContentString;
-	string otherPlayer;
-	if(playerContent== Black){
+	string otherPlayerString;
+	cellContent otherPlayer;
+	if(playerContent==Black){
 		playerContentString = "Noir";
-		otherPlayer = "Blanc";
-		}
-	else{
+		otherPlayerString = "Blanc";
+		otherPlayer = White;
+	}else{
 		playerContentString = "Blanc";
-		otherPlayer = "Noir";
+		otherPlayerString = "Noir";
+		otherPlayer = Black;
 	}
 	cout << "Le joueur " << playerContentString << " vient de jouer" << endl;
 	cout << "mise à jour du board " << endl;
 	boardDisplay(board);
-	cout << "Au joueur " << otherPlayer << " de jouer" << endl; 
+	cout << "Au joueur " << otherPlayerString << " de jouer" << endl;
+	displayValidMoves(otherPlayer,game);
+}
+
+void IO::displayFirstTurn(Board & board, Game const& game) {
+	boardDisplay(board);
+	cout << "Au joueur Noir de jouer" << endl;
+	displayValidMoves(Black,game);
+}
+
+void IO::displayValidMoves(cellContent playerContent, Game const& game) {
+	std::vector<Position> v = game.validMoves(playerContent);
+	cout << "Valid moves : ";
+	for (int i = 0; i<v.size(); i++) {
+		if (i != v.size()-1) {
+			cout << v[i].toString() << " - ";
+		} else {
+			cout << v[i].toString() << endl;
+		}
+	}
 }
 	
 	

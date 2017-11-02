@@ -101,6 +101,53 @@ cellContent Game::playerContentSwitch(cellContent playerContent){
 	return playerContent;
 }
 
+void Game::switchCells(cellContent playerContent, Position pos){
+	cellContent opponentContent=playerContentSwitch(playerContent);
+	//si i=-1,j=-1:diagonale en bas a gauche
+	//si i=-1,j=0: a gauche
+	//si i=-1,j=1:diagonale en haut a gauche
+	//si i=0,j=-1: en bas
+	//si i=0,j=0:rien
+	//si i=0,j=1: en haut
+	//si i=1,j=-1: diagonale en bas a droite
+	//si i=1, j=0: a droite
+	//si i=1, j=1: diagonale en haut a droite
+	for(int i=-1;i<2;i++){
+		for(int j=-1;j<2;i++){
+			cellContent opponentContent=playerContentSwitch(playerContent);
+			Position newPos= pos.incrementedBy(i,j);
+			while(board->getContentAt(newPos)!=playerContent && board->getContentAt(newPos)!=Empty && newPos.isvalid())
+				newPos=pos.incrementedBy(i,j);
+			if (board->getContentAt(newPos)==playerContent){
+				int diffx=newPos->getX()-pos->getX();
+				int diffy=newPos->getY()-pos->getY();
+				Position switchPos=pos;
+				if(diffy==0){//changement que en x
+					for(int k=0;k<diffx;k=k+i){
+						switchPos.incrementedBy(k,0);
+						switchContentAt(switchPos,opponentContent);
+						switchCells(playerContent, switchPos);
+					}
+				}
+				else if (diffx==0){//changement que en y
+					for(int l=0;l<diffy;l=l+i){
+						switchPos.incrementedBy(0,l);
+						switchContentAt(switchPos,opponentContent);
+						switchCells(playerContent, switchPos);
+					}
+				}
+				else{//changement des diagonales, diffy=diffx
+					for(int m=0;m<abs(diffx);m=m+1){
+						switchPos.incrementedBy(i,j);
+						switchContentAt(switchPos,opponentContent);
+						switchCells(playerContent, switchPos);
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
 void Game::gameStartPvP(){
 	IO::displayFirstTurn(*board,*this);

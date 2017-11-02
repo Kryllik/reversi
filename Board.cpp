@@ -44,5 +44,9 @@ void Board::setContentAt(Position pos, cellContent content){
 	(this->array[pos.getX()-1][pos.getY()-1]).setContent(content);
 }
 
+void Board::switchContentAt(Position pos, cellContent content){
+	(this->array[pos.getX()-1][pos.getY()-1]).switchContent(content);
+}
+
 
 

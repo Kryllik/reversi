@@ -17,3 +17,12 @@ void Cell::setContent(cellContent content){
 cellContent Cell::getContent(){
 	return this->content;
 }
+
+cellContent Cell::switchContent(cellContent content){
+{
+	if(content == Black)
+		content = White;
+	else
+		content = Black;
+	return content;
+}

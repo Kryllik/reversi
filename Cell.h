@@ -18,6 +18,7 @@ class Cell{
 		~Cell();
 		void setContent(cellContent content);
 		cellContent getContent();
+		cellContent switchContent(cellContent content);
 	private:
 		cellContent content;
 		void switchColor();

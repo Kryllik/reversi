@@ -15,6 +15,7 @@ class Game {
 		std::vector<Position> validMoves(cellContent playerContent) const; // renvoie un vecteur de positions de jeu valides pour la couleur donnée
 		bool validMovesExist(cellContent playerContent); //Vérifie s'il y a AU MOINS une position valide.
 		void gameStartPvP();
+		void switchCells(cellContent playerContent, Position pos);
 	private:
 		void getScore(); //Imprime les scores
 		void getWinner();// Imprime le gagnant (compare getScore()

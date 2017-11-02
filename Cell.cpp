@@ -18,7 +18,7 @@ cellContent Cell::getContent(){
 	return this->content;
 }
 
-cellContent Cell::switchContent(cellContent content){
+cellContent Cell::switchContent(cellContent content)
 {
 	if(content == Black)
 		content = White;

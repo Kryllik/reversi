@@ -117,37 +117,54 @@ void Game::switchCells(cellContent playerContent, Position pos){
 		for(int j=-1;j<2;j++){
 			cellContent opponentContent=playerContentSwitch(playerContent);
 			cout << " i " << i << " j " << j << endl;
+			cout <<"pos"<<pos.toString()<<endl;
 			Position newPos= pos.incrementedBy(i,j);
+			cout <<"newpos"<<newPos.toString()<<endl;
 			while(board->getContentAt(newPos)!=playerContent && board->getContentAt(newPos)!=Empty && newPos.isValid()){
 				cout << "position " << pos.toString() << endl;
 				cout << "incrementation" << endl;
 				newPos=newPos.incrementedBy(i,j);
+				cout << " i " << i << " j " << j << endl;
+				cout <<"newpos"<<newPos.toString()<<endl;
+				
 			}
 			if (board->getContentAt(newPos)==playerContent){
-				cout << "if black next to white" << endl;
-				int diffx=newPos.getX()-pos.getX();
-				int diffy=newPos.getY()-pos.getY();
-				Position switchPos=pos;
-				if(diffy==0){//changement que en x
-					for(int k=0;k<diffx;k=k+i){
-						switchPos.incrementedBy(k,0);
-						cout << "switch content at " << switchPos.toString() << endl;
-						board->switchContentAt(switchPos,opponentContent);
-						//switchCells(playerContent, switchPos);
+				if (j==0 && i==0){}
+				else{
+					cout << "if black next to white" << endl;
+					int diffx=newPos.getX()-pos.getX();
+					cout << "diffx"<< diffx<< endl;
+					int diffy=newPos.getY()-pos.getY();
+					cout << "diffy"<< diffy<< endl;
+					Position switchPos=pos;
+					if(diffy==0){//changement que en x
+						for(int k=1;k<abs(diffx);k=k+i){
+							cout <<"switchpos"<<switchPos.toString()<<endl;
+							cout<<"k "<<k<<endl;
+							switchPos.increment(k,0);
+							cout <<"switchpos"<<switchPos.toString()<<endl;
+							cout <<"switchx"<<endl;
+							cout << "switch content at " << switchPos.toString() << endl;
+							cout<<"content at d4"<< board->getContentAt(switchPos)<<endl;
+							board->switchContentAt(switchPos,opponentContent);
+							cout<<"content at d4"<< board->getContentAt(switchPos)<<endl;
+						}
 					}
-				}
-				else if (diffx==0){//changement que en y
-					for(int l=0;l<diffy;l=l+i){
-						switchPos.incrementedBy(0,l);
-						board->switchContentAt(switchPos,opponentContent);
-						//switchCells(playerContent, switchPos);
+					else if (diffx==0){//changement que en y
+						for(int l=1;l<abs(diffy);l=l+j){
+							cout<<"switchy"<<endl;
+							switchPos.increment(0,l);
+							board->switchContentAt(switchPos,opponentContent);
+							//switchCells(playerContent, switchPos);
+						}
 					}
-				}
-				else{//changement des diagonales, diffy=diffx
-					for(int m=0;m<abs(diffx);m=m+1){
-						switchPos.incrementedBy(i,j);
-						board->switchContentAt(switchPos,opponentContent);
-						//switchCells(playerContent, switchPos);
+					else if(diffx!=0 && diffy!=0){//changement des diagonales, diffy=diffx
+						for(int m=1;m<abs(diffx);m=m+1){
+							cout<<"switchdiag"<<endl;
+							switchPos.increment(i,j);
+							board->switchContentAt(switchPos,opponentContent);
+							//switchCells(playerContent, switchPos);
+							}
 						}
 					}
 				}
@@ -163,7 +180,8 @@ void Game::gameStartPvP(){
 		if(currentPlayerCanPlay){
 			Position pos = IO::moveInput(*this, currentPlayerContent);
 			board->setContentAt(pos, currentPlayerContent);
-			//switchCells(currentPlayerContent, pos);
+			cout << "before switch" << endl;
+			switchCells(currentPlayerContent, pos);
 			cout << "after switch" << endl;
 			IO::display(*board, currentPlayerContent,*this);
 			currentPlayerContent=playerContentSwitch(currentPlayerContent);

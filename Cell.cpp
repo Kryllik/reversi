@@ -21,8 +21,9 @@ cellContent Cell::getContent(){
 cellContent Cell::switchContent(cellContent content)
 {
 	if(content == Black)
-		content = White;
+		this->content = White;
 	else
-		content = Black;
-	return content;
+		this->content = Black;
+	cout<<"contentcell"<<content<<endl;
+	return this->content;
 }

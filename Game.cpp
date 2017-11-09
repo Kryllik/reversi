@@ -121,11 +121,10 @@ void Game::switchCells(cellContent playerContent, Position pos){
 			Position newPos= pos.incrementedBy(i,j);
 			cout <<"newpos"<<newPos.toString()<<endl;
 			while(board->getContentAt(newPos)!=playerContent && board->getContentAt(newPos)!=Empty && newPos.isValid()){
-				cout << "position " << pos.toString() << endl;
-				cout << "incrementation" << endl;
 				newPos=newPos.incrementedBy(i,j);
 				cout << " i " << i << " j " << j << endl;
-				cout <<"newpos"<<newPos.toString()<<endl;
+				cout <<"newpos while"<<newPos.toString()<<endl;
+				cout<<"content while"<< board->getContentAt(newPos)<<endl;
 				
 			}
 			if (board->getContentAt(newPos)==playerContent){
@@ -138,22 +137,22 @@ void Game::switchCells(cellContent playerContent, Position pos){
 					cout << "diffy"<< diffy<< endl;
 					Position switchPos=pos;
 					if(diffy==0){//changement que en x
-						for(int k=1;k<abs(diffx);k=k+i){
+						for(int k=1;k<abs(diffx);k=k+1){
 							cout <<"switchpos"<<switchPos.toString()<<endl;
 							cout<<"k "<<k<<endl;
-							switchPos.increment(k,0);
+							switchPos.increment(i,0);
 							cout <<"switchpos"<<switchPos.toString()<<endl;
 							cout <<"switchx"<<endl;
 							cout << "switch content at " << switchPos.toString() << endl;
-							cout<<"content at d4"<< board->getContentAt(switchPos)<<endl;
+							cout<<"content at "<< board->getContentAt(switchPos)<<endl;
 							board->switchContentAt(switchPos,opponentContent);
-							cout<<"content at d4"<< board->getContentAt(switchPos)<<endl;
+							cout<<"content at "<< board->getContentAt(switchPos)<<endl;
 						}
 					}
 					else if (diffx==0){//changement que en y
-						for(int l=1;l<abs(diffy);l=l+j){
-							cout<<"switchy"<<endl;
-							switchPos.increment(0,l);
+						for(int l=1;l<abs(diffy);l=l+1){
+							cout<<"switchyp"<<endl;
+							switchPos.increment(0,j);
 							board->switchContentAt(switchPos,opponentContent);
 							//switchCells(playerContent, switchPos);
 						}

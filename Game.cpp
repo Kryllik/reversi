@@ -182,13 +182,13 @@ void Game::gameStartPvP(){
 			cout << "before switch" << endl;
 			switchCells(currentPlayerContent, pos);
 			cout << "after switch" << endl;
-			IO::display(*board, currentPlayerContent,*this);
+			IO::display(*board, currentPlayerContent,*this, pos);
 			currentPlayerContent=playerContentSwitch(currentPlayerContent);
 		}else{
 			currentPlayerContent=playerContentSwitch(currentPlayerContent);
 			Position pos = IO::moveInput(*this, currentPlayerContent);
 			board->setContentAt(pos, currentPlayerContent);
-			IO::display(*board, currentPlayerContent,*this);
+			IO::display(*board, currentPlayerContent,*this, pos);
 
 		}
 	}

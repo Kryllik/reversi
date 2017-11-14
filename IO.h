@@ -15,7 +15,7 @@ using std::string;
 class IO{
 	public:
 	static Position moveInput(const Game & game, cellContent playerContent);
-	static void display(Board & board, cellContent playerContent, Game const& game);
+	static void display(Board & board, cellContent playerContent, Game const& game, Position pos);
 	static void displayFirstTurn(Board & board, Game const& game);
 
 	private:

@@ -21,7 +21,7 @@ Position IO::moveInput(Game const & game, cellContent playerContent){
 	}
 }
 
-void IO::display(Board & board, cellContent playerContent, Game const& game){
+void IO::display(Board & board, cellContent playerContent, Game const& game, Position pos){
 	string playerContentString;
 	string otherPlayerString;
 	cellContent otherPlayer;
@@ -34,7 +34,7 @@ void IO::display(Board & board, cellContent playerContent, Game const& game){
 		otherPlayerString = "Noir";
 		otherPlayer = Black;
 	}
-	cout << "Le joueur " << playerContentString << " vient de jouer" << endl;
+	cout << "Le joueur " << playerContentString << " vient de jouer en : " << pos.toString() << endl;
 	cout << "mise à jour du board " << endl;
 	boardDisplay(board);
 	cout << "Au joueur " << otherPlayerString << " de jouer" << endl;

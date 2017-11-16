@@ -7,8 +7,9 @@
 
 class HumanPlayer: public Player{
 		public:
-			HumanPlayer();
+			HumanPlayer(cellContent color);
 			~HumanPlayer();
+			Position getMove(Game &game);
 		private:
 };
 

@@ -6,6 +6,8 @@
 
 #include "Board.h"
 #include <vector>
+class Player;
+
 
 class Game {
 	public:
@@ -21,9 +23,12 @@ class Game {
 		void getWinner();// Imprime le gagnant (compare getScore()
 		cellContent playerContentSwitch(cellContent playerContent);
 		bool winnerMoveAtDirection(Position pos, int x, int y, cellContent playerContent) const;
-		
 		Board* board;
+		Player *playerBlack;
+		Player *playerWhite;
 };
+
+//#include "Player.h" // ATTENTION il faut l'include APRES la déclaration de la classe GAME sinon ça tourne en rond !!!!
 
 
 #endif

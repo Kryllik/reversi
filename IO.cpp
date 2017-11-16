@@ -1,6 +1,5 @@
 #include "IO.h"
 #include <vector>
-//bool isValidInput(string s);
 
 Position IO::moveInput(Game const & game, cellContent playerContent){
 	Position pos;

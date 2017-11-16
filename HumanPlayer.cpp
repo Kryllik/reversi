@@ -2,4 +2,12 @@
 
 #include "HumanPlayer.h"
 
+HumanPlayer::HumanPlayer(cellContent color) : Player(color){
+}
 
+Position HumanPlayer::getMove(Game & game){
+	cout << "MAKEMOVE for" << playerColor << endl;
+	Position pos = IO::moveInput(game, playerColor);
+	cout << pos.toString() << endl;
+	return pos;
+}

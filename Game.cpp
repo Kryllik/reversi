@@ -1,19 +1,24 @@
-/* Reversi Project - INFOH-304
- * membres du groupe : DESLYPERRE Clara, GOOSSENS Victor, MOREAU Lila, VERSTRAETEN Maxime
-*/
-
-//Main file of the game, includes main()
 
 #include <stdio.h>
 #include "Game.h"
 #include "IO.h"
+#include "Player.h"
+#include "HumanPlayer.h"
+#include "FilePlayer.h"
 
 using namespace std;
 
-Game::Game() {
+
+Game::Game()  {
 	cout << "bienvenue dans ce super jeu" << endl;
 	Board *board = new Board(); //Crée un nouveau Board et l'initialise. Renvoie un pointeur.
 	this->board = board;
+	cellContent blackColor = Black;
+	cellContent whiteColor = White;
+	playerBlack = new HumanPlayer(blackColor);
+	//playerWhite = new HumanPlayer(whiteColor);
+	playerWhite = new FilePlayer(whiteColor);
+	cout << "impression couleur " << playerBlack->getColor() << endl;
 	
 }
 
@@ -174,23 +179,27 @@ void Game::switchCells(cellContent playerContent, Position pos){
 void Game::gameStartPvP(){
 	IO::displayFirstTurn(*board,*this);
 	bool currentPlayerCanPlay;
-	cellContent currentPlayerContent = Black;
-	while(currentPlayerCanPlay = validMovesExist(currentPlayerContent) || validMovesExist(playerContentSwitch(currentPlayerContent))){ //sortie du jeu si aucun mouvement n'est possible pour les 2 joueurs
+	Player *currentPlayer = playerBlack;
+	cout << "current player : " << playerBlack << endl;
+	while(currentPlayerCanPlay = validMovesExist(currentPlayer->getColor()) ||
+				validMovesExist(currentPlayer->getOpponentColor()))
+				{ //sortie du jeu si aucun mouvement n'est possible pour les 2 joueurs
 		if(currentPlayerCanPlay){
-			Position pos = IO::moveInput(*this, currentPlayerContent);
-			board->setContentAt(pos, currentPlayerContent);
+			//Position pos = IO::moveInput(*this, currentPlayerContent);
+			Position pos = currentPlayer->getMove(*this);
+			cout << "playerBLACK " << playerBlack->getColor() << endl;
+			board->setContentAt(pos, currentPlayer->getColor());
 			cout << "before switch" << endl;
-			switchCells(currentPlayerContent, pos);
+			switchCells(currentPlayer->getColor(), pos);
 			cout << "after switch" << endl;
-			IO::display(*board, currentPlayerContent,*this, pos);
-			currentPlayerContent=playerContentSwitch(currentPlayerContent);
-		}else{
-			currentPlayerContent=playerContentSwitch(currentPlayerContent);
-			Position pos = IO::moveInput(*this, currentPlayerContent);
-			board->setContentAt(pos, currentPlayerContent);
-			IO::display(*board, currentPlayerContent,*this, pos);
-
+			IO::display(*board, currentPlayer->getColor(),*this, pos);
+			//currentPlayerContent=playerContentSwitch(currentPlayerContent);
 		}
+		else{
+			//TODO :: afficher 00
+		}
+		if(currentPlayer == playerWhite) currentPlayer = playerBlack; else currentPlayer = playerWhite;
+		
 	}
 }
 

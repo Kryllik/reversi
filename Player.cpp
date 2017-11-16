@@ -2,3 +2,22 @@
 
 #include "Player.h"
 
+Player::Player(cellContent color){
+	playerColor = color;
+	cout << "player color " <<  this->getColor() << endl;
+
+}
+
+
+
+
+cellContent Player::getColor(){
+	return this->playerColor;
+}
+
+cellContent Player::getOpponentColor(){
+	if(this->playerColor == Black)
+		return cellContent::White;
+	else
+		return cellContent::Black;
+}

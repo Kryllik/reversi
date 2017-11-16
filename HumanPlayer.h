@@ -10,6 +10,8 @@ class HumanPlayer: public Player{
 			HumanPlayer(cellContent color);
 			~HumanPlayer();
 			Position getMove(Game &game);
+			void giveMove(Position pos);
+			void giveVoidMove();
 		private:
 };
 

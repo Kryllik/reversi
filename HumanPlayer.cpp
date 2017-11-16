@@ -11,3 +11,12 @@ Position HumanPlayer::getMove(Game & game){
 	cout << pos.toString() << endl;
 	return pos;
 }
+
+
+void HumanPlayer::giveMove(Position pos){
+}
+
+
+
+void HumanPlayer::giveVoidMove(){
+}

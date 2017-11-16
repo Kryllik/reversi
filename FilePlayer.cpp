@@ -15,15 +15,15 @@ FilePlayer::FilePlayer(cellContent color) : Player(color){
 	
 	}
 
-	playerFile.open(playerFileName, std::ofstream::out);
-	opponentFile.open(opponentFileName);
+	playerFile.open(playerFileName);
+	opponentFile.open(opponentFileName, std::ofstream::trunc);
 	
-	while (!opponentFile.is_open())
+	while (!playerFile.is_open())
 	{
-		cout << "Attente du joueur adverse (fichier "<< opponentFileName <<" indisponible)" << endl;
+		cout << "Attente du joueur (fichier "<< playerFileName <<" indisponible)" << endl;
 		// Ajout d'une temporisation avant de réessayer
 		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-		opponentFile.open(opponentFileName);
+		playerFile.open(playerFileName);
 	}
 	
 	cout << "fichier existe, la partie peut commencer" << endl;
@@ -32,6 +32,30 @@ FilePlayer::FilePlayer(cellContent color) : Player(color){
 }
 
 Position FilePlayer::getMove(Game & game){
-	Position pos(2,2);
-	return pos;
+	string ligne;
+	while (!(getline(playerFile, ligne, '\x0a'))) //caractère de fin de chaine sous linux (?)
+	{
+				// Echec de la lecture - Effacement des flags d'erreur
+				playerFile.clear();
+				// Ajout d'une temporisation avant de réessayer
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+				cout << "waiting" << endl;
+			}
+	cout << "read : " << ligne << endl;
+	return Position::positionFromString(ligne);
 }
+
+
+void FilePlayer::giveMove(Position pos){
+	cout << "give move" << pos.toString() << endl;
+	opponentFile << pos.toString() << endl;
+
+}
+
+
+
+void FilePlayer::giveVoidMove(){
+	cout << "give void move" << endl;
+	opponentFile << "00" << endl;
+}
+

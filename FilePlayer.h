@@ -23,9 +23,11 @@ class FilePlayer : public Player{
 		FilePlayer(cellContent color);
 		~FilePlayer();
 		Position getMove(Game & game);
+		void giveMove(Position pos);
+		void giveVoidMove();
 	private:
-		ofstream playerFile;
-		ifstream opponentFile;
+		ifstream playerFile;
+		ofstream opponentFile;
 
 };
 

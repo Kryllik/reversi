@@ -19,7 +19,9 @@ class Player{
 		Player(cellContent color);
 		cellContent getColor();
 		virtual Position getMove(Game &game) =0;
+		virtual void giveMove(Position pos);
 		cellContent getOpponentColor();
+		virtual void giveVoidMove();
 	protected:
 		cellContent playerColor;
 };

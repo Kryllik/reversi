@@ -180,27 +180,43 @@ void Game::gameStartPvP(){
 	IO::displayFirstTurn(*board,*this);
 	bool currentPlayerCanPlay;
 	Player *currentPlayer = playerBlack;
+	Player *opponentPlayer= playerWhite;
 	cout << "current player : " << playerBlack << endl;
+	Position pos;
 	while(currentPlayerCanPlay = validMovesExist(currentPlayer->getColor()) ||
 				validMovesExist(currentPlayer->getOpponentColor()))
 				{ //sortie du jeu si aucun mouvement n'est possible pour les 2 joueurs
 		if(currentPlayerCanPlay){
 			//Position pos = IO::moveInput(*this, currentPlayerContent);
-			Position pos = currentPlayer->getMove(*this);
+			pos = currentPlayer->getMove(*this);
 			cout << "playerBLACK " << playerBlack->getColor() << endl;
 			board->setContentAt(pos, currentPlayer->getColor());
 			cout << "before switch" << endl;
 			switchCells(currentPlayer->getColor(), pos);
 			cout << "after switch" << endl;
 			IO::display(*board, currentPlayer->getColor(),*this, pos);
+			
 			//currentPlayerContent=playerContentSwitch(currentPlayerContent);
 		}
 		else{
 			//TODO :: afficher 00
 		}
-		if(currentPlayer == playerWhite) currentPlayer = playerBlack; else currentPlayer = playerWhite;
+		cout << currentPlayer << "zz" << endl;
+		if(currentPlayerCanPlay) {cout << "blibli" << endl; opponentPlayer->giveMove(pos); }
+		else opponentPlayer->giveVoidMove();
 		
-	}
+		cout << "after else" << endl;
+		if(currentPlayer == playerWhite)
+		{
+			 currentPlayer = playerBlack;
+			 opponentPlayer=playerWhite;
+		}
+		else { 
+			currentPlayer = playerWhite;
+			opponentPlayer=playerBlack;
+		}
+	}		
+
 }
 
 

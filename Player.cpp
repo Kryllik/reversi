@@ -21,3 +21,13 @@ cellContent Player::getOpponentColor(){
 	else
 		return cellContent::Black;
 }
+
+void Player::giveMove(Position pos){
+	cout << "xx" << endl;
+
+}
+
+void Player::giveVoidMove(){
+	cout << "yy" << endl;
+}
+

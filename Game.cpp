@@ -15,7 +15,8 @@ Game::Game()  {
 	this->board = board;
 	cellContent blackColor = Black;
 	cellContent whiteColor = White;
-	playerBlack = new HumanPlayer(blackColor);
+	//playerBlack = new HumanPlayer(blackColor);
+	playerBlack = new FilePlayer(blackColor);
 	//playerWhite = new HumanPlayer(whiteColor);
 	playerWhite = new FilePlayer(whiteColor);
 	cout << "impression couleur " << playerBlack->getColor() << endl;
@@ -125,14 +126,14 @@ void Game::switchCells(cellContent playerContent, Position pos){
 			cout <<"pos"<<pos.toString()<<endl;
 			Position newPos= pos.incrementedBy(i,j);
 			cout <<"newpos"<<newPos.toString()<<endl;
-			while(board->getContentAt(newPos)!=playerContent && board->getContentAt(newPos)!=Empty && newPos.isValid()){
+			while(newPos.isValid() && board->getContentAt(newPos)!=playerContent && board->getContentAt(newPos)!=Empty){
 				newPos=newPos.incrementedBy(i,j);
 				cout << " i " << i << " j " << j << endl;
 				cout <<"newpos while"<<newPos.toString()<<endl;
 				cout<<"content while"<< board->getContentAt(newPos)<<endl;
 				
 			}
-			if (board->getContentAt(newPos)==playerContent){
+			if (newPos.isValid() && board->getContentAt(newPos)==playerContent){
 				if (j==0 && i==0){}
 				else{
 					cout << "if black next to white" << endl;

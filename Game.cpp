@@ -15,10 +15,10 @@ Game::Game()  {
 	this->board = board;
 	cellContent blackColor = Black;
 	cellContent whiteColor = White;
-	//playerBlack = new HumanPlayer(blackColor);
-	playerBlack = new FilePlayer(blackColor);
-	//playerWhite = new HumanPlayer(whiteColor);
-	playerWhite = new FilePlayer(whiteColor);
+	playerBlack = new HumanPlayer(blackColor);
+	//playerBlack = new FilePlayer(blackColor);
+	playerWhite = new HumanPlayer(whiteColor);
+	//playerWhite = new FilePlayer(whiteColor);
 	cout << "impression couleur " << playerBlack->getColor() << endl;
 	
 }
@@ -83,13 +83,17 @@ bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerCo
 			//cout << "Condition 2 ok, first cell in direction x:" << x << " y:" << y << " is opposite color" << endl;
 			while (true) {
 				newPos.increment(x,y);
-				newContent = board->getContentAt(newPos);
-				if (newContent==Empty || !newPos.isValid()) {
+				if (newPos.isValid()) {
+					newContent = board->getContentAt(newPos);
+					if (newContent==Empty) {
+						break;
+					}
+					if (newContent == playerContent) {
+						//cout << "Condition 3 ok, cell at position " << newPos.toString() << " is same color" << endl;
+						return true;
+					}
+				} else {
 					break;
-				}
-				if (newContent == playerContent) {
-					//cout << "Condition 3 ok, cell at position " << newPos.toString() << " is same color" << endl;
-					return true;
 				}
 			}
 		}
@@ -130,7 +134,7 @@ void Game::switchCells(cellContent playerContent, Position pos){
 				newPos=newPos.incrementedBy(i,j);
 				cout << " i " << i << " j " << j << endl;
 				cout <<"newpos while"<<newPos.toString()<<endl;
-				cout<<"content while"<< board->getContentAt(newPos)<<endl;
+				//cout<<"content while"<< board->getContentAt(newPos)<<endl;
 				
 			}
 			if (newPos.isValid() && board->getContentAt(newPos)==playerContent){

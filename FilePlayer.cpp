@@ -1,7 +1,8 @@
-//classe fille de Player, contient les fonctions et attributs propre à un joueur de type Fichier
-
+/**
+ * child class based on Player.cpp that handles players acting through files
+ *
+ */
 #include "FilePlayer.h"
-
 
 FilePlayer::FilePlayer(cellContent color) : Player(color){
 	string playerFileName, opponentFileName;
@@ -22,13 +23,11 @@ FilePlayer::FilePlayer(cellContent color) : Player(color){
 	{
 		cout << "Attente du joueur (fichier "<< playerFileName <<" indisponible)" << endl;
 		// Ajout d'une temporisation avant de réessayer
-		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+	    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 		playerFile.open(playerFileName);
 	}
 	
 	cout << "fichier existe, la partie peut commencer" << endl;
-	
-
 }
 
 Position FilePlayer::getMove(Game & game){

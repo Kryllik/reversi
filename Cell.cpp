@@ -1,10 +1,11 @@
-//Classe contenant les attributs et fonctions pour les cases
-
 #include "Cell.h"
+//#include <iostream>     // for std::cout
+
 using namespace std;
 
 Cell::Cell(){
 //	cout<< "constructeur de Cell" << endl;
+	this->content=Empty;
 }
 
 Cell::~Cell(){
@@ -18,12 +19,9 @@ cellContent Cell::getContent(){
 	return this->content;
 }
 
-cellContent Cell::switchContent(cellContent content)
+cellContent Cell::switchContent()
 {
-	if(content == Black)
-		this->content = White;
-	else
-		this->content = Black;
-	cout<<"contentcell"<<content<<endl;
-	return this->content;
+	this->content = (this->content==Black?White:Black);
+	//cout<<"contentcell"<<content<<endl;
+	return this->getContent();
 }

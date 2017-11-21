@@ -1,12 +1,11 @@
-//implémente une matrice du tableau de jeu et les fonctions nécessaires pour l'afficher. Fonctions permettant de vérifier la validité d'un coup ??? (dispose de tout le tableau donc pratique..)
-#include <string>
-#include <utility>      // std::pair, std::make_pair
-#include <string>       // std::string
+/* ??? implémente une matrice du tableau de jeu et les fonctions nécessaires pour l'afficher.
+ * ??? Fonctions permettant de vérifier la validité d'un coup ??? (dispose de tout le tableau donc pratique..)
+ *
+ */
+
 #include <iostream>     // std::cout
 
 #include "Board.h"
-//#include "Position.h"
-//#include "Cell.h"
 using namespace std;
 
 
@@ -37,15 +36,15 @@ void Board::initBoard(){
 
 
 cellContent Board::getContentAt(Position pos){
-	return (this->array[pos.getX()-1][pos.getY()-1]).getContent();
+	return (this->array[pos.getX()-1][pos.getY()-1]).getContent(); /* -1 ...*/
 }
 
 void Board::setContentAt(Position pos, cellContent content){
-	(this->array[pos.getX()-1][pos.getY()-1]).setContent(content);
+	(this->array[pos.getX()-1][pos.getY()-1]).setContent(content); /* -1 ...*/
 }
 
-void Board::switchContentAt(Position pos, cellContent content){
-	(this->array[pos.getX()-1][pos.getY()-1]).switchContent(content);
+void Board::switchContentAt(Position pos){
+	(this->array[pos.getX()-1][pos.getY()-1]).switchContent(); /* -1 ...*/
 }
 
 

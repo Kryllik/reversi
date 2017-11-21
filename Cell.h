@@ -1,14 +1,12 @@
-//Header de Cell.cpp
+/*
+ * Class for one board's cell. It can be either Black, White or Empty.
+ *
+ */
 
 #ifndef CELL_H
 #define CELL_H
 
-#include <utility>      // std::pair, std::make_pair
-#include <string>       // std::string
-#include <iostream>     // std::cout
 
-//susing namespace std::pair;
- 
 typedef enum {Black,White,Empty} cellContent; 
 
 
@@ -18,10 +16,9 @@ class Cell{
 		~Cell();
 		void setContent(cellContent content);
 		cellContent getContent();
-		cellContent switchContent(cellContent content);
+		cellContent switchContent();
 	private:
 		cellContent content;
-		void switchColor();
 };
 
-#endif
+#endif /* CELL_H */

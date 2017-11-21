@@ -41,8 +41,8 @@ bool Game::validMovesExist(cellContent playerContent) {
 vector<Position> Game::validMoves(cellContent playerContent) const {
 	vector<Position> v;
 	Position pos;
-	for (int i = 1; i<=8; i++) {
-		for (int j = 1; j<=8; j++) {
+	for (int i = 1; i<=Board::BOARD_SIZE; i++) {
+		for (int j = 1; j<=Board::BOARD_SIZE; j++) {
 			pos = Position(i,j);
 			if (isValidMove(playerContent,pos)) {
 				v.push_back(pos);
@@ -101,18 +101,16 @@ bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerCo
 	return false;
 }
 
-cellContent Game::playerContentSwitch(cellContent playerContent){
-	if(playerContent == Black){
-		playerContent = White;
-	}
-	else{
-		playerContent = Black;
-	}
-	return playerContent;
+/*
+ * Return the color of the other player
+ */
+cellContent Game::otherPlayerColor(cellContent playerContent){
+	return (playerContent == Black?White:Black);
 }
 
+
 void Game::switchCells(cellContent playerContent, Position pos){
-	cellContent opponentContent=playerContentSwitch(playerContent);
+	cellContent opponentContent=otherPlayerColor(playerContent);
 	cout << "switchcells" << endl;
 	//si i=-1,j=-1:diagonale en bas a gauche
 	//si i=-1,j=0: a gauche
@@ -123,9 +121,9 @@ void Game::switchCells(cellContent playerContent, Position pos){
 	//si i=1,j=-1: diagonale en bas a droite
 	//si i=1, j=0: a droite
 	//si i=1, j=1: diagonale en haut a droite
-	for(int i=-1;i<2;i++){
-		for(int j=-1;j<2;j++){
-			cellContent opponentContent=playerContentSwitch(playerContent);
+	for(int i=-1;i<=1;i++){
+		for(int j=-1;j<=1;j++){
+			cellContent opponentContent=otherPlayerColor(playerContent);
 			cout << " i " << i << " j " << j << endl;
 			cout <<"pos"<<pos.toString()<<endl;
 			Position newPos= pos.incrementedBy(i,j);
@@ -155,7 +153,7 @@ void Game::switchCells(cellContent playerContent, Position pos){
 							cout <<"switchx"<<endl;
 							cout << "switch content at " << switchPos.toString() << endl;
 							cout<<"content at "<< board->getContentAt(switchPos)<<endl;
-							board->switchContentAt(switchPos,opponentContent);
+							board->switchContentAt(switchPos);
 							cout<<"content at "<< board->getContentAt(switchPos)<<endl;
 						}
 					}
@@ -163,7 +161,7 @@ void Game::switchCells(cellContent playerContent, Position pos){
 						for(int l=1;l<abs(diffy);l=l+1){
 							cout<<"switchyp"<<endl;
 							switchPos.increment(0,j);
-							board->switchContentAt(switchPos,opponentContent);
+							board->switchContentAt(switchPos);
 							//switchCells(playerContent, switchPos);
 						}
 					}
@@ -171,7 +169,7 @@ void Game::switchCells(cellContent playerContent, Position pos){
 						for(int m=1;m<abs(diffx);m=m+1){
 							cout<<"switchdiag"<<endl;
 							switchPos.increment(i,j);
-							board->switchContentAt(switchPos,opponentContent);
+							board->switchContentAt(switchPos);
 							//switchCells(playerContent, switchPos);
 							}
 						}
@@ -182,35 +180,38 @@ void Game::switchCells(cellContent playerContent, Position pos){
 	}
 
 void Game::gameStartPvP(){
+	bool currentPlayerCanPlay; 	/* Can the current player play ? */
+	Position pos;			 	/* The position selected by the current player */
+
+	/* Display first turn info */
 	IO::displayFirstTurn(*board,*this);
-	bool currentPlayerCanPlay;
+
+	/* Initialize current player and opponentPlayer. We always start with blackPlayer active */
 	Player *currentPlayer = playerBlack;
 	Player *opponentPlayer= playerWhite;
-	cout << "current player : " << playerBlack << endl;
-	Position pos;
-	while(currentPlayerCanPlay = validMovesExist(currentPlayer->getColor()) ||
+
+	/* Loop while at least one player can player */
+	while( (currentPlayerCanPlay = validMovesExist(currentPlayer->getColor()) ) ||
 				validMovesExist(currentPlayer->getOpponentColor()))
-				{ //sortie du jeu si aucun mouvement n'est possible pour les 2 joueurs
+				{
 		if(currentPlayerCanPlay){
-			//Position pos = IO::moveInput(*this, currentPlayerContent);
-			pos = currentPlayer->getMove(*this);
-			cout << "playerBLACK " << playerBlack->getColor() << endl;
+			pos = currentPlayer->getMove(*this); /* *this needed to validate the move (need to check if the given postion is valid for the current board) */
+
+			/* update board by switching cells affected by player's move */
 			board->setContentAt(pos, currentPlayer->getColor());
-			cout << "before switch" << endl;
 			switchCells(currentPlayer->getColor(), pos);
-			cout << "after switch" << endl;
+
+			/* display board info */
 			IO::display(*board, currentPlayer->getColor(),*this, pos);
-			
-			//currentPlayerContent=playerContentSwitch(currentPlayerContent);
 		}
 		else{
 			//TODO :: afficher 00
 		}
-		cout << currentPlayer << "zz" << endl;
-		if(currentPlayerCanPlay) {cout << "blibli" << endl; opponentPlayer->giveMove(pos); }
+		/* inform opponentplayer of the move player just made */
+		if(currentPlayerCanPlay) opponentPlayer->giveMove(pos);
 		else opponentPlayer->giveVoidMove();
 		
-		cout << "after else" << endl;
+		/* proceed with next player */
 		if(currentPlayer == playerWhite)
 		{
 			 currentPlayer = playerBlack;

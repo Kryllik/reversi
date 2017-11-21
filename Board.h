@@ -15,12 +15,12 @@
 
 class Board{
 	public:
+		static constexpr int BOARD_SIZE = 8; //Taille standard d'un plateau de jeu
 		Board(); 
 		~Board();
 		cellContent getContentAt(Position pos);
 		void setContentAt(Position pos, cellContent content);
-		static constexpr int BOARD_SIZE = 8; //Taille standard d'un plateau de jeu
-		void switchContentAt(Position pos, cellContent content);
+		void switchContentAt(Position pos);
 	private:
 		Cell array[BOARD_SIZE][BOARD_SIZE];
 		void initBoard();

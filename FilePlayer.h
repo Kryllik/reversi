@@ -21,7 +21,7 @@ using std::getline;
 class FilePlayer : public Player{
 	public:
 		FilePlayer(cellContent color);
-		~FilePlayer();
+		virtual ~FilePlayer() {}
 		Position getMove(Game & game);
 		void giveMove(Position pos);
 		void giveVoidMove();

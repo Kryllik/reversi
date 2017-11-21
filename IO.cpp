@@ -20,7 +20,7 @@ Position IO::moveInput(Game const & game, cellContent playerContent){
 	}
 }
 
-void IO::display(Board & board, cellContent playerContent, Game const& game, Position pos){
+void IO::display(Board & board, const cellContent playerContent, Game const& game, Position pos){
 	string playerContentString;
 	string otherPlayerString;
 	cellContent otherPlayer;
@@ -46,7 +46,7 @@ void IO::displayFirstTurn(Board & board, Game const& game) {
 	displayValidMoves(Black,game);
 }
 
-void IO::displayValidMoves(cellContent playerContent, Game const& game) {
+void IO::displayValidMoves(const cellContent playerContent, Game const& game) {
 	std::vector<Position> v = game.validMoves(playerContent);
 	cout << "Valid moves : ";
 	for (int i = 0; i<v.size(); i++) {

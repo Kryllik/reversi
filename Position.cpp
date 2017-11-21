@@ -4,6 +4,10 @@
 #include <iostream>
 using std::string;
 
+/* Should be better to have positions starting at 0 till 7 iso 1 till 8
+ * 1. Allow to use unsigned it and compare <=7 to assert validity
+ * 2. avoid all the +1 / -1 maths spread all over the code
+ */
 
 Position::Position(){
 	x = 0;
@@ -41,6 +45,7 @@ string Position::toString() {
 	string yString = std::to_string(this->getY());
 	return xString+yString;
 }
+
 
 Position Position::positionFromString(string s) {
 	Position pos;

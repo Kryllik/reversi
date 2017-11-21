@@ -17,10 +17,11 @@ using std::string;
 class Player{
 	public:
 		Player(cellContent color);
+		virtual ~Player() {}
 		cellContent getColor();
+		cellContent getOpponentColor();
 		virtual Position getMove(Game &game) =0;
 		virtual void giveMove(Position pos);
-		cellContent getOpponentColor();
 		virtual void giveVoidMove();
 	protected:
 		cellContent playerColor;

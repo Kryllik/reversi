@@ -14,13 +14,13 @@ using std::string;
 
 class IO{
 	public:
-	static Position moveInput(const Game & game, cellContent playerContent);
-	static void display(Board & board, cellContent playerContent, Game const& game, Position pos);
+	static Position moveInput(const Game & game, const cellContent playerContent);
+	static void display(Board & board, const cellContent playerContent, Game const& game,  Position pos);
 	static void displayFirstTurn(Board & board, Game const& game);
 
 	private:
 	static void boardDisplay(Board & board);
-	static void displayValidMoves(cellContent playerContent, Game const& game);
+	static void displayValidMoves(const cellContent playerContent, Game const& game);
 };
 
 #endif

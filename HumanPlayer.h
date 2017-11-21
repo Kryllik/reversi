@@ -8,7 +8,7 @@
 class HumanPlayer: public Player{
 		public:
 			HumanPlayer(cellContent color);
-			~HumanPlayer();
+			virtual ~HumanPlayer() {}
 			Position getMove(Game &game);
 			void giveMove(Position pos);
 			void giveVoidMove();

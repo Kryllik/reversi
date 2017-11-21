@@ -6,8 +6,8 @@
 
 #include "Board.h"
 #include <vector>
-class Player;
 
+class Player;
 
 class Game {
 	public:
@@ -21,14 +21,12 @@ class Game {
 	private:
 		void getScore(); //Imprime les scores
 		void getWinner();// Imprime le gagnant (compare getScore()
-		cellContent playerContentSwitch(cellContent playerContent);
+		cellContent otherPlayerColor(cellContent playerContent);
 		bool winnerMoveAtDirection(Position pos, int x, int y, cellContent playerContent) const;
-		Board* board;
-		Player *playerBlack;
-		Player *playerWhite;
+		Board *board;			/* The Board instance */
+		Player *playerBlack; 	/* The black player instance */
+		Player *playerWhite; 	/* The white player instance */
 };
 
-//#include "Player.h" // ATTENTION il faut l'include APRES la déclaration de la classe GAME sinon ça tourne en rond !!!!
 
-
-#endif
+#endif /* GAME_H */

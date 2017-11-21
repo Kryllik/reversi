@@ -12,7 +12,7 @@ Position IO::moveInput(Game const & game, cellContent playerContent){
 			if (game.isValidMove(playerContent,pos)) {
 				return pos;
 			} else {
-				cout << "not valid move" << endl;
+				cout << "Not a valid move, try again" << endl;
 			}
 		} else {
 			cout << "Not a correct syntax, try again" << endl;
@@ -36,14 +36,22 @@ void IO::display(Board & board, const cellContent playerContent, Game const& gam
 	cout << "Le joueur " << playerContentString << " vient de jouer en : " << pos.toString() << endl;
 	cout << "mise à jour du board " << endl;
 	boardDisplay(board);
-	cout << "Au joueur " << otherPlayerString << " de jouer" << endl;
-	displayValidMoves(otherPlayer,game);
 }
+
+void IO::displayWhoPlays(const cellContent playerContent, Game const& game){
+	string playerContentString;
+	if(playerContent==Black){
+		playerContentString = "Noir";
+	}else{
+		playerContentString = "Blanc";
+	}
+	cout << "Au joueur " << playerContentString << " de jouer" << endl;
+	displayValidMoves(playerContent,game);
+}
+
 
 void IO::displayFirstTurn(Board & board, Game const& game) {
 	boardDisplay(board);
-	cout << "Au joueur Noir de jouer" << endl;
-	displayValidMoves(Black,game);
 }
 
 void IO::displayValidMoves(const cellContent playerContent, Game const& game) {
@@ -72,6 +80,19 @@ void IO::boardDisplay(Board & board){
 		cout << (line) << endl;
 	}
 	cout<<"       a b c d e f g h  "<< endl;
+}
+
+void IO::displayScore(int blackScore, int whiteScore) {
+	cout << "Black score : " << blackScore << " - " << "White score : " << whiteScore << endl;
+	if (blackScore>whiteScore) {
+		cout << "Victoire du joueur Noir" << endl;
+	}
+	if (whiteScore>blackScore) {
+		cout << "Victoire du joueur Blanc" << endl;
+	}
+	if (blackScore==whiteScore) {
+		cout << "Match nul" << endl;
+	}
 }
 
 

@@ -8,8 +8,6 @@
  */
 Player::Player(cellContent color){
 	playerColor = color;
-	cout << "player color " <<  this->getColor() << endl;
-
 }
 
 /**

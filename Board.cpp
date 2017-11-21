@@ -10,18 +10,18 @@ using namespace std;
 
 
 Board::Board(){
-	cout<< "constructeur de Board" << endl;
 	initBoard();
 }
+
 Board::~Board(){
-	cout<<"destruction d'un Board"<< endl;
+	
 }
 
 
 void Board::initBoard(){
 	cout << "DEBUT initialisation du Board" << endl;
 	for(unsigned int line = 1; line <= BOARD_SIZE; line++){
-		for(unsigned int col =1; col<= BOARD_SIZE; col++){
+		for(unsigned int col = 1; col<= BOARD_SIZE; col++){
 			setContentAt(Position(line,col), Empty); //Remplis l'ensemble du tableau avec des cases vides
 		}
 	}

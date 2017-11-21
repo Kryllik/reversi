@@ -10,7 +10,7 @@ using namespace std;
 
 
 Game::Game()  {
-	cout << "bienvenue dans ce super jeu" << endl;
+	cout << "Bienvenue dans ce super jeu !" << endl;
 	Board *board = new Board(); //Crée un nouveau Board et l'initialise. Renvoie un pointeur.
 	this->board = board;
 	cellContent blackColor = Black;
@@ -19,12 +19,9 @@ Game::Game()  {
 	//playerBlack = new FilePlayer(blackColor);
 	playerWhite = new HumanPlayer(whiteColor);
 	//playerWhite = new FilePlayer(whiteColor);
-	cout << "impression couleur " << playerBlack->getColor() << endl;
-	
 }
 
 Game::~Game() {
-	cout << "destruction d'un Game" << endl;
 	delete board;
 }
 
@@ -111,7 +108,6 @@ cellContent Game::otherPlayerColor(cellContent playerContent){
 
 void Game::switchCells(cellContent playerContent, Position pos){
 	cellContent opponentContent=otherPlayerColor(playerContent);
-	cout << "switchcells" << endl;
 	//si i=-1,j=-1:diagonale en bas a gauche
 	//si i=-1,j=0: a gauche
 	//si i=-1,j=1:diagonale en haut a gauche
@@ -124,42 +120,26 @@ void Game::switchCells(cellContent playerContent, Position pos){
 	for(int i=-1;i<=1;i++){
 		for(int j=-1;j<=1;j++){
 			cellContent opponentContent=otherPlayerColor(playerContent);
-			cout << " i " << i << " j " << j << endl;
-			cout <<"pos"<<pos.toString()<<endl;
 			Position newPos= pos.incrementedBy(i,j);
-			cout <<"newpos"<<newPos.toString()<<endl;
 			while(newPos.isValid() && board->getContentAt(newPos)!=playerContent && board->getContentAt(newPos)!=Empty){
 				newPos=newPos.incrementedBy(i,j);
-				cout << " i " << i << " j " << j << endl;
-				cout <<"newpos while"<<newPos.toString()<<endl;
 				//cout<<"content while"<< board->getContentAt(newPos)<<endl;
 				
 			}
 			if (newPos.isValid() && board->getContentAt(newPos)==playerContent){
 				if (j==0 && i==0){}
 				else{
-					cout << "if black next to white" << endl;
 					int diffx=newPos.getX()-pos.getX();
-					cout << "diffx"<< diffx<< endl;
 					int diffy=newPos.getY()-pos.getY();
-					cout << "diffy"<< diffy<< endl;
 					Position switchPos=pos;
 					if(diffy==0){//changement que en x
 						for(int k=1;k<abs(diffx);k=k+1){
-							cout <<"switchpos"<<switchPos.toString()<<endl;
-							cout<<"k "<<k<<endl;
 							switchPos.increment(i,0);
-							cout <<"switchpos"<<switchPos.toString()<<endl;
-							cout <<"switchx"<<endl;
-							cout << "switch content at " << switchPos.toString() << endl;
-							cout<<"content at "<< board->getContentAt(switchPos)<<endl;
 							board->switchContentAt(switchPos);
-							cout<<"content at "<< board->getContentAt(switchPos)<<endl;
 						}
 					}
 					else if (diffx==0){//changement que en y
 						for(int l=1;l<abs(diffy);l=l+1){
-							cout<<"switchyp"<<endl;
 							switchPos.increment(0,j);
 							board->switchContentAt(switchPos);
 							//switchCells(playerContent, switchPos);
@@ -167,17 +147,16 @@ void Game::switchCells(cellContent playerContent, Position pos){
 					}
 					else if(diffx!=0 && diffy!=0){//changement des diagonales, diffy=diffx
 						for(int m=1;m<abs(diffx);m=m+1){
-							cout<<"switchdiag"<<endl;
 							switchPos.increment(i,j);
 							board->switchContentAt(switchPos);
 							//switchCells(playerContent, switchPos);
-							}
 						}
 					}
 				}
 			}
 		}
 	}
+}
 
 void Game::gameStartPvP(){
 	bool currentPlayerCanPlay; 	/* Can the current player play ? */
@@ -195,6 +174,7 @@ void Game::gameStartPvP(){
 				validMovesExist(currentPlayer->getOpponentColor()))
 				{
 		if(currentPlayerCanPlay){
+			IO::displayWhoPlays(currentPlayer->getColor(), *this);
 			pos = currentPlayer->getMove(*this); /* *this needed to validate the move (need to check if the given postion is valid for the current board) */
 
 			/* update board by switching cells affected by player's move */
@@ -212,8 +192,7 @@ void Game::gameStartPvP(){
 		else opponentPlayer->giveVoidMove();
 		
 		/* proceed with next player */
-		if(currentPlayer == playerWhite)
-		{
+		if(currentPlayer == playerWhite){
 			 currentPlayer = playerBlack;
 			 opponentPlayer=playerWhite;
 		}
@@ -221,11 +200,28 @@ void Game::gameStartPvP(){
 			currentPlayer = playerWhite;
 			opponentPlayer=playerBlack;
 		}
-	}		
-
+	}
+	getScore();	
 }
 
-
+void Game::getScore() {
+	int whiteScore = 0;
+	int blackScore = 0;
+	Position pos;
+	for(unsigned int x = 1; x <= 8; x++){
+		for(unsigned int y = 1; y<= 8; y++){
+			pos = Position(x,y);
+			cellContent content = board->getContentAt(pos);
+			if (content == Black) {
+				blackScore++;
+			}
+			if (content == White) {
+				whiteScore++;
+			}
+		}
+	}
+	IO::displayScore(blackScore,whiteScore);
+}
 	
 
 

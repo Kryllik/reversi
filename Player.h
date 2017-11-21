@@ -3,28 +3,39 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-//#include "Game.h"
-class Game;
+//class Game;
 #include <iostream>
 #include "Position.h"	
 #include "IO.h"
 #include "Cell.h"
+#include "Game.h"
 
 using std::cout;
 using std::endl;
 using std::string;
 
+/*! \class Player
+ * \brief abstract Class for a reversi player.
+ *
+ *  base class for reversi players (human, file, AI, ...)
+ *  allow to set/get/toString player's color
+ *  allow to get opponent color
+ *  allow to get player's move
+ *  allow to inform player of its opponent's move (or void move)
+ *
+ */
 class Player{
 	public:
 		Player(cellContent color);
-		virtual ~Player() {}
-		cellContent getColor();
-		cellContent getOpponentColor();
-		virtual Position getMove(Game &game) =0;
+		virtual ~Player();
+		cellContent getColor() const;
+		string toString()const ;
+		cellContent getOpponentColor() const;
+		virtual Position getMove(Game &game);
 		virtual void giveMove(Position pos);
 		virtual void giveVoidMove();
 	protected:
-		cellContent playerColor;
+		cellContent playerColor;	/*!< the player's color */
 };
 
 #endif

@@ -5,14 +5,17 @@
 
 #include "Player.h"
 
+
+/*! \class HumanPlayer
+ * \brief child class based on Player.cpp that handles human players acting through keyboards
+ *
+ */
 class HumanPlayer: public Player{
 		public:
 			HumanPlayer(cellContent color);
-			virtual ~HumanPlayer() {}
+			~HumanPlayer() {}
 			Position getMove(Game &game);
-			void giveMove(Position pos);
-			void giveVoidMove();
 		private:
 };
 
-#endif
+#endif /* HUMANPLAYER_H */

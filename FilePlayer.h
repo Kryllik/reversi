@@ -1,4 +1,3 @@
-//Header de FilePlayer
 
 #ifndef FILEPLAYER_H
 #define FILEPLAYER_H
@@ -17,18 +16,25 @@ using std::endl;
 using std::string;
 using std::getline;
 
-
+/*! \class FilePlayer
+ * \brief child class based on Player.cpp that handles players acting through files
+ *
+ * two files shall be used by the player, noir.txt and blanc.txt
+ * if player is black, the player movements will be read from noir.txt and the opponent's move written to blanc.txt
+ * if player is white, the player movements will be read from blanc.txt and the opponent's move written to noir.txt
+ */
 class FilePlayer : public Player{
 	public:
-		FilePlayer(cellContent color);
-		virtual ~FilePlayer() {}
+		FilePlayer(cellContent color /*, string pathToFiles*/);
+		~FilePlayer() {}
 		Position getMove(Game & game);
 		void giveMove(Position pos);
 		void giveVoidMove();
 	private:
-		ifstream playerFile;
-		ofstream opponentFile;
+		ifstream playerFile; 	/*!< the player's input file */
+		ofstream opponentFile;	/*!< the opponent's output file */
+		/* string pathToFiles; */
 
 };
 
-#endif
+#endif /* FILEPLAYER_H */

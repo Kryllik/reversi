@@ -1,11 +1,7 @@
-/* ??? implémente une matrice du tableau de jeu et les fonctions nécessaires pour l'afficher.
- * ??? Fonctions permettant de vérifier la validité d'un coup ??? (dispose de tout le tableau donc pratique..)
- *
- */
-
 #include <iostream>     // std::cout
 
 #include "Board.h"
+
 using namespace std;
 
 
@@ -35,16 +31,16 @@ void Board::initBoard(){
 }
 
 
-cellContent Board::getContentAt(Position pos){
-	return (this->array[pos.getX()-1][pos.getY()-1]).getContent(); /* -1 ...*/
+cellContent Board::getContentAt(const Position pos) const{
+	return (this->array[pos.getX()-1][pos.getY()-1]).getContent();
+	}
+
+void Board::setContentAt(const Position pos, const cellContent content){
+	(this->array[pos.getX()-1][pos.getY()-1]).setContent(content); 
 }
 
-void Board::setContentAt(Position pos, cellContent content){
-	(this->array[pos.getX()-1][pos.getY()-1]).setContent(content); /* -1 ...*/
-}
-
-void Board::switchContentAt(Position pos){
-	(this->array[pos.getX()-1][pos.getY()-1]).switchContent(); /* -1 ...*/
+void Board::switchContentAt(const Position pos){
+	(this->array[pos.getX()-1][pos.getY()-1]).switchContent(); 
 }
 
 

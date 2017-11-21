@@ -107,7 +107,7 @@ cellContent Game::otherPlayerColor(cellContent playerContent){
 
 
 void Game::switchCells(cellContent playerContent, Position pos){
-	cellContent opponentContent=otherPlayerColor(playerContent);
+	//cellContent opponentContent=otherPlayerColor(playerContent);
 	//si i=-1,j=-1:diagonale en bas a gauche
 	//si i=-1,j=0: a gauche
 	//si i=-1,j=1:diagonale en haut a gauche
@@ -119,7 +119,7 @@ void Game::switchCells(cellContent playerContent, Position pos){
 	//si i=1, j=1: diagonale en haut a droite
 	for(int i=-1;i<=1;i++){
 		for(int j=-1;j<=1;j++){
-			cellContent opponentContent=otherPlayerColor(playerContent);
+			//cellContent opponentContent=otherPlayerColor(playerContent);
 			Position newPos= pos.incrementedBy(i,j);
 			while(newPos.isValid() && board->getContentAt(newPos)!=playerContent && board->getContentAt(newPos)!=Empty){
 				newPos=newPos.incrementedBy(i,j);
@@ -173,16 +173,21 @@ void Game::gameStartPvP(){
 	while( (currentPlayerCanPlay = validMovesExist(currentPlayer->getColor()) ) ||
 				validMovesExist(currentPlayer->getOpponentColor()))
 				{
+		/* We should always ask user his choice, even if he can't play (in this case he will enter '00'
+		 * Otherwise FilePlayer will loose sync. filePlayer will give '00' in its file if he can't play,
+		 * so we must read this !
+		 * More over project specs §4.1 specifically says user must enter '00' if he must pass
+		 */
 		if(currentPlayerCanPlay){
-			IO::displayWhoPlays(currentPlayer->getColor(), *this);
-			pos = currentPlayer->getMove(*this); /* *this needed to validate the move (need to check if the given postion is valid for the current board) */
+			IO::displayWhoPlays(*currentPlayer, *this);
+			pos = currentPlayer->getMove(*this); /* *this needed to validate the move (need to check if the given position is valid for the current board) */
 
 			/* update board by switching cells affected by player's move */
 			board->setContentAt(pos, currentPlayer->getColor());
 			switchCells(currentPlayer->getColor(), pos);
 
 			/* display board info */
-			IO::display(*board, currentPlayer->getColor(),*this, pos);
+			IO::display(*board, *currentPlayer,*this, pos);
 		}
 		else{
 			//TODO :: afficher 00

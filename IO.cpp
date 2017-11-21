@@ -20,33 +20,15 @@ Position IO::moveInput(Game const & game, cellContent playerContent){
 	}
 }
 
-void IO::display(Board & board, const cellContent playerContent, Game const& game, Position pos){
-	string playerContentString;
-	string otherPlayerString;
-	cellContent otherPlayer;
-	if(playerContent==Black){
-		playerContentString = "Noir";
-		otherPlayerString = "Blanc";
-		otherPlayer = White;
-	}else{
-		playerContentString = "Blanc";
-		otherPlayerString = "Noir";
-		otherPlayer = Black;
-	}
-	cout << "Le joueur " << playerContentString << " vient de jouer en : " << pos.toString() << endl;
+void IO::display(Board & board, const Player &player, Game const& game, Position pos){
+	cout << "Le joueur " << player.toString() << " vient de jouer en : " << pos.toString() << endl;
 	cout << "mise à jour du board " << endl;
 	boardDisplay(board);
 }
 
-void IO::displayWhoPlays(const cellContent playerContent, Game const& game){
-	string playerContentString;
-	if(playerContent==Black){
-		playerContentString = "Noir";
-	}else{
-		playerContentString = "Blanc";
-	}
-	cout << "Au joueur " << playerContentString << " de jouer" << endl;
-	displayValidMoves(playerContent,game);
+void IO::displayWhoPlays(const Player &player, Game const& game){
+	cout << "Au joueur " << player.toString() << " de jouer" << endl;
+	displayValidMoves(player,game);
 }
 
 
@@ -54,10 +36,10 @@ void IO::displayFirstTurn(Board & board, Game const& game) {
 	boardDisplay(board);
 }
 
-void IO::displayValidMoves(const cellContent playerContent, Game const& game) {
-	std::vector<Position> v = game.validMoves(playerContent);
+void IO::displayValidMoves(const Player &player, Game const& game) {
+	std::vector<Position> v = game.validMoves(player.getColor());
 	cout << "Valid moves : ";
-	for (int i = 0; i<v.size(); i++) {
+	for (unsigned int i = 0; i<v.size(); i++) {
 		if (i != v.size()-1) {
 			cout << v[i].toString() << " - ";
 		} else {

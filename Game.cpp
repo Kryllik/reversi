@@ -50,34 +50,25 @@ vector<Position> Game::validMoves(cellContent playerContent) const {
 }
 
 bool Game::isValidMove(cellContent playerContent, Position pos) const {
-	//cout << "\nTest if valid move - " << pos.toString() << endl;
 	if (board->getContentAt(pos) == Empty) {
-		//cout << "Condition 1 ok, it's empty" << endl;
-		//test all 8 directions
 		for (int x=-1;x<=1;x++) {
 			for (int y=-1;y<=1;y++) {
 				if (!(x==0 && y==0)) {
-					if (winnerMoveAtDirection(pos,x,y,playerContent)) {
-						//cout << pos.toString() << " is valid" << endl;
+					if (isSwitchInDirection(pos,x,y,playerContent)) {
 						return true;
 					}
 				}
 			}
 		}
-		//cout << "No win direction" << endl;
-	} else {
-		//cout << "Condition 1 not ok, not empty" << endl;
 	}
 	return false;
 }
 
-bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerContent) const {
-	//cout << "Test of direction x:" << x << " y:" << y << endl;
+bool Game::isSwitchInDirection(Position pos,int x, int y, cellContent playerContent) const {
 	Position newPos = pos.incrementedBy(x,y);
 	if (newPos.isValid()) {
 		cellContent newContent = board->getContentAt(newPos);
 		if (newContent!=playerContent && newContent != Empty) {
-			//cout << "Condition 2 ok, first cell in direction x:" << x << " y:" << y << " is opposite color" << endl;
 			while (true) {
 				newPos.increment(x,y);
 				if (newPos.isValid()) {
@@ -86,7 +77,6 @@ bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerCo
 						break;
 					}
 					if (newContent == playerContent) {
-						//cout << "Condition 3 ok, cell at position " << newPos.toString() << " is same color" << endl;
 						return true;
 					}
 				} else {
@@ -96,13 +86,6 @@ bool Game::winnerMoveAtDirection(Position pos,int x, int y, cellContent playerCo
 		}
 	}
 	return false;
-}
-
-/*
- * Return the color of the other player
- */
-cellContent Game::otherPlayerColor(cellContent playerContent){
-	return (playerContent == Black?White:Black);
 }
 
 
@@ -124,7 +107,6 @@ void Game::switchCells(cellContent playerContent, Position pos){
 			while(newPos.isValid() && board->getContentAt(newPos)!=playerContent && board->getContentAt(newPos)!=Empty){
 				newPos=newPos.incrementedBy(i,j);
 				//cout<<"content while"<< board->getContentAt(newPos)<<endl;
-				
 			}
 			if (newPos.isValid() && board->getContentAt(newPos)==playerContent){
 				if (j==0 && i==0){}
@@ -170,15 +152,13 @@ void Game::gameStartPvP(){
 	Player *opponentPlayer= playerWhite;
 
 	/* Loop while at least one player can player */
-	while( (currentPlayerCanPlay = validMovesExist(currentPlayer->getColor()) ) ||
-				validMovesExist(currentPlayer->getOpponentColor()))
-				{
+	while ((currentPlayerCanPlay = validMovesExist(currentPlayer->getColor())) || validMovesExist(currentPlayer->getOpponentColor())) {
 		/* We should always ask user his choice, even if he can't play (in this case he will enter '00'
 		 * Otherwise FilePlayer will loose sync. filePlayer will give '00' in its file if he can't play,
 		 * so we must read this !
 		 * More over project specs §4.1 specifically says user must enter '00' if he must pass
 		 */
-		if(currentPlayerCanPlay){
+		if (currentPlayerCanPlay){
 			IO::displayWhoPlays(*currentPlayer, *this);
 			pos = currentPlayer->getMove(*this); /* *this needed to validate the move (need to check if the given position is valid for the current board) */
 
@@ -188,20 +168,20 @@ void Game::gameStartPvP(){
 
 			/* display board info */
 			IO::display(*board, *currentPlayer,*this, pos);
-		}
-		else{
+		} else {
 			//TODO :: afficher 00
 		}
 		/* inform opponentplayer of the move player just made */
-		if(currentPlayerCanPlay) opponentPlayer->giveMove(pos);
-		else opponentPlayer->giveVoidMove();
+		if(currentPlayerCanPlay) 
+			opponentPlayer->giveMove(pos);
+		else 
+			opponentPlayer->giveVoidMove();
 		
 		/* proceed with next player */
-		if(currentPlayer == playerWhite){
+		if (currentPlayer == playerWhite){
 			 currentPlayer = playerBlack;
 			 opponentPlayer=playerWhite;
-		}
-		else { 
+		} else { 
 			currentPlayer = playerWhite;
 			opponentPlayer=playerBlack;
 		}

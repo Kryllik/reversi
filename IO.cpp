@@ -21,12 +21,15 @@ Position IO::moveInput(Game const & game, cellContent playerContent){
 }
 
 void IO::display(Board & board, const Player &player, Game const& game, Position pos){
+	cout << endl << endl;
 	cout << "Le joueur " << player.toString() << " vient de jouer en : " << pos.toString() << endl;
-	cout << "mise à jour du board " << endl;
+	//cout << "mise à jour du board " << endl;
+	cout << endl << endl;
 	boardDisplay(board);
 }
 
 void IO::displayWhoPlays(const Player &player, Game const& game){
+	cout << endl << endl << endl;
 	cout << "Au joueur " << player.toString() << " de jouer" << endl;
 	displayValidMoves(player,game);
 }

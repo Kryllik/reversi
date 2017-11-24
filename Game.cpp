@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "HumanPlayer.h"
 #include "FilePlayer.h"
+#include "AIPlayer.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ Game::Game()  {
 	cellContent whiteColor = White;
 	playerBlack = new HumanPlayer(blackColor);
 	//playerBlack = new FilePlayer(blackColor);
-	playerWhite = new HumanPlayer(whiteColor);
+	playerWhite = new AIPlayer(whiteColor);
 	//playerWhite = new FilePlayer(whiteColor);
 }
 
@@ -35,13 +36,16 @@ bool Game::validMovesExist(cellContent playerContent) {
 	return res;
 }
 
-vector<Position> Game::validMoves(cellContent playerContent) const {
+vector<Position> Game::validMoves(cellContent playerContent, Board* board) const {
 	vector<Position> v;
 	Position pos;
+	if (board == NULL) {
+		board = this->board;
+	}
 	for (int i = 1; i<=Board::BOARD_SIZE; i++) {
 		for (int j = 1; j<=Board::BOARD_SIZE; j++) {
 			pos = Position(i,j);
-			if (isValidMove(playerContent,pos)) {
+			if (isValidMove(playerContent,pos,board)) {
 				v.push_back(pos);
 			}
 		}
@@ -49,12 +53,15 @@ vector<Position> Game::validMoves(cellContent playerContent) const {
 	return v;
 }
 
-bool Game::isValidMove(cellContent playerContent, Position pos) const {
+bool Game::isValidMove(cellContent playerContent, Position pos, Board* board) const {
+	if (board == NULL) {
+		board = this->board;
+	}
 	if (board->getContentAt(pos) == Empty) {
 		for (int x=-1;x<=1;x++) {
 			for (int y=-1;y<=1;y++) {
 				if (!(x==0 && y==0)) {
-					if (isSwitchInDirection(pos,x,y,playerContent)) {
+					if (isSwitchInDirection(pos,x,y,playerContent,board)) {
 						return true;
 					}
 				}
@@ -64,7 +71,7 @@ bool Game::isValidMove(cellContent playerContent, Position pos) const {
 	return false;
 }
 
-bool Game::isSwitchInDirection(Position pos,int x, int y, cellContent playerContent) const {
+bool Game::isSwitchInDirection(Position pos,int x, int y, cellContent playerContent, Board* board) const {
 	Position newPos = pos.incrementedBy(x,y);
 	if (newPos.isValid()) {
 		cellContent newContent = board->getContentAt(newPos);
@@ -140,9 +147,10 @@ void Game::switchCells(cellContent playerContent, Position pos){
 	}
 }
 
-void Game::gameStartPvP(){
+void Game::gameStart(){
 	bool currentPlayerCanPlay; 	/* Can the current player play ? */
 	Position pos;			 	/* The position selected by the current player */
+	int turn = 1;
 
 	/* Display first turn info */
 	IO::displayFirstTurn(*board,*this);
@@ -160,14 +168,15 @@ void Game::gameStartPvP(){
 		 */
 		if (currentPlayerCanPlay){
 			IO::displayWhoPlays(*currentPlayer, *this);
-			pos = currentPlayer->getMove(*this); /* *this needed to validate the move (need to check if the given position is valid for the current board) */
-
+			
+			pos = currentPlayer->getMove(*this, *board, turn); /* *this needed to validate the move (need to check if the given position is valid for the current board) */
+			cout << pos.toString() << endl;
 			/* update board by switching cells affected by player's move */
 			board->setContentAt(pos, currentPlayer->getColor());
 			switchCells(currentPlayer->getColor(), pos);
-
 			/* display board info */
 			IO::display(*board, *currentPlayer,*this, pos);
+			turn++;
 		} else {
 			//TODO :: afficher 00
 		}
@@ -193,8 +202,8 @@ void Game::getScore() {
 	int whiteScore = 0;
 	int blackScore = 0;
 	Position pos;
-	for(unsigned int x = 1; x <= 8; x++){
-		for(unsigned int y = 1; y<= 8; y++){
+	for(unsigned int x = 1; x <= Board::BOARD_SIZE; x++){
+		for(unsigned int y = 1; y<= Board::BOARD_SIZE; y++){
 			pos = Position(x,y);
 			cellContent content = board->getContentAt(pos);
 			if (content == Black) {

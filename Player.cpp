@@ -60,7 +60,8 @@ cellContent Player::getOpponentColor() const {
  *  \param the current game that can be used to validate the player's move before returning it
  *  \return the position where the player move
  */
-Position Player::getMove(Game &game) {return Position(0,0);
+Position Player::getMove(Game &game, Board boardCopy, int turn) {
+	return Position(0,0);
 }
 
 /*!

@@ -24,7 +24,7 @@ class Game {
 		*  \param pos : the position to check
 		*  \return boolean (true if the position is valid)
 		*/
-		bool isValidMove(cellContent playerContent, Position pos) const; 
+		bool isValidMove(cellContent playerContent, Position pos, Board* board = NULL) const; 
 		
 		/*!
 		*  \brief Returns a vector of valid positions to play for the given player color
@@ -34,7 +34,7 @@ class Game {
 		*  \param playerContent : the player's color
 		*  \return vector of valid positions
 		*/
-		std::vector<Position> validMoves(cellContent playerContent) const;
+		std::vector<Position> validMoves(cellContent playerContent, Board* board = NULL) const;
 		
 		/*!
 		*  \brief Checks if at least one valid position exists for the given player color
@@ -46,7 +46,7 @@ class Game {
 		*/
 		bool validMovesExist(cellContent playerContent);
 		
-		void gameStartPvP();
+		void gameStart();
 		
 		void switchCells(cellContent playerContent, Position pos);
 		
@@ -74,7 +74,7 @@ class Game {
 		*  \param playerContent : the player's color
 		*  \return boolean (true if there is a switch in the direction)
 		*/
-		bool isSwitchInDirection(Position pos, int x, int y, cellContent playerContent) const;
+		bool isSwitchInDirection(Position pos, int x, int y, cellContent playerContent, Board* board = NULL) const;
 		
 		Board *board;			/* The Board instance */
 		

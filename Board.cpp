@@ -15,7 +15,7 @@ Board::~Board(){
 
 
 void Board::initBoard(){
-	cout << "DEBUT initialisation du Board" << endl;
+	//cout << "DEBUT initialisation du Board" << endl;
 	for(unsigned int line = 1; line <= BOARD_SIZE; line++){
 		for(unsigned int col = 1; col<= BOARD_SIZE; col++){
 			setContentAt(Position(line,col), Empty); //Remplis l'ensemble du tableau avec des cases vides
@@ -27,7 +27,7 @@ void Board::initBoard(){
 	setContentAt(Position(4,5),Black);
 	setContentAt(Position(5,4),Black);
 	
-	cout << "FIN initialisation du Board" << endl;
+	//cout << "FIN initialisation du Board" << endl;
 }
 
 

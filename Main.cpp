@@ -10,7 +10,7 @@
 int main(int argc, char **argv)
 {
 	Game *game = new Game();
-	game->gameStartPvP();
+	game->gameStart();
 	delete game;
 	
 	return 0;

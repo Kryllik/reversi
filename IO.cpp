@@ -48,6 +48,20 @@ void IO::displayValidMoves(const Player &player, Game const& game) {
 	}
 }
 
+void IO::displayValidMoves(std::vector<Position> v) {
+	if (v.size() == 0) {
+		cout << "empty" << endl;
+	} else {
+		for (unsigned int i = 0; i<v.size(); i++) {
+			if (i != v.size()-1) {
+				cout << v[i].toString() << " - ";
+			} else {
+				cout << v[i].toString() << endl;
+			}
+		}
+	}
+}
+
 void IO::boardDisplay(Board & board){
 	cout<<"       a b c d e f g h  " << endl; //Impression des numéros de ligne
 	for(unsigned int line =1; line <= 8; line++){

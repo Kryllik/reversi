@@ -13,8 +13,8 @@ AIPlayer::AIPlayer(cellContent color) : Player(color){
 Position AIPlayer::getMove(Game& game, Board boardCopy, int turn){
 	cout << "AI processing..." << endl;
 	vector<Position> validMoves = game.validMoves(playerColor);
-	//cout << "Valid AI moves (0) : ";
-	//IO::displayValidMoves(validMoves);
+	int numberOfPaths = validMoves.size();
+	int progression = 0;
     
     int maxScore = -1;
     Position posToPlay;
@@ -29,6 +29,8 @@ Position AIPlayer::getMove(Game& game, Board boardCopy, int turn){
             maxScore = score;
             posToPlay = candidatePos;
         }
+        progression = (100*(i+1))/numberOfPaths;
+		cout << progression << " % (" << (i+1) << "/" << numberOfPaths << ") Score = "<< score << " (" << candidatePos.toString() << ")" << endl;
     }
     cout << "AI done" << endl;
     return posToPlay;
@@ -63,12 +65,26 @@ int AIPlayer::getBoardScore(Game& game, Board board, int turn, int limitTurn) {
                 score = getBoardScore(game, boardCopy, turn+2, limitTurn);
                 scoreList2.push_back(score);
             }
-            ///TODOint mean2 = mean(scoreList2);
-            ///scoreList1.push_back(mean2);
+            int meanList2 = mean(scoreList2);
+            scoreList1.push_back(meanList2);
         }
-        ///TODOscore = mean(scoreList1);
+        int meanList1 = mean(scoreList1);
+        score = meanList1;
     }
     return score;
+}
+
+int AIPlayer::mean(vector<int> v) {
+	int res = 0;
+	int cardinal = v.size();
+	if (cardinal != 0) {
+		int sum = 0;
+		for (int elem:v) {
+			sum+=elem;
+		}
+		res = (sum/cardinal);
+	}
+	return res;
 }
 
 

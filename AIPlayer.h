@@ -16,6 +16,7 @@ class AIPlayer : public Player{
 	private:
 		int getBoardScore(Game& game, Board board, int turn, int limitTurn);
 		int calcBoardScore(Board& board, int turn);
+		int mean(std::vector<int> v);
 };
 
 #endif

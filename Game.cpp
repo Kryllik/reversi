@@ -11,7 +11,8 @@ using namespace std;
 
 
 Game::Game()  {
-	cout << "Bienvenue dans ce super jeu !" << endl;
+	cout << "Bienvenue dans ce super jeu !" << endl<< endl;
+	cout << "plateau initial : " << endl << endl;
 	Board *board = new Board(); //Crée un nouveau Board et l'initialise. Renvoie un pointeur.
 	this->board = board;
 	cellContent blackColor = Black;

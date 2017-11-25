@@ -17,7 +17,7 @@ Game::Game()  {
 	this->board = board;
 	cellContent blackColor = Black;
 	cellContent whiteColor = White;
-	playerBlack = new HumanPlayer(blackColor);
+	playerBlack = new AIPlayer(blackColor);
 	//playerBlack = new FilePlayer(blackColor);
 	playerWhite = new AIPlayer(whiteColor);
 	//playerWhite = new FilePlayer(whiteColor);

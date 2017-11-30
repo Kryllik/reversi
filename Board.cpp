@@ -1,6 +1,7 @@
 #include <iostream>     // std::cout
 
 #include "Board.h"
+#include "IO.h"
 
 using namespace std;
 
@@ -42,5 +43,25 @@ void Board::switchContentAt(const Position pos){
 	(this->array[pos.getX()-1][pos.getY()-1]).switchContent(); 
 }
 
-
+int Board::getScore(cellContent color) {
+	int whiteScore = 0;
+	int blackScore = 0;
+	Position pos;
+	for(unsigned int x = 1; x <= Board::BOARD_SIZE; x++){
+		for(unsigned int y = 1; y<= Board::BOARD_SIZE; y++){
+			pos = Position(x,y);
+			cellContent content = this->getContentAt(pos);
+			if (content == Black) {
+				blackScore++;
+			}
+			if (content == White) {
+				whiteScore++;
+			}
+		}
+	}
+	//IO::displayScore(blackScore,whiteScore);
+	if(color == White) return whiteScore;
+	else return blackScore;
+}
+	
 

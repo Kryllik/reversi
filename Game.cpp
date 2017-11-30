@@ -196,28 +196,10 @@ void Game::gameStart(){
 			opponentPlayer=playerBlack;
 		}
 	}
-	getScore();	
+	board->getScore();	
 }
 
-void Game::getScore() {
-	int whiteScore = 0;
-	int blackScore = 0;
-	Position pos;
-	for(unsigned int x = 1; x <= Board::BOARD_SIZE; x++){
-		for(unsigned int y = 1; y<= Board::BOARD_SIZE; y++){
-			pos = Position(x,y);
-			cellContent content = board->getContentAt(pos);
-			if (content == Black) {
-				blackScore++;
-			}
-			if (content == White) {
-				whiteScore++;
-			}
-		}
-	}
-	IO::displayScore(blackScore,whiteScore);
-}
-	
+
 
 
 

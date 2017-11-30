@@ -110,6 +110,7 @@ int AIPlayer::calcBoardScore(Board& board, int turn) {
     //...*/
     
     int score = 0;
+    score = board.getScore(this->getColor());
     return score;
 }
 

@@ -48,7 +48,6 @@ class Game {
 		
 		void gameStart();
 		
-		void switchCells(cellContent playerContent, Position pos);
 		
 	private:
 		/*!

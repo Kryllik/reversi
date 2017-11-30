@@ -10,8 +10,11 @@ using namespace std;
 AIPlayer::AIPlayer(cellContent color) : Player(color){
 }
 
-Position AIPlayer::getMove(Game& game, Board boardCopy, int turn){
-	cout << "AI processing..." << endl;
+Position AIPlayer::getMove(Game& game, Board board, int turn){
+	
+	///TODO : gerer le cas ou un joueur ne sait pas jouer dans un board généré >> passer son tour
+	
+	cout << toString() << " AI processing..." << endl;
 	vector<Position> validMoves = game.validMoves(playerColor);
 	int numberOfPaths = validMoves.size();
 	int progression = 0;
@@ -19,12 +22,14 @@ Position AIPlayer::getMove(Game& game, Board boardCopy, int turn){
     int maxScore = -1;
     Position posToPlay;
     Position candidatePos;
+    Board boardCopy;
     for (unsigned int i = 0; i<validMoves.size(); i++) {
+		boardCopy = board;
 		candidatePos = validMoves[i];
         boardCopy.setContentAt(candidatePos, playerColor);
-        int limitTurn = turn+6;
+        boardCopy.switchCells(playerColor, candidatePos);
+        int limitTurn = turn+4;
         int score = getBoardScore(game,boardCopy,turn,limitTurn);
-        
         if (score>maxScore) {
             maxScore = score;
             posToPlay = candidatePos;
@@ -32,15 +37,18 @@ Position AIPlayer::getMove(Game& game, Board boardCopy, int turn){
         progression = (100*(i+1))/numberOfPaths;
 		cout << progression << " % (" << (i+1) << "/" << numberOfPaths << ") Score = "<< score << " (" << candidatePos.toString() << ")" << endl;
     }
-    cout << "AI done" << endl;
+    cout << "AI done. Turn " << turn << endl;
+    
     return posToPlay;
 }
 
 int AIPlayer::getBoardScore(Game& game, Board board, int turn, int limitTurn) {
     //retourne le score de la branche, en moyennant les branches suivantes. Si 
     int score = 0;
-    if (turn == limitTurn) {
+    if (turn >= limitTurn) {
         score = calcBoardScore(board,turn);
+        //cout << "\nscore = " << score << endl;
+		//IO::boardDisplay(board);
     } else {
         vector<Position> validOpponentMoves = game.validMoves(this->getOpponentColor(),&board); //valid moves for opponent
         //cout << "Valid opponent moves (1)  : ";
@@ -52,17 +60,19 @@ int AIPlayer::getBoardScore(Game& game, Board board, int turn, int limitTurn) {
 			opponentPos = validOpponentMoves[i];
             boardCopy = board;
             boardCopy.setContentAt(opponentPos, this->getOpponentColor()); //opponent player plays
+            boardCopy.switchCells(this->getOpponentColor(), opponentPos);
             vector<Position> validAIMoves = game.validMoves(playerColor,&boardCopy); //valid moves for AI
             //cout << "Valid IA moves (2) : ";
             //IO::displayValidMoves(validAIMoves);
-            Board boardCopy2 = boardCopy;
+            Board boardCopy2;
             vector<int> scoreList2; //list containing scores for AI moves branches
             Position AIPos;
             for (int j = 0; j<validAIMoves.size(); j++) {
 				AIPos = validAIMoves[j];
                 boardCopy2 = boardCopy;
                 boardCopy2.setContentAt(AIPos, playerColor); //AI plays
-                score = getBoardScore(game, boardCopy, turn+2, limitTurn);
+                boardCopy2.switchCells(playerColor, AIPos);
+                score = getBoardScore(game, boardCopy2, turn+2, limitTurn);
                 scoreList2.push_back(score);
             }
             int meanList2 = mean(scoreList2);
@@ -110,7 +120,12 @@ int AIPlayer::calcBoardScore(Board& board, int turn) {
     //...*/
     
     int score = 0;
-    score = board.getScore(this->getColor());
+    
+	score = 10000*(board.getScore(playerColor));
+	
+    
+    //cout << "\nscore = " << score << endl;
+    //IO::boardDisplay(board);
     return score;
 }
 

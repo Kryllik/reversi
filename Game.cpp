@@ -96,58 +96,6 @@ bool Game::isSwitchInDirection(Position pos,int x, int y, cellContent playerCont
 	return false;
 }
 
-
-void Game::switchCells(cellContent playerContent, Position pos){
-	//cellContent opponentContent=otherPlayerColor(playerContent);
-	//si i=-1,j=-1:diagonale en bas a gauche
-	//si i=-1,j=0: a gauche
-	//si i=-1,j=1:diagonale en haut a gauche
-	//si i=0,j=-1: en bas
-	//si i=0,j=0:rien
-	//si i=0,j=1: en haut
-	//si i=1,j=-1: diagonale en bas a droite
-	//si i=1, j=0: a droite
-	//si i=1, j=1: diagonale en haut a droite
-	for(int i=-1;i<=1;i++){
-		for(int j=-1;j<=1;j++){
-			//cellContent opponentContent=otherPlayerColor(playerContent);
-			Position newPos= pos.incrementedBy(i,j);
-			while(newPos.isValid() && board->getContentAt(newPos)!=playerContent && board->getContentAt(newPos)!=Empty){
-				newPos=newPos.incrementedBy(i,j);
-				//cout<<"content while"<< board->getContentAt(newPos)<<endl;
-			}
-			if (newPos.isValid() && board->getContentAt(newPos)==playerContent){
-				if (j==0 && i==0){}
-				else{
-					int diffx=newPos.getX()-pos.getX();
-					int diffy=newPos.getY()-pos.getY();
-					Position switchPos=pos;
-					if(diffy==0){//changement que en x
-						for(int k=1;k<abs(diffx);k=k+1){
-							switchPos.increment(i,0);
-							board->switchContentAt(switchPos);
-						}
-					}
-					else if (diffx==0){//changement que en y
-						for(int l=1;l<abs(diffy);l=l+1){
-							switchPos.increment(0,j);
-							board->switchContentAt(switchPos);
-							//switchCells(playerContent, switchPos);
-						}
-					}
-					else if(diffx!=0 && diffy!=0){//changement des diagonales, diffy=diffx
-						for(int m=1;m<abs(diffx);m=m+1){
-							switchPos.increment(i,j);
-							board->switchContentAt(switchPos);
-							//switchCells(playerContent, switchPos);
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
 void Game::gameStart(){
 	bool currentPlayerCanPlay; 	/* Can the current player play ? */
 	Position pos;			 	/* The position selected by the current player */
@@ -174,7 +122,7 @@ void Game::gameStart(){
 			cout << pos.toString() << endl;
 			/* update board by switching cells affected by player's move */
 			board->setContentAt(pos, currentPlayer->getColor());
-			switchCells(currentPlayer->getColor(), pos);
+			board->switchCells(currentPlayer->getColor(), pos);
 			/* display board info */
 			IO::display(*board, *currentPlayer,*this, pos);
 			turn++;
@@ -196,7 +144,9 @@ void Game::gameStart(){
 			opponentPlayer=playerBlack;
 		}
 	}
-	board->getScore();	
+	int blackScore = board->getScore(Black);
+	int whiteScore = board->getScore(White);
+	IO::displayScore(blackScore,whiteScore);
 }
 
 

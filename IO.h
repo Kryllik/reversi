@@ -21,9 +21,9 @@ class IO{
 	static void displayFirstTurn(Board & board, Game const& game);
 	static void displayScore(int blackScore, int whiteScore);
 	static void displayValidMoves(std::vector<Position> v);
-
-	private:
 	static void boardDisplay(Board & board);
+	private:
+	
 	static void displayValidMoves(const Player &player, Game const& game);
 	
 };

@@ -28,7 +28,7 @@ Position AIPlayer::getMove(Board gameBoard, int turn){
 		candidatePos = validMoves[i];
         boardCopy.setContentAt(candidatePos, playerColor);
         boardCopy.switchCells(playerColor, candidatePos);
-        int limitTurn = turn+4;
+        int limitTurn = turn+TURN_LIMIT_OFFSET;
         int score = getBoardScore(boardCopy,turn,limitTurn);
         if (score>maxScore) {
             maxScore = score;
@@ -102,7 +102,7 @@ int AIPlayer::calcBoardScore(Board& board, int turn) {
 	///TODO : coin(), parite(), grouper au centre() (début), peu de possiblilités adverses (surtout fin), 
 	
 	int score = 0;
-	
+	//pour la parité :
 	//si on joue le dernier tour
 	if (turn==60) {
 		score+=1500;
@@ -137,13 +137,15 @@ int AIPlayer::calcBoardScore(Board& board, int turn) {
     
     //...*/
     
+    
+    /*
     if (playerColor==White) {
 		score=0;
 	}
 	if (playerColor==Black) {
 		score=0;
 	}
-    
+    */
 	//score = 10000*(board.getScore(playerColor)); //Factor 10000 to handle the mean of an int
 	
     

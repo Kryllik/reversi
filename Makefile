@@ -35,5 +35,7 @@ all: Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Ce
 clean:
 	rm *.o
 	rm projet
+	rm blanc.txt
+	rm noir.txt
 
 

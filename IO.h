@@ -3,14 +3,13 @@
 
 
 #include <iostream>
+#include <stdio.h>
+#include <string.h>
 #include "Position.h"
 #include "Game.h"
 #include "Player.h"
 
-using std::cout;
-using std::cin;
-using std::endl;
-using std::string;
+using namespace std;
 
 
 class IO{
@@ -19,6 +18,7 @@ class IO{
 	static void display(Board & board, const Player &player, Position pos);
 	static void displayWhoPlays(const Player &player, Board const& gameBoard);
 	static void displayFirstTurn(Board & board);
+	static pair<char,char> playerCreation();
 	static void displayScore(int blackScore, int whiteScore);
 	static void displayValidMoves(std::vector<Position> v);
 	static void boardDisplay(Board & board);

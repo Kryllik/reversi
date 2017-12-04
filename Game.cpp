@@ -12,7 +12,7 @@
 Game::Game(char player1, char player2)  {
 	cout << "Bienvenue dans ce super jeu !" << endl<< endl;
 	cout << "plateau initial : " << endl << endl;
-	Board *board = new Board(); //CrÃ©e un nouveau Board et l'initialise. Renvoie un pointeur.
+	Board *board = new Board(); //Cree un nouveau Board et l'initialise. Renvoie un pointeur.
 	this->board = board;
 	cellContent blackColor = Black;
 	cellContent whiteColor = White;
@@ -26,7 +26,7 @@ Game::Game(char player1, char player2)  {
 		playerBlack = new AIPlayer(blackColor);
 	}
 	else{
-		cout << "ERREUR DE CONFIGURATION DES JOUEURS " << endl;
+		cout << "ERREUR DE CONFIGURATION DES JOUEURS " << endl; //sécurité, mais ne devrait jamais être déclenché, après la vérif dans IO
 	}
 	if(player2 == 'H'){
 		playerWhite = new HumanPlayer(whiteColor);

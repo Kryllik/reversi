@@ -20,8 +20,8 @@ HumanPlayer::HumanPlayer(cellContent color) : Player(color){
  *  \param game : a reference to the game that can be used to validate the player's move
  *  \return the player's next position
  */
-Position HumanPlayer::getMove(Game & game, Board boardCopy, int turn) {
-	Position pos = IO::moveInput(game, playerColor);
+Position HumanPlayer::getMove(Board gameBoard, int turn) {
+	Position pos = IO::moveInput(gameBoard, playerColor);
 	return pos;
 }
 

@@ -10,26 +10,26 @@ using namespace std;
 AIPlayer::AIPlayer(cellContent color) : Player(color){
 }
 
-Position AIPlayer::getMove(Game& game, Board board, int turn){
+Position AIPlayer::getMove(Board gameBoard, int turn){
 	
 	///TODO : gerer le cas ou un joueur ne sait pas jouer dans un board généré >> passer son tour
 	
 	cout << toString() << " AI processing..." << endl;
-	vector<Position> validMoves = game.validMoves(playerColor);
+	vector<Position> validMoves = gameBoard.validMoves(playerColor);
 	int numberOfPaths = validMoves.size();
 	int progression = 0;
     
-    int maxScore = -1;
+    int maxScore = -100000000;
     Position posToPlay;
     Position candidatePos;
     Board boardCopy;
     for (unsigned int i = 0; i<validMoves.size(); i++) {
-		boardCopy = board;
+		boardCopy = gameBoard;
 		candidatePos = validMoves[i];
         boardCopy.setContentAt(candidatePos, playerColor);
         boardCopy.switchCells(playerColor, candidatePos);
         int limitTurn = turn+4;
-        int score = getBoardScore(game,boardCopy,turn,limitTurn);
+        int score = getBoardScore(boardCopy,turn,limitTurn);
         if (score>maxScore) {
             maxScore = score;
             posToPlay = candidatePos;
@@ -42,7 +42,7 @@ Position AIPlayer::getMove(Game& game, Board board, int turn){
     return posToPlay;
 }
 
-int AIPlayer::getBoardScore(Game& game, Board board, int turn, int limitTurn) {
+int AIPlayer::getBoardScore(Board board, int turn, int limitTurn) {
     //retourne le score de la branche, en moyennant les branches suivantes. Si 
     int score = 0;
     if (turn >= limitTurn) {
@@ -50,7 +50,7 @@ int AIPlayer::getBoardScore(Game& game, Board board, int turn, int limitTurn) {
         //cout << "\nscore = " << score << endl;
 		//IO::boardDisplay(board);
     } else {
-        vector<Position> validOpponentMoves = game.validMoves(this->getOpponentColor(),&board); //valid moves for opponent
+        vector<Position> validOpponentMoves = board.validMoves(this->getOpponentColor()); //valid moves for opponent
         //cout << "Valid opponent moves (1)  : ";
         //IO::displayValidMoves(validOpponentMoves);
         vector<int> scoreList1; //list containing scores for opponant moves branches
@@ -61,7 +61,7 @@ int AIPlayer::getBoardScore(Game& game, Board board, int turn, int limitTurn) {
             boardCopy = board;
             boardCopy.setContentAt(opponentPos, this->getOpponentColor()); //opponent player plays
             boardCopy.switchCells(this->getOpponentColor(), opponentPos);
-            vector<Position> validAIMoves = game.validMoves(playerColor,&boardCopy); //valid moves for AI
+            vector<Position> validAIMoves = boardCopy.validMoves(playerColor); //valid moves for AI
             //cout << "Valid IA moves (2) : ";
             //IO::displayValidMoves(validAIMoves);
             Board boardCopy2;
@@ -72,7 +72,7 @@ int AIPlayer::getBoardScore(Game& game, Board board, int turn, int limitTurn) {
                 boardCopy2 = boardCopy;
                 boardCopy2.setContentAt(AIPos, playerColor); //AI plays
                 boardCopy2.switchCells(playerColor, AIPos);
-                score = getBoardScore(game, boardCopy2, turn+2, limitTurn);
+                score = getBoardScore(boardCopy2, turn+2, limitTurn);
                 scoreList2.push_back(score);
             }
             int meanList2 = mean(scoreList2);
@@ -101,6 +101,24 @@ int AIPlayer::mean(vector<int> v) {
 int AIPlayer::calcBoardScore(Board& board, int turn) {
 	///TODO : coin(), parite(), grouper au centre() (début), peu de possiblilités adverses (surtout fin), 
 	
+	int score = 0;
+	
+	//si on joue le dernier tour
+	if (turn==60) {
+		score+=1500;
+	}
+	//si on joue dans un tour pair (donc bien parti pour jouer en dernier quand tour=60)
+	else if ((turn%2)==0) {
+		score+=100;
+	}
+	
+	
+	
+	int AICorners=board.cornerNumber(playerColor);
+	int opponentCorners=board.cornerNumber(this->getOpponentColor());
+	score+=AICorners*800;
+	score-=opponentCorners*800;
+	
     /**if turn<20 {
      * 
     } else if turn<30 {
@@ -119,9 +137,16 @@ int AIPlayer::calcBoardScore(Board& board, int turn) {
     
     //...*/
     
-    int score = 0;
+    if (playerColor==White) {
+		score=0;
+	}
+	if (playerColor==Black) {
+		score=0;
+	}
     
-	score = 10000*(board.getScore(playerColor));
+	//score = 10000*(board.getScore(playerColor));
+	
+	
 	
     
     //cout << "\nscore = " << score << endl;

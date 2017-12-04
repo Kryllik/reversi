@@ -14,7 +14,7 @@ class HumanPlayer: public Player{
 		public:
 			HumanPlayer(cellContent color);
 			~HumanPlayer() {}
-			Position getMove(Game &game, Board boardCopy, int turn);
+			Position getMove(Board gameBoard, int turn);
 		private:
 };
 

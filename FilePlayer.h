@@ -27,7 +27,7 @@ class FilePlayer : public Player{
 	public:
 		FilePlayer(cellContent color /*, string pathToFiles*/);
 		~FilePlayer() {}
-		Position getMove(Game & game);
+		Position getMove(Board gameBoard, int turn);
 		void giveMove(Position pos);
 		void giveVoidMove();
 	private:

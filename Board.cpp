@@ -16,9 +16,9 @@ Board::~Board(){
 
 
 void Board::initBoard(){
-	for(unsigned int line = 1; line <= BOARD_SIZE; line++){
-		for(unsigned int col = 1; col<= BOARD_SIZE; col++){
-			setContentAt(Position(line,col), Empty); //Remplis l'ensemble du tableau avec des cases vides
+	for(unsigned int x = 1; x <= BOARD_SIZE; x++){
+		for(unsigned int y = 1; y<= BOARD_SIZE; y++){
+			setContentAt(Position(x,y), Empty); //Remplis l'ensemble du tableau avec des cases vides
 		}
 	}
 	
@@ -43,7 +43,7 @@ void Board::switchContentAt(const Position pos){
 	(this->array[pos.getX()-1][pos.getY()-1]).switchContent(); 
 }
 
-int Board::getScore(cellContent color) {
+int Board::getScore(cellContent color) const {
 	int whiteScore = 0;
 	int blackScore = 0;
 	Position pos;
@@ -63,6 +63,84 @@ int Board::getScore(cellContent color) {
 		return whiteScore;
 	else 
 		return blackScore;
+}
+
+int Board::cornerNumber(cellContent color) const {
+	int corners=0;
+	if (this->getContentAt(Position(1,1))==color) {
+		corners++;
+	}
+	if (this->getContentAt(Position(1,Board::BOARD_SIZE))==color) {
+		corners++;
+	}
+	if (this->getContentAt(Position(Board::BOARD_SIZE,1))==color) {
+		corners++;
+	}
+	if (this->getContentAt(Position(Board::BOARD_SIZE,Board::BOARD_SIZE))==color) {
+		corners++;
+	}
+}
+
+bool Board::validMovesExist(cellContent playerContent) {
+	bool res = true;
+	vector<Position> v = validMoves(playerContent);
+	if (v.size() == 0) {
+		res = false;
+	}
+	return res;
+}
+
+vector<Position> Board::validMoves(cellContent playerContent) const {
+	vector<Position> v;
+	Position pos;
+	for (int i = 1; i<=Board::BOARD_SIZE; i++) {
+		for (int j = 1; j<=Board::BOARD_SIZE; j++) {
+			pos = Position(i,j);
+			if (isValidMove(playerContent,pos)) {
+				v.push_back(pos);
+			}
+		}
+	}
+	return v;
+}
+
+bool Board::isValidMove(cellContent playerContent, Position pos) const {
+	if (this->getContentAt(pos) == Empty) {
+		for (int x=-1;x<=1;x++) {
+			for (int y=-1;y<=1;y++) {
+				if (!(x==0 && y==0)) {
+					if (isSwitchInDirection(pos,x,y,playerContent)) {
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+bool Board::isSwitchInDirection(Position pos,int x, int y, cellContent playerContent) const {
+	Position newPos = pos.incrementedBy(x,y);
+	if (newPos.isValid()) {
+		cellContent newContent = this->getContentAt(newPos);
+		if (newContent!=playerContent && newContent != Empty) {
+			while (true) {
+				newPos.increment(x,y);
+				if (newPos.isValid()) {
+					newContent = this->getContentAt(newPos);
+					if (newContent==Empty) {
+						break;
+					}
+					if (newContent == playerContent) {
+						return true;
+					}
+				} else {
+					break;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 void Board::switchCells(cellContent playerContent, Position pos){

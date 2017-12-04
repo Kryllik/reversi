@@ -15,16 +15,16 @@ using std::string;
 
 class IO{
 	public:
-	static Position moveInput(const Game & game, const cellContent playerContent);
-	static void display(Board & board, const Player &player, Game const& game,  Position pos);
-	static void displayWhoPlays(const Player &player, Game const& game);
-	static void displayFirstTurn(Board & board, Game const& game);
+	static Position moveInput(const Board & gameBoard, const cellContent playerContent);
+	static void display(Board & board, const Player &player, Position pos);
+	static void displayWhoPlays(const Player &player, Board const& gameBoard);
+	static void displayFirstTurn(Board & board);
 	static void displayScore(int blackScore, int whiteScore);
 	static void displayValidMoves(std::vector<Position> v);
 	static void boardDisplay(Board & board);
 	private:
 	
-	static void displayValidMoves(const Player &player, Game const& game);
+	static void displayValidMoves(const Player &player, Board const& gameBoard);
 	
 };
 

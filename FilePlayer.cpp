@@ -49,7 +49,7 @@ FilePlayer::FilePlayer(cellContent color/*, string pathToFiles*/) : Player(color
  *  \param game : a reference to the game that can be used to validate the player's move
  *  \return the player's next position
  */
-Position FilePlayer::getMove(Game & game){
+Position FilePlayer::getMove(Board gameBoard, int turn){
 	string ligne;
 	while (!(getline(playerFile, ligne, '\x0a'))) //caractère de fin de chaine sous linux (?)
 	{

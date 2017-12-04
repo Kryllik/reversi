@@ -6,12 +6,14 @@
 
 #include "Board.h"
 #include <vector>
+#include <iostream>
 
+using namespace std;
 class Player;
 
 class Game {
 	public:
-		Game();
+		Game(char player1, char player2);
 		~Game();
 		
 		/*!

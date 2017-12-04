@@ -3,18 +3,18 @@
 
 
 #include <iostream>
+#include <stdio.h>
+#include <string.h>
 #include "Position.h"
 #include "Game.h"
 #include "Player.h"
 
-using std::cout;
-using std::cin;
-using std::endl;
-using std::string;
+using namespace std;
 
 
 class IO{
 	public:
+	static pair<char,char> playerCreation();
 	static Position moveInput(const Game & game, const cellContent playerContent);
 	static void display(Board & board, const Player &player, Game const& game,  Position pos);
 	static void displayWhoPlays(const Player &player, Game const& game);

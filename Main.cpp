@@ -5,11 +5,15 @@
 
 //Main file of the game, includes main()
 
+#include <iostream>
 #include "Game.h"
+#include "IO.h"
+using namespace std;
 
 int main(int argc, char **argv)
 {
-	Game *game = new Game();
+	pair<char,char> players = IO::playerCreation();
+	Game *game = new Game(players.first, players.second);
 	game->gameStart();
 	delete game;
 	

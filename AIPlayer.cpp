@@ -121,7 +121,7 @@ int AIPlayer::calcBoardScore(Board& board, int turn) {
     
     int score = 0;
     
-	score = 10000*(board.getScore(playerColor));
+	score = 10000*(board.getScore(playerColor)); //Factor 10000 to handle the mean of an int
 	
     
     //cout << "\nscore = " << score << endl;

@@ -7,20 +7,39 @@
 #include "FilePlayer.h"
 #include "AIPlayer.h"
 
-using namespace std;
 
 
-Game::Game()  {
+Game::Game(char player1, char player2)  {
 	cout << "Bienvenue dans ce super jeu !" << endl<< endl;
 	cout << "plateau initial : " << endl << endl;
 	Board *board = new Board(); //Crée un nouveau Board et l'initialise. Renvoie un pointeur.
 	this->board = board;
 	cellContent blackColor = Black;
 	cellContent whiteColor = White;
-	playerBlack = new AIPlayer(blackColor);
-	//playerBlack = new FilePlayer(blackColor);
-	playerWhite = new AIPlayer(whiteColor);
-	//playerWhite = new FilePlayer(whiteColor);
+	if(player1 == 'H'){
+		playerBlack = new HumanPlayer(blackColor);
+	}
+	else if(player1 == 'F'){
+		playerBlack = new FilePlayer(blackColor);
+	}
+	else if(player1 == 'A'){
+		playerBlack = new AIPlayer(blackColor);
+	}
+	else{
+		cout << "ERREUR DE CONFIGURATION DES JOUEURS " << endl;
+	}
+	if(player2 == 'H'){
+		playerWhite = new HumanPlayer(whiteColor);
+	}
+	else if(player2 == 'F'){
+		playerWhite = new FilePlayer(whiteColor);
+	}
+	else if(player2 == 'A'){
+		playerWhite = new AIPlayer(whiteColor);
+	}
+	else{
+		cout << "ERREUR DE CONFIGURATION DES JOUEURS " << endl;
+	}
 }
 
 Game::~Game() {

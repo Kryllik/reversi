@@ -1,6 +1,39 @@
 #include "IO.h"
 #include <vector>
 
+pair<char,char> IO::playerCreation(){
+	bool validBlack = false;
+	bool validWhite = false;
+	pair<char, char> players;
+	string stringplayers;
+	while(!(validBlack&&validWhite)){
+		cout << "choisir le type de joueur noir, puis le type de joueur blanc (H,F,A) " << endl;
+		cin >> stringplayers;
+		if (stringplayers.size() == 2){
+			if(stringplayers[0] == 'H' || stringplayers[0] == 'F'|| stringplayers[0] == 'A'){
+				players.first = stringplayers[0];
+				validBlack = true;
+			}
+			else{
+				cout << "mauvaise entrée du joueur noir, veuillez recommencer" <<endl;
+				validBlack=false;
+				}
+			if(stringplayers[1] == 'H' || stringplayers[1] == 'F'||stringplayers[1] == 'A'){
+				players.second = stringplayers[1];
+				validWhite = true;
+			}
+			else{
+				cout << "mauvaise entrée du joueur blanc, veuillez recommencer" <<endl;
+				validWhite = false;
+			}
+		}
+		else{
+			cout << "mauvais nombre d'arguments, veuillez recommencer" << endl;
+		}
+	}	 
+	return players;
+}				
+
 Position IO::moveInput(Game const & game, cellContent playerContent){
 	Position pos;
 	string move;

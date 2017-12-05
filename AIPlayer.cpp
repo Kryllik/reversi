@@ -101,6 +101,8 @@ int AIPlayer::mean(vector<int> v) {
 int AIPlayer::calcBoardScore(Board& board, int turn) {
 	///TODO : coin(), parite(), grouper au centre() (début), peu de possiblilités adverses (surtout fin), 
 	
+	
+	//résultats: 19-45 (noir algo vs blanc algo) 21-43(noir algo vs blanc sans algo) 53-11 (H vs sans algo) 32-32 (humain vs algo)
 	int score = 0;
 	//pour la parité :
 	//si on joue le dernier tour

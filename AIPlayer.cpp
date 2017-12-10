@@ -4,6 +4,7 @@
 //classe fille de Player, contient les fonctions et attributs propre à une intelligence artificielle.
 
 #include "AIPlayer.h"
+
 using namespace std;
 
 
@@ -12,10 +13,17 @@ AIPlayer::AIPlayer(cellContent color) : Player(color){
 
 Position AIPlayer::getMove(Board gameBoard, int turn){
 	
-	///TODO : gerer le cas ou un joueur ne sait pas jouer dans un board généré >> passer son tour
+	///TODO : moyenne géométrique ou similaire pour moyenner les coups adverses, pour que les pires cas aient une plus grande importance
+	///TODO : pas de moyenne pour moyenner nos coups, prendre juste le meilleur, car on a le choix. Mais problème : meilleur score pour branche où on joue en dernier
+	
 	
 	cout << toString() << " AI processing..." << endl;
-	vector<Position> validMoves = gameBoard.validMoves(playerColor);
+	
+	
+	/* Without backtracking
+	 * 
+	 * */
+	/*vector<Position> validMoves = gameBoard.validMoves(playerColor);
 	int numberOfPaths = validMoves.size();
 	int progression = 0;
 	int limitTurn = turn+TURN_LIMIT_OFFSET;
@@ -38,11 +46,77 @@ Position AIPlayer::getMove(Board gameBoard, int turn){
         }
         progression = (100*(i+1))/numberOfPaths;
 		cout << progression << " % (" << (i+1) << "/" << numberOfPaths << ") Score = "<< score << " (" << candidatePos.toString() << ")" << endl;
-    }
+    }*/
+    
+    /* With backtracking
+     * 
+     * */
+    Position posToPlay;
+    vector<Position> validMoves = gameBoard.validMoves(playerColor);
+    for (unsigned int turnLimitIndex = 0; turnLimitIndex<TURN_LIMIT_VECTOR.size(); turnLimitIndex++) {
+		vector<int> scores;
+		vector<Position> positions;
+		int turnLimitOffset = TURN_LIMIT_VECTOR[turnLimitIndex];
+		int limitTurn = turn+turnLimitOffset;
+		int numberOfPaths = validMoves.size();
+		cout << "Preprocessing " << turnLimitIndex+1 << ". Offset : " << turnLimitOffset << endl;
+		Board boardCopy;
+		Position candidatePos;
+		for (unsigned int i = 0; i<validMoves.size(); i++) {
+			boardCopy = gameBoard;
+			candidatePos = validMoves[i];
+			
+			boardCopy.setContentAt(candidatePos, playerColor);
+			boardCopy.switchCells(playerColor, candidatePos);
+			
+			int score = getBoardScore(boardCopy,turn,limitTurn,Game::oppositeColor(this->getColor()));
+			
+			int progression = (100*(i+1))/numberOfPaths;
+			cout << progression << " % (" << (i+1) << "/" << numberOfPaths << ") Score = "<< score << " (" << candidatePos.toString() << ")" << endl;
+			
+			scores.push_back(score);
+			positions.push_back(candidatePos);
+		}
+		int maxElemCount = MAX_ELEM_VECTOR[turnLimitIndex];
+		vector<int> indexes = maxScoreIndexes(scores,maxElemCount);
+		if (indexes.size()>1) {
+			vector<Position> newValidMoves;
+			for (unsigned int i = 0; i<indexes.size(); i++) {
+				int indexToPlay = indexes[i];
+				newValidMoves.push_back(validMoves[indexToPlay]);
+			}
+			validMoves=newValidMoves;
+			cout << "Moves remaining : ";
+			IO::displayValidMoves(validMoves);
+		} else {
+			int indexToPlay = indexes[0];
+			posToPlay = validMoves[indexToPlay];
+		}
+	}
+    
     cout << "AI done. Turn " << turn << endl;
     
     return posToPlay;
 }
+
+vector<int> AIPlayer::maxScoreIndexes(vector<int> scores, int maxElem) {
+	maxElem = min(maxElem,(int)scores.size());
+	vector<int> indexes;
+	for (int i=0;i<maxElem;i++) {
+		int maxScore=scores[0];
+		int maxIndex=0;
+		for (int j=1;j<scores.size();j++) {
+			if (scores[j]>maxScore) {
+				maxScore=scores[j];
+				maxIndex=j;
+			}
+		}
+		indexes.push_back(maxIndex);
+		scores[maxIndex] = -1000000; //set the highest score to a very low value so that the index is not taken twice
+	}
+	return indexes;
+}
+
 
 /*
 int AIPlayer::getBoardScore(Board board, int turn, int limitTurn) {
@@ -187,12 +261,12 @@ int AIPlayer::calcBoardScore(Board& board, int turn, bool endOfGame, cellContent
     
     
     
-    /*if (playerColor==White) {
+    if (playerColor==White) {
 		score=0;
-	}*/
+	}/*
 	if (playerColor==Black) {
 		score=0;
-	}
+	}*/
     
 	//score = 10000*(board.getScore(playerColor)); //Factor 10000 to handle the mean of an int
 	

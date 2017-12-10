@@ -18,6 +18,7 @@ Position AIPlayer::getMove(Board gameBoard, int turn){
 	vector<Position> validMoves = gameBoard.validMoves(playerColor);
 	int numberOfPaths = validMoves.size();
 	int progression = 0;
+	int limitTurn = turn+TURN_LIMIT_OFFSET;
     
     int maxScore = -100000000;
     Position posToPlay;
@@ -26,10 +27,11 @@ Position AIPlayer::getMove(Board gameBoard, int turn){
     for (unsigned int i = 0; i<validMoves.size(); i++) {
 		boardCopy = gameBoard;
 		candidatePos = validMoves[i];
+		
         boardCopy.setContentAt(candidatePos, playerColor);
         boardCopy.switchCells(playerColor, candidatePos);
-        int limitTurn = turn+TURN_LIMIT_OFFSET;
-        int score = getBoardScore(boardCopy,turn,limitTurn);
+        
+        int score = getBoardScore(boardCopy,turn,limitTurn,Game::oppositeColor(this->getColor()));
         if (score>maxScore) {
             maxScore = score;
             posToPlay = candidatePos;
@@ -42,6 +44,7 @@ Position AIPlayer::getMove(Board gameBoard, int turn){
     return posToPlay;
 }
 
+/*
 int AIPlayer::getBoardScore(Board board, int turn, int limitTurn) {
     //retourne le score de la branche, en moyennant les branches suivantes. Si 
     int score = 0;
@@ -82,6 +85,39 @@ int AIPlayer::getBoardScore(Board board, int turn, int limitTurn) {
         score = meanList1;
     }
     return score;
+}*/
+
+int AIPlayer::getBoardScore(Board board, int turn, int limitTurn, cellContent currentPlayerColor) {
+    //retourne le score de la branche, en moyennant les branches suivantes.
+    int score = 0;
+    vector<Position> validMoves = board.validMoves(currentPlayerColor);
+    vector<Position> validOpponentMoves = board.validMoves(Game::oppositeColor(currentPlayerColor));
+    bool currentCanPlay = (validMoves.size()!=0);
+    bool otherCanPlay = (validOpponentMoves.size()!=0);
+    bool endOfGame = (!(currentCanPlay || otherCanPlay));
+    if ((turn > limitTurn) || (endOfGame)) {
+        score = calcBoardScore(board,turn,endOfGame,currentPlayerColor);
+    } else {
+        if (!currentCanPlay) {
+			score = getBoardScore(board, turn, limitTurn, Game::oppositeColor(currentPlayerColor)); //if can't play, make the opponent player play (don't increment turn)
+		}else{
+			int newTurn = turn+1;
+			vector<int> scoreList;
+			Board boardCopy;
+			Position pos;
+			for (int i = 0; i<validMoves.size(); i++) {
+				pos = validMoves[i];
+				boardCopy = board;
+				boardCopy.setContentAt(pos, currentPlayerColor);
+				boardCopy.switchCells(currentPlayerColor, pos);
+				score = getBoardScore(boardCopy, newTurn, limitTurn, Game::oppositeColor(currentPlayerColor));
+				scoreList.push_back(score);
+			}
+			int meanOfList = mean(scoreList);
+			score = meanOfList;
+		}
+    }
+    return score;
 }
 
 int AIPlayer::mean(vector<int> v) {
@@ -98,28 +134,38 @@ int AIPlayer::mean(vector<int> v) {
 }
 
 
-int AIPlayer::calcBoardScore(Board& board, int turn) {
+int AIPlayer::calcBoardScore(Board& board, int turn, bool endOfGame, cellContent currentPlayerColor) {
 	///TODO : coin(), parite(), grouper au centre() (début), peu de possiblilités adverses (surtout fin), 
 	
 	
 	//résultats: 19-45 (noir algo vs blanc algo) 21-43(noir algo vs blanc sans algo) 53-11 (H vs sans algo) 32-32 (humain vs algo)
 	int score = 0;
-	//pour la parité :
-	//si on joue le dernier tour
-	if (turn==60) {
-		score+=1500;
+	
+	if (endOfGame) { //si le jeu est fini, on check seulement si on a gagné, perdu ou fait match nul
+		int playerScore = board.getScore(playerColor);
+		int opponentScore = board.getScore(this->getOpponentColor());
+		if (playerScore>opponentScore) {
+			//On a gagné
+			score=10000;
+		} else if (playerScore==opponentScore) {
+			//Match nul
+			score=0;
+		} else {
+			//On a perdu
+			score=-10000;
+		}
+	} else {
+		//pour la parité :
+		//si on joue dans un tour pair (donc bien parti pour jouer en dernier quand tour=60)
+		if (parite(turn,currentPlayerColor)) {
+			score+=100;
+		}
+		
+		int AICorners=board.cornerNumber(playerColor);
+		int opponentCorners=board.cornerNumber(this->getOpponentColor());
+		score+=AICorners*800;
+		score-=opponentCorners*800;
 	}
-	//si on joue dans un tour pair (donc bien parti pour jouer en dernier quand tour=60)
-	else if ((turn%2)==0) {
-		score+=100;
-	}
-	
-	
-	
-	int AICorners=board.cornerNumber(playerColor);
-	int opponentCorners=board.cornerNumber(this->getOpponentColor());
-	score+=AICorners*800;
-	score-=opponentCorners*800;
 	
     /**if turn<20 {
      * 
@@ -140,14 +186,14 @@ int AIPlayer::calcBoardScore(Board& board, int turn) {
     //...*/
     
     
-    /*
-    if (playerColor==White) {
+    
+    /*if (playerColor==White) {
 		score=0;
-	}
+	}*/
 	if (playerColor==Black) {
 		score=0;
 	}
-    */
+    
 	//score = 10000*(board.getScore(playerColor)); //Factor 10000 to handle the mean of an int
 	
     
@@ -156,7 +202,13 @@ int AIPlayer::calcBoardScore(Board& board, int turn) {
     return score;
 }
 
-
+bool AIPlayer::parite(int turn, cellContent currentPlayerColor) {
+	bool parite = false;
+	if (((turn%2)==0)==(currentPlayerColor==playerColor)) { // vrai soit si tour pair joué par notre IA, soit si tour impair joué par l'autre IA
+		parite = true;
+	}
+	return parite;
+}
 
 
 

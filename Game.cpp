@@ -107,7 +107,12 @@ void Game::gameStart(){
 }
 
 
-
+cellContent Game::oppositeColor(cellContent color) {
+	if (color == Black)
+		return cellContent::White;
+	else
+		return cellContent::Black;
+}
 
 
 

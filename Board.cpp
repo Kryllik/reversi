@@ -81,6 +81,7 @@ int Board::cornerNumber(cellContent color) const {
 	}
 }
 
+
 bool Board::validMovesExist(cellContent playerContent) {
 	bool res = true;
 	vector<Position> v = validMoves(playerContent);

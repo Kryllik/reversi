@@ -15,9 +15,10 @@ class AIPlayer : public Player{
 		
 	private:
 		int const TURN_LIMIT_OFFSET = 4; //Constant of how deep the AI has to search for plays. must be an even number
-		int getBoardScore(Board board, int turn, int limitTurn);
-		int calcBoardScore(Board& board, int turn);
+		int getBoardScore(Board board, int turn, int limitTurn, cellContent currentPlayerColor);
+		int calcBoardScore(Board& board, int turn, bool endOfGame, cellContent currentPlayerColor);
 		int mean(std::vector<int> v);
+		bool parite(int turn, cellContent currentPlayerColor);
 };
 
 #endif

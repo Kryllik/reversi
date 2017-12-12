@@ -23,6 +23,8 @@ class AIPlayer : public Player{
 		vector<int> maxScoreIndexes(vector<int> scores, int maxElem);
 		int calcBoardScore(Board& board, int turn, bool endOfGame, cellContent currentPlayerColor);
 		int mean(std::vector<int> v);
+		int minElem(vector<int> v);
+		int maxElem(vector<int> v);
 		bool parite(int turn, cellContent currentPlayerColor);
 };
 

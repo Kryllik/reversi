@@ -187,26 +187,52 @@ int AIPlayer::getBoardScore(Board board, int turn, int limitTurn, cellContent cu
 				score = getBoardScore(boardCopy, newTurn, limitTurn, Game::oppositeColor(currentPlayerColor));
 				scoreList.push_back(score);
 			}
-			int meanOfList = mean(scoreList);
-			score = meanOfList;
+			//int meanOfList = mean(scoreList);
+			if (currentPlayerColor==playerColor) {
+				//max
+				score = maxElem(scoreList);
+			} else {
+				//min
+				score = minElem(scoreList);
+			}
 		}
     }
     return score;
 }
 
 int AIPlayer::mean(vector<int> v) {
-	int res = 0;
+	float sum = 0;
 	int cardinal = v.size();
-	if (cardinal != 0) {
-		int sum = 0;
-		for (int elem:v) {
-			sum+=elem;
-		}
-		res = (sum/cardinal);
+	for (int i = 0; i<cardinal; i++) {
+		int elem = v[i];
+		sum+=elem;
 	}
-	return res;
+	return (sum/cardinal);
 }
 
+int AIPlayer::minElem(vector<int> v) {
+	int minimum = 1000000;
+	int cardinal = v.size();
+	for (int i = 0; i<cardinal; i++) {
+		int elem = v[i];
+		if (elem<minimum) {
+			minimum = elem;
+		}
+	}
+	return minimum;
+}
+
+int AIPlayer::maxElem(vector<int> v) {
+	int maximum = -1000000;
+	int cardinal = v.size();
+	for (int i = 0; i<cardinal; i++) {
+		int elem = v[i];
+		if (elem>maximum) {
+			maximum = elem;
+		}
+	}
+	return maximum;
+}
 
 int AIPlayer::calcBoardScore(Board& board, int turn, bool endOfGame, cellContent currentPlayerColor) {
 	///TODO : coin(), parite(), grouper au centre() (début), peu de possiblilités adverses (surtout fin), 
@@ -215,9 +241,10 @@ int AIPlayer::calcBoardScore(Board& board, int turn, bool endOfGame, cellContent
 	//résultats: 19-45 (noir algo vs blanc algo) 21-43(noir algo vs blanc sans algo) 53-11 (H vs sans algo) 32-32 (humain vs algo)
 	int score = 0;
 	
+	int playerScore = board.getScore(playerColor);
+	int opponentScore = board.getScore(this->getOpponentColor());
+	
 	if (endOfGame) { //si le jeu est fini, on check seulement si on a gagné, perdu ou fait match nul
-		int playerScore = board.getScore(playerColor);
-		int opponentScore = board.getScore(this->getOpponentColor());
 		if (playerScore>opponentScore) {
 			//On a gagné
 			score=10000;
@@ -258,8 +285,13 @@ int AIPlayer::calcBoardScore(Board& board, int turn, bool endOfGame, cellContent
     }
     
     //...*/
+    /// si tour<20 {
+    ///enlever points par pions au bord
+	///}
+	
+	///fonction moves permanents
     
-    
+    ///jouer peu en frontière de pions adverses
     
     if (playerColor==White) {
 		score=0;

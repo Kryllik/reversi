@@ -112,7 +112,7 @@ vector<int> AIPlayer::maxScoreIndexes(vector<int> scores, int maxElem) {
 			}
 		}
 		indexes.push_back(maxIndex);
-		scores[maxIndex] = -1000000; //set the highest score to a very low value so that the index is not taken twice
+		scores[maxIndex] = -100000000; //set the highest score to a very low value so that the index is not taken twice
 	}
 	return indexes;
 }

@@ -6,8 +6,9 @@
 #include "Player.h"
 
 
-/*! \class HumanPlayer
- * \brief child class based on Player.cpp that handles human players acting through keyboards
+/*!
+ * @class HumanPlayer
+ * @brief child class based on Player.cpp that handles human players acting through keyboards
  *
  */
 class HumanPlayer: public Player{

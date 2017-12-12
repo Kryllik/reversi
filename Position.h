@@ -3,8 +3,9 @@
 
 #include <string>
 
-/*! \class Position
- * \brief class that handle position on grid
+/*!
+ * @class Position
+ * @brief class that handle position on grid
  *
  */
 class Position {

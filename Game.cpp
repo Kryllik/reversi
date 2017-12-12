@@ -9,6 +9,12 @@
 
 using namespace std;
 
+/*!
+ * The constructor of our game. The two player's type are given as parameter
+ * Will construct the board and the players
+ * @param player1
+ * @param player2
+ */
 Game::Game(char player1, char player2)  {
 	cout << "Bienvenue dans ce super jeu !" << endl<< endl;
 	cout << "plateau initial : " << endl << endl;
@@ -42,10 +48,16 @@ Game::Game(char player1, char player2)  {
 	}
 }
 
+/*!
+ * destructor of the game
+ */
 Game::~Game() {
 	delete board;
 }
 
+/*!
+ * game playing loop. Loops until game is finished
+ */
 void Game::gameStart(){
 	bool currentPlayerCanPlay; 	/* Can the current player play ? */
 	Position pos;			 	/* The position selected by the current player */
@@ -110,7 +122,11 @@ void Game::gameStart(){
 	IO::displayScore(blackScore,whiteScore);
 }
 
-
+/*!
+ * MVE : What is it for ? couldn't be replaced by player->getOponentColor() ??
+ * @param color
+ * @return
+ */
 cellContent Game::oppositeColor(cellContent color) {
 	if (color == Black)
 		return cellContent::White;

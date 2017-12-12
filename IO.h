@@ -11,7 +11,10 @@
 
 using namespace std;
 
-
+/*!
+ * @class IO
+ * @brief collection of static fonctions for the interaction with the user on a console (input/output)
+ */
 class IO{
 	public:
 	static Position moveInput(const Board & gameBoard, const cellContent playerContent);

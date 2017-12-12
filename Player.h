@@ -14,8 +14,9 @@ using std::cout;
 using std::endl;
 using std::string;
 
-/*! \class Player
- * \brief abstract Class for a reversi player.
+/*!
+ * @class Player
+ * @brief abstract Class for a reversi player.
  *
  *  base class for reversi players (human, file, AI, ...)
  *  allow to set/get/toString player's color

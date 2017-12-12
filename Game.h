@@ -11,6 +11,10 @@
 using namespace std;
 class Player;
 
+/*!
+ * @class Game
+ * @brief class reprensenting a game between two player instance of a board
+ */
 class Game {
 	public:
 		Game(char player1, char player2);
@@ -20,11 +24,9 @@ class Game {
 		static cellContent oppositeColor(cellContent color); //used in AIPlayer
 		
 	private:
-		Board *board;			/* The Board instance */
-		
-		Player *playerBlack; 	/* The black player instance */
-		
-		Player *playerWhite; 	/* The white player instance */
+		Board *board;			/*<! The Board instance */
+		Player *playerBlack; 	/*<! The black player instance */
+		Player *playerWhite; 	/*<! The white player instance */
 };
 
 

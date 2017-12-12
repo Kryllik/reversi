@@ -7,7 +7,7 @@
 #include "FilePlayer.h"
 #include "AIPlayer.h"
 
-
+using namespace std;
 
 Game::Game(char player1, char player2)  {
 	cout << "Bienvenue dans ce super jeu !" << endl<< endl;
@@ -101,8 +101,12 @@ void Game::gameStart(){
 			opponentPlayer = playerBlack;
 		}
 	}
-	int blackScore = board->getScore(Black);
-	int whiteScore = board->getScore(White);
+
+
+	pair <int,int> score = board->getScore();
+	int blackScore = score.first;
+	int whiteScore = score.second;
+	
 	IO::displayScore(blackScore,whiteScore);
 }
 

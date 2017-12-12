@@ -7,6 +7,8 @@
 #include "Position.h"
 #include <vector>
 
+using namespace std;
+
 class Board{
 	public:
 		static constexpr int BOARD_SIZE = 8; //Taille standard d'un plateau de jeu
@@ -25,7 +27,7 @@ class Board{
 		*/
 		int cornerNumber(cellContent color) const;
 		
-		int getScore(cellContent color = Black) const; //Imprime les scores
+		pair<int,int> getScore() const; //Imprime les scores
 		
 		/*!
 		*  \brief Checks if the position "pos" is valid for the color "playerContent"

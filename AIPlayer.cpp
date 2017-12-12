@@ -240,10 +240,20 @@ int AIPlayer::calcBoardScore(Board& board, int turn, bool endOfGame, cellContent
 	
 	//résultats: 19-45 (noir algo vs blanc algo) 21-43(noir algo vs blanc sans algo) 53-11 (H vs sans algo) 32-32 (humain vs algo)
 	int score = 0;
+	int playerScore;
+	int opponentScore;
 	
-	int playerScore = board.getScore(playerColor);
-	int opponentScore = board.getScore(this->getOpponentColor());
-	
+	pair<int,int> boardScore = board.getScore();
+	if(currentPlayerColor == Black){
+		playerScore = boardScore.first;
+		opponentScore = boardScore.second;
+	}
+	else{
+		playerScore = boardScore.second;
+		opponentScore = boardScore.first;
+	}	
+		
+	score = 100000000*(playerScore - opponentScore);
 	if (endOfGame) { //si le jeu est fini, on check seulement si on a gagné, perdu ou fait match nul
 		if (playerScore>opponentScore) {
 			//On a gagné

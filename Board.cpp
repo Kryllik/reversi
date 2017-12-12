@@ -43,7 +43,7 @@ void Board::switchContentAt(const Position pos){
 	(this->array[pos.getX()-1][pos.getY()-1]).switchContent(); 
 }
 
-int Board::getScore(cellContent color) const {
+pair<int,int> Board::getScore() const {
 	int whiteScore = 0;
 	int blackScore = 0;
 	Position pos;
@@ -59,10 +59,8 @@ int Board::getScore(cellContent color) const {
 			}
 		}
 	}
-	if (color == White) 
-		return whiteScore;
-	else 
-		return blackScore;
+	
+	return make_pair(blackScore, whiteScore);
 }
 
 int Board::cornerNumber(cellContent color) const {

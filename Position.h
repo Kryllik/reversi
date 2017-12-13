@@ -13,7 +13,7 @@ class Position {
 		Position();
 		Position(int x, int y);
 		std::string toString() const;
-		static Position positionFromString(std::string s);
+		static Position positionFromString(std::string s, bool &ok);
 		void increment(int xAdd, int yAdd);
 		Position incrementedBy(int xAdd, int yAdd) const;
 		bool isValid() const;

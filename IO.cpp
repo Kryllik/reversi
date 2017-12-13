@@ -14,12 +14,22 @@ Position IO::moveInput(Board const & gameBoard, cellContent playerContent){
 	while (true) {
 		cout<<"Enter your move (column row)"<<endl;
 		cin>>move;
-		pos = Position::positionFromString(move);
-		if (pos.isValid()) {
-			if (gameBoard.isValidMove(playerContent,pos)) {
-				return pos;
-			} else {
-				cout << "Not a valid move, try again" << endl;
+		bool positionOk;
+		pos = Position::positionFromString(move,positionOk);
+		if (positionOk) {
+			if (pos.isValid()) { /* means the position physically exists on the board */
+				if (gameBoard.isValidMove(playerContent,pos)) {
+					return pos;
+				} else {
+					cout << "Not a valid move, try again" << endl;
+				}
+			} else {			/* means the position is actually 'user passes its turn because he can't play */
+				if (gameBoard.validMovesExist(playerContent)) {
+					cout << "user cannot pass its turn, possible moves exists, try again" << endl;
+				} else {
+					return pos;
+				}
+
 			}
 		} else {
 			cout << "Not a correct syntax, try again" << endl;
@@ -107,11 +117,15 @@ void IO::displayFirstTurn(Board & board) {
 void IO::displayValidMoves(const Player &player, Board const& gameBoard) {
 	std::vector<Position> v = gameBoard.validMoves(player.getColor());
 	cout << "Valid moves : ";
-	for (unsigned int i = 0; i<v.size(); i++) {
-		if (i != v.size()-1) {
-			cout << v[i].toString() << " - ";
-		} else {
-			cout << v[i].toString() << endl;
+	if (v.size() == 0) {
+		cout << "none !" << endl;
+	} else {
+		for (unsigned int i = 0; i<v.size(); i++) {
+			if (i != v.size()-1) {
+				cout << v[i].toString() << " - ";
+			} else {
+				cout << v[i].toString() << endl;
+			}
 		}
 	}
 }

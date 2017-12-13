@@ -77,7 +77,7 @@ void Game::gameStart(){
 		 * so we must read this !
 		 * More over project specs §4.1 specifically says user must enter '00' if he must pass
 		 */
-		if (currentPlayerCanPlay){
+		//if (currentPlayerCanPlay){
 			IO::displayWhoPlays(*currentPlayer, *board);
 			
 			pos = currentPlayer->getMove(*board, turn); /* *this needed to validate the move (need to check if the given position is valid for the current board) */
@@ -85,9 +85,11 @@ void Game::gameStart(){
 				cout << "d1" << endl;
 			}
 			cout << pos.toString() << endl;
-			/* update board by switching cells affected by player's move */
-			board->setContentAt(pos, currentPlayer->getColor());
-			board->switchCells(currentPlayer->getColor(), pos);
+			if (pos.isValid()) {
+				/* update board by switching cells affected by player's move */
+				board->setContentAt(pos, currentPlayer->getColor());
+				board->switchCells(currentPlayer->getColor(), pos);
+			}
 			/* display board info */
 			IO::display(*board, *currentPlayer, pos);
 			if (turn==30) {
@@ -95,14 +97,14 @@ void Game::gameStart(){
 			}
 			turn++;
 			
-		} else {
+		//} else {
 			//TODO :: afficher 00
-		}
+		//}
 		/* inform opponentplayer of the move player just made */
-		if(currentPlayerCanPlay) 
+		//if(currentPlayerCanPlay)
 			opponentPlayer->giveMove(pos);
-		else 
-			opponentPlayer->giveVoidMove();
+		//else
+		//	opponentPlayer->giveVoidMove();
 		
 		/* proceed with next player */
 		if (currentPlayer == playerWhite){

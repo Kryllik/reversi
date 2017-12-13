@@ -60,7 +60,10 @@ Position FilePlayer::getMove(Board gameBoard, int turn){
 				cout << "waiting" << endl;
 			}
 	cout << "read : " << ligne << endl;
-	return Position::positionFromString(ligne);
+	bool positionOk;
+	/* we assume file player won't pass wrong position,
+	 * so don't check the positionOk after conversion from string */
+	return Position::positionFromString(ligne, positionOk);
 }
 
 /*!
@@ -81,7 +84,7 @@ void FilePlayer::giveMove(Position pos){
  *  \param none
  *  \return none
  */
-void FilePlayer::giveVoidMove(){
-	cout << "give void move" << endl;
-	opponentFile << "00" << endl;
-}
+//void FilePlayer::giveVoidMove(){
+//	cout << "give void move" << endl;
+//	opponentFile << "00" << endl;
+//}

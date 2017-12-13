@@ -8,7 +8,9 @@ using std::string;
 /*!
  *  @brief default Position's consructor
  *
- *  Construct a position with x=0 and y=0
+ *  Construct a position with x=0 and y=0 which is invalid as
+ *  position for first row:first column is 1:1
+ *  position 0:0 is reserved as 'user cannot play during this turn'
  *
  *  @param none
  *  @return none
@@ -19,7 +21,7 @@ Position::Position(){
 }
 
 /*!
- *  @brief Position's consructor with non-default values
+ *  @brief Position's constructor with non-default values
  *
  *  Construct a position with given x and y
  *
@@ -57,6 +59,7 @@ Position Position::incrementedBy(const int xAdd, const int yAdd) const {
 
 /*!
  *  @brief check if our position is valid
+ *  0:0 (user cannot play during this turn) is considered as an invalid position
  *
  *  @param none
  *  @return true if our position is valid
@@ -64,7 +67,7 @@ Position Position::incrementedBy(const int xAdd, const int yAdd) const {
 bool Position::isValid() const {
 	//Check if the position is in the Board
 	bool validBool = false;
-	if (x>=1 && x<=8 && y>=1 && y<=8) {
+	if (x>=1 && x<=8 && y>=1 && y<=8) { /* first row:first column is 1:1 */
 		validBool = true;
 	}
 	return validBool;
@@ -77,6 +80,7 @@ bool Position::isValid() const {
  *  @return a 2-char string [a-h][1-8]
  */
 string Position::toString() const {
+	if (this->getX()==0 && this->getY()==0) return "OO";
 	int xInt = this->getX()+'a'-1;
 	string xString;
 	xString = (char) xInt;
@@ -90,15 +94,29 @@ string Position::toString() const {
  *  @param a string that should be a 2-char wide [a-h][1-8]
  *  @return a new Position instance
  */
-Position Position::positionFromString(string s) {
+Position Position::positionFromString(string s, bool &ok) {
 	Position pos;
+	ok=true;
 	if (s.size() != 2) {
-		pos = Position(0,0);
+		pos = Position(9,9); /* position is incorrect */
+		ok = false;
 	} else {
-		int posX = s[0]-'a'+1;
-		char posYChar = s[1];
-		int posY = posYChar-'0';
-		pos = Position(posX,posY);
+
+		if (s[0]=='O' && s[1] == 'O') {
+			pos = Position(0,0);
+		} else {
+			if ( (s[0]<'a' || s[0]>'h') ||
+					(s[1]<'1' || s[1]>'8') ) {
+				pos =  Position(9,9); /* position is incorrect */
+				ok = false;
+			} else {
+				int posX = s[0]-'a'+1; /* first row:first column is 1:1 */
+				char posYChar = s[1];
+				int posY = posYChar-'0';
+				pos = Position(posX,posY);
+			}
+		}
+
 	}
 	return pos;
 }

@@ -78,5 +78,5 @@ void Player::giveMove(Position pos){}
  *  @param none
  *  @return none
  */
-void Player::giveVoidMove(){}
+//void Player::giveVoidMove(){}
 

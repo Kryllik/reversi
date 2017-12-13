@@ -29,7 +29,7 @@ class FilePlayer : public Player{
 		~FilePlayer() {}
 		Position getMove(Board gameBoard, int turn);
 		void giveMove(Position pos);
-		void giveVoidMove();
+		//void giveVoidMove();
 	private:
 		ifstream playerFile; 	/*!< the player's input file */
 		ofstream opponentFile;	/*!< the opponent's output file */

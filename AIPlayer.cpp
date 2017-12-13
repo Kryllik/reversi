@@ -53,47 +53,51 @@ Position AIPlayer::getMove(Board gameBoard, int turn){
      * */
     Position posToPlay;
     vector<Position> validMoves = gameBoard.validMoves(playerColor);
-    for (unsigned int turnLimitIndex = 0; turnLimitIndex<TURN_LIMIT_VECTOR.size(); turnLimitIndex++) {
-		vector<int> scores;
-		vector<Position> positions;
-		int turnLimitOffset = TURN_LIMIT_VECTOR[turnLimitIndex];
-		int limitTurn = turn+turnLimitOffset;
-		int numberOfPaths = validMoves.size();
-		cout << "Preprocessing " << turnLimitIndex+1 << ". Offset : " << turnLimitOffset << endl;
-		Board boardCopy;
-		Position candidatePos;
-		for (unsigned int i = 0; i<validMoves.size(); i++) {
-			boardCopy = gameBoard;
-			candidatePos = validMoves[i];
-			
-			boardCopy.setContentAt(candidatePos, playerColor);
-			boardCopy.switchCells(playerColor, candidatePos);
-			
-			int score = getBoardScore(boardCopy,turn,limitTurn,Game::oppositeColor(this->getColor()));
-			
-			int progression = (100*(i+1))/numberOfPaths;
-			cout << progression << " % (" << (i+1) << "/" << numberOfPaths << ") Score = "<< score << " (" << candidatePos.toString() << ")" << endl;
-			
-			scores.push_back(score);
-			positions.push_back(candidatePos);
-		}
-		int maxElemCount = MAX_ELEM_VECTOR[turnLimitIndex];
-		vector<int> indexes = maxScoreIndexes(scores,maxElemCount);
-		if (indexes.size()>1) {
-			vector<Position> newValidMoves;
-			for (unsigned int i = 0; i<indexes.size(); i++) {
-				int indexToPlay = indexes[i];
-				newValidMoves.push_back(validMoves[indexToPlay]);
-			}
-			validMoves=newValidMoves;
-			cout << "Moves remaining : ";
-			IO::displayValidMoves(validMoves);
-		} else {
-			int indexToPlay = indexes[0];
-			posToPlay = validMoves[indexToPlay];
-		}
-	}
-    
+    if (validMoves.size()==0) {
+    	cout << "AI can't play, passing its turn"<<endl;
+    	posToPlay=Position(0,0); /* Same as Position::positionFromString("OO", ok); : USER CANNOT PLAY */
+    } else {
+    	for (unsigned int turnLimitIndex = 0; turnLimitIndex<TURN_LIMIT_VECTOR.size(); turnLimitIndex++) {
+    		vector<int> scores;
+    		vector<Position> positions;
+    		int turnLimitOffset = TURN_LIMIT_VECTOR[turnLimitIndex];
+    		int limitTurn = turn+turnLimitOffset;
+    		int numberOfPaths = validMoves.size();
+    		cout << "Preprocessing " << turnLimitIndex+1 << ". Offset : " << turnLimitOffset << endl;
+    		Board boardCopy;
+    		Position candidatePos;
+    		for (unsigned int i = 0; i<validMoves.size(); i++) {
+    			boardCopy = gameBoard;
+    			candidatePos = validMoves[i];
+
+    			boardCopy.setContentAt(candidatePos, playerColor);
+    			boardCopy.switchCells(playerColor, candidatePos);
+
+    			int score = getBoardScore(boardCopy,turn,limitTurn,Game::oppositeColor(this->getColor()));
+
+    			int progression = (100*(i+1))/numberOfPaths;
+    			cout << progression << " % (" << (i+1) << "/" << numberOfPaths << ") Score = "<< score << " (" << candidatePos.toString() << ")" << endl;
+
+    			scores.push_back(score);
+    			positions.push_back(candidatePos);
+    		}
+    		int maxElemCount = MAX_ELEM_VECTOR[turnLimitIndex];
+    		vector<int> indexes = maxScoreIndexes(scores,maxElemCount);
+    		if (indexes.size()>1) {
+    			vector<Position> newValidMoves;
+    			for (unsigned int i = 0; i<indexes.size(); i++) {
+    				int indexToPlay = indexes[i];
+    				newValidMoves.push_back(validMoves[indexToPlay]);
+    			}
+    			validMoves=newValidMoves;
+    			cout << "Moves remaining : ";
+    			IO::displayValidMoves(validMoves);
+    		} else {
+    			int indexToPlay = indexes[0];
+    			posToPlay = validMoves[indexToPlay];
+    		}
+    	}
+    }
     cout << "AI done. Turn " << turn << endl;
     
     return posToPlay;

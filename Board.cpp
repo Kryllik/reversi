@@ -109,6 +109,7 @@ int Board::cornerNumber(cellContent color) const {
 	if (this->getContentAt(Position(Board::BOARD_SIZE,Board::BOARD_SIZE))==color) {
 		corners++;
 	}
+	return corners;
 }
 
 /*!
@@ -117,7 +118,7 @@ int Board::cornerNumber(cellContent color) const {
  * @param playerContent : the color of the player we are checking if valid move exists
  * @return true if there is at least one valid move for given player
  */
-bool Board::validMovesExist(cellContent playerContent) {
+bool Board::validMovesExist(cellContent playerContent) const {
 	bool res = true;
 	vector<Position> v = validMoves(playerContent);
 	if (v.size() == 0) {

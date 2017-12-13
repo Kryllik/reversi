@@ -59,7 +59,7 @@ class Board{
 		*  \param playerContent : the player's color
 		*  \return boolean (true if at least one valid move exists)
 		*/
-		bool validMovesExist(cellContent playerContent);
+		bool validMovesExist(cellContent playerContent) const;
 		
 		
 	private:

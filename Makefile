@@ -28,7 +28,7 @@ all: Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Ce
 ### $@ correspond à l'entrée (.o) et $< correspond à la sortie (.cpp)
 
 %.o: %.cpp
-	g++ -std=c++11 -c -o $@ $<
+	g++ -std=c++11 -O3 -Wall -c -o $@ $<
 
 
 

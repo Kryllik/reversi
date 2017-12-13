@@ -34,7 +34,7 @@ class Player{
 		cellContent getOpponentColor() const;
 		virtual Position getMove(Board gameBoard, int turn);
 		virtual void giveMove(Position pos);
-		virtual void giveVoidMove();
+		//virtual void giveVoidMove();
 	protected:
 		cellContent playerColor;	/*!< the player's color */
 };

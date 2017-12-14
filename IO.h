@@ -22,6 +22,7 @@ class IO{
 	static void displayWhoPlays(const Player &player, Board const& gameBoard);
 	static void displayFirstTurn(Board & board);
 	static pair<char,char> playerCreation();
+	static string askForFilePath(cellContent playerColor);
 	static void displayScore(int blackScore, int whiteScore);
 	static void displayValidMoves(std::vector<Position> v);
 	static void boardDisplay(Board & board);

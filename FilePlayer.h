@@ -25,7 +25,7 @@ using std::getline;
  */
 class FilePlayer : public Player{
 	public:
-		FilePlayer(cellContent color /*, string pathToFiles*/);
+		FilePlayer(cellContent color);
 		~FilePlayer() {}
 		Position getMove(Board gameBoard, int turn);
 		void giveMove(Position pos);
@@ -33,7 +33,6 @@ class FilePlayer : public Player{
 	private:
 		ifstream playerFile; 	/*!< the player's input file */
 		ofstream opponentFile;	/*!< the opponent's output file */
-		/* string pathToFiles; */
 
 };
 

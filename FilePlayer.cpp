@@ -1,5 +1,7 @@
 #include "FilePlayer.h"
-
+#include "IO.h"
+#include "Position.h"
+#include "Board.h"
 
 
 /*!
@@ -11,21 +13,23 @@
  *  \param color : the player's color
  *  \return none
  */
-FilePlayer::FilePlayer(cellContent color/*, string pathToFiles*/) : Player(color){
+FilePlayer::FilePlayer(cellContent color) : Player(color){
 	string playerFileName, opponentFileName;
 
-	/* Need to check if path exists */
-	/*this->pathToFiles = pathToFiles;*/
+	string pathToFiles = IO::askForFilePath(color);
+	if (pathToFiles == "") pathToFiles="."; /* Make sure we won't end up with an absolute path to / */
 
-	if(this->getColor()==Black){ 
-		playerFileName = "./noir.txt";
-		opponentFileName = "./blanc.txt";
+	if(this->getColor()==Black) {
+		playerFileName = pathToFiles+"/noir.txt";
+		opponentFileName = pathToFiles+"/blanc.txt";
 	}
 	else{
-		playerFileName = "./blanc.txt";
-		opponentFileName = "./noir.txt";
-	
+		playerFileName = pathToFiles+"/blanc.txt";
+		opponentFileName = pathToFiles+"/noir.txt";
 	}
+
+	cout << "player "<< toString() << " will read its moves from " << playerFileName;
+	cout << " and write its opponent moves to " << opponentFileName << endl;
 
 	playerFile.open(playerFileName);
 	opponentFile.open(opponentFileName, std::ofstream::trunc);
@@ -44,26 +48,45 @@ FilePlayer::FilePlayer(cellContent color/*, string pathToFiles*/) : Player(color
 /*!
  *  \brief get the player's next move from its input file
  *
- *  Loop until the next move can be read in the file.
+ *  Loop until the next move can be read in the file and until that it is a valid moves.
  *
  *  \param game : a reference to the game that can be used to validate the player's move
  *  \return the player's next position
  */
 Position FilePlayer::getMove(Board gameBoard, int turn){
 	string ligne;
-	while (!(getline(playerFile, ligne, '\x0a'))) //caractère de fin de chaine sous linux (?)
-	{
-				// Echec de la lecture - Effacement des flags d'erreur
-				playerFile.clear();
-				// Ajout d'une temporisation avant de réessayer
-				//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-				cout << "waiting" << endl;
+	Position pos;
+	while (true) {
+		while (!(getline(playerFile, ligne, '\x0a'))) //caractère de fin de chaine sous linux (?)
+		{
+			// Echec de la lecture - Effacement des flags d'erreur
+			playerFile.clear();
+			// Ajout d'une temporisation avant de réessayer
+			//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			cout << "waiting" << endl;
+		}
+		cout << "read : " << ligne << endl;
+		bool positionOk;
+		pos = Position::positionFromString(ligne,positionOk);
+		if (positionOk) {
+			if (pos.isValid()) { /* means the position physically exists on the board */
+				if (gameBoard.isValidMove(this->playerColor,pos)) {
+					return pos;
+				} else {
+					cout << "Not a valid move, try again" << endl;
+				}
+			} else {			/* means the position is actually 'user passes its turn because he can't play */
+				if (gameBoard.validMovesExist(this->playerColor)) {
+					cout << "user cannot pass its turn, possible moves exists, try again" << endl;
+				} else {
+					return pos;
+				}
+
 			}
-	cout << "read : " << ligne << endl;
-	bool positionOk;
-	/* we assume file player won't pass wrong position,
-	 * so don't check the positionOk after conversion from string */
-	return Position::positionFromString(ligne, positionOk);
+		} else {
+			cout << "Not a correct syntax, try again" << endl;
+		}
+	}
 }
 
 /*!

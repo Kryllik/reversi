@@ -80,6 +80,11 @@ pair<char,char> IO::playerCreation(){
 	return players;
 }				
 
+/*!
+ * Ask the user for a file path (used by filePlayers) and make sure the path exists
+ * @param playerColor : the color for which we ask a file path
+ * @return a valid path
+ */
 string IO::askForFilePath(cellContent playerColor) {
 	string path;
 	while (true) {

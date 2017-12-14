@@ -4,6 +4,7 @@
 //classe fille de Player, contient les fonctions et attributs propre à une intelligence artificielle.
 
 #include "AIPlayer.h"
+#include <climits>
 
 using namespace std;
 
@@ -215,7 +216,7 @@ int AIPlayer::mean(vector<int> v) {
 }
 
 int AIPlayer::minElem(vector<int> v) {
-	int minimum = 1000000;
+	int minimum = INT_MAX;
 	int cardinal = v.size();
 	for (int i = 0; i<cardinal; i++) {
 		int elem = v[i];
@@ -227,7 +228,7 @@ int AIPlayer::minElem(vector<int> v) {
 }
 
 int AIPlayer::maxElem(vector<int> v) {
-	int maximum = -1000000;
+	int maximum = INT_MIN;
 	int cardinal = v.size();
 	for (int i = 0; i<cardinal; i++) {
 		int elem = v[i];

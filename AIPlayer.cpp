@@ -258,7 +258,7 @@ int AIPlayer::calcBoardScore(Board& board, int turn, bool endOfGame, cellContent
 		opponentScore = boardScore.first;
 	}	
 		
-	score = 10000000*(playerScore - opponentScore);
+	score = 20*(playerScore - opponentScore);
 	if (endOfGame) { //si le jeu est fini, on check seulement si on a gagné, perdu ou fait match nul
 		if (playerScore>opponentScore) {
 			//On a gagné

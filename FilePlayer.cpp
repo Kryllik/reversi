@@ -38,7 +38,7 @@ FilePlayer::FilePlayer(cellContent color) : Player(color){
 	{
 		cout << "Attente du joueur (fichier "<< playerFileName <<" indisponible)" << endl;
 		// Ajout d'une temporisation avant de réessayer
-	    //std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+	    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 		playerFile.open(playerFileName);
 	}
 	
@@ -62,7 +62,7 @@ Position FilePlayer::getMove(Board gameBoard, int turn){
 			// Echec de la lecture - Effacement des flags d'erreur
 			playerFile.clear();
 			// Ajout d'une temporisation avant de réessayer
-			//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 			cout << "waiting" << endl;
 		}
 		cout << "read : " << ligne << endl;
@@ -99,15 +99,3 @@ void FilePlayer::giveMove(Position pos){
 	cout << "give move" << pos.toString() << endl;
 	opponentFile << pos.toString() << endl;
 }
-
-
-/*!
- *  \brief write the opponent's failure to move to its file
- *
- *  \param none
- *  \return none
- */
-//void FilePlayer::giveVoidMove(){
-//	cout << "give void move" << endl;
-//	opponentFile << "00" << endl;
-//}

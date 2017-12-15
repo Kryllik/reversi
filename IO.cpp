@@ -1,5 +1,11 @@
 #include "IO.h"
 #include <vector>
+#include <sys/stat.h>
+
+bool dirExists(string path) {
+struct stat sb;
+return  (stat(path.c_str(), &sb) == 0 && S_ISDIR(sb.st_mode));
+}
 
 
 /*!
@@ -74,6 +80,30 @@ pair<char,char> IO::playerCreation(){
 	return players;
 }				
 
+/*!
+ * Ask the user for a file path (used by filePlayers) and make sure the path exists
+ * @param playerColor : the color for which we ask a file path
+ * @return a valid path
+ */
+string IO::askForFilePath(cellContent playerColor) {
+	string path;
+	while (true) {
+		if (playerColor == Black) {
+			cout << "entrer le répertoire des fichiers pour le joueur Noir ( '.' pour le répertoire courant) : ";
+		} else {
+			cout << "entrer le répertoire des fichiers pour le joueur Blanc  ( '.' pour le répertoire courant) : ";
+		}
+		cin >> path;
+		if (path.back() == '/') path.pop_back(); /* remove trailing / if any */
+
+		if (dirExists(path)) {
+			break; /* path is valid, exit the while loop */
+		} else {
+			cout << "le chemin introduit n'est pas valide, veuillez réessayer" << endl;
+		}
+	}
+	return path;
+}
 
 /*!
  * display the last move followed by the update board

@@ -5,6 +5,7 @@
 
 #include "limits.h"
 #include "AIPlayer.h"
+#include <climits>
 
 using namespace std;
 
@@ -84,6 +85,7 @@ int AIPlayer::MiniMax(Board gameBoard, cellContent playerColor, int depth, bool 
 			tempBoard.switchCells(playerColor, p);
 			int v = MiniMax(tempBoard, opponentColor,depth-1, true);
 			bestValue = std::min(bestValue, v);
+
 		}
 	}
 	minimaxCall++;
@@ -98,6 +100,7 @@ Position AIPlayer::getMove(Board gameBoard, int turn){
 		if (moves.size()>0) return moves[0];
 		else return Position(0,0);
 	}
+
 
 	minimaxCall=0;
 
@@ -115,12 +118,13 @@ Position AIPlayer::getMove(Board gameBoard, int turn){
 		tempBoard.switchCells(playerColor, p);
 
 		/* start minimax recursion to evaluate current move */
-		unsigned int depth = 7;
+		unsigned int depth = 3;
 		int points = MiniMax(tempBoard, this->opponentColor, depth, false);
 
 		if (points > maxPoints) {	/* if current move leads to better score, remember it as best move */
 			maxPoints = points;
 			bestMove=p;
+
 		}
 
 		int progression = (100*(i+1))/moves.size();

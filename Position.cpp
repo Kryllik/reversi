@@ -6,7 +6,7 @@ using std::string;
 
 
 /*!
- *  @brief default Position's consructor
+ *  @brief default Position's constructor
  *
  *  Construct a position with x=0 and y=0 which is invalid as
  *  position for first row:first column is 1:1
@@ -65,12 +65,7 @@ Position Position::incrementedBy(const int xAdd, const int yAdd) const {
  *  @return true if our position is valid
  */
 bool Position::isValid() const {
-	//Check if the position is in the Board
-	bool validBool = false;
-	if (x>=1 && x<=8 && y>=1 && y<=8) { /* first row:first column is 1:1 */
-		validBool = true;
-	}
-	return validBool;
+	return  (x>=1 && x<=8 && y>=1 && y<=8) ; /* first row:first column is 1:1 */
 }
 
 /*!

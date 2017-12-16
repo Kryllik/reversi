@@ -9,13 +9,19 @@
 class AIPlayer : public Player{
 	public:
 		AIPlayer(cellContent color);
-		~AIPlayer() {}
+		~AIPlayer();
 		int evalBoard(Board board, cellContent playerColor);
-		int MiniMax(Board gameBoard, cellContent playerColor, int depth, bool maximizeForPlayer);
-		Position getMove(Board gameBoard, int turn);
+		int AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int alpha, int beta);
+		int MiniMax(Board gameBoard, cellContent playerColor, int depth);
+		Position getMove(Board gameBoard);
+
 		
+
 	private:
 		cellContent opponentColor; /* our opponent color */
+		int minimaxCall;
+		int alphabetaCall;
+
 
 };
 

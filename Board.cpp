@@ -90,28 +90,7 @@ pair<int,int> Board::getScore() const {
 	return make_pair(blackScore, whiteScore);
 }
 
-/*!
- * returns the number of corners belonging to the given color
- * Used by the AI algorithm
- * @param color : the color for which we count the belonging corners
- * @return the number of corners belonging to the color
- */
-int Board::cornerNumber(cellContent color) const {
-	int corners=0;
-	if (this->getContentAt(Position(1,1))==color) {
-		corners++;
-	}
-	if (this->getContentAt(Position(1,Board::BOARD_SIZE))==color) {
-		corners++;
-	}
-	if (this->getContentAt(Position(Board::BOARD_SIZE,1))==color) {
-		corners++;
-	}
-	if (this->getContentAt(Position(Board::BOARD_SIZE,Board::BOARD_SIZE))==color) {
-		corners++;
-	}
-	return corners;
-}
+
 
 /*!
  * check if there exist valid move for the given color
@@ -219,11 +198,9 @@ void Board::switchCells(cellContent playerContent, Position pos){
 	//si i=1, j=1: diagonale en haut a droite
 	for(int i=-1;i<=1;i++){
 		for(int j=-1;j<=1;j++){
-			//cellContent opponentContent=otherPlayerColor(playerContent);
 			Position newPos= pos.incrementedBy(i,j);
 			while(newPos.isValid() && getContentAt(newPos)!=playerContent && getContentAt(newPos)!=Empty){
 				newPos=newPos.incrementedBy(i,j);
-				//cout<<"content while"<< board->getContentAt(newPos)<<endl;
 			}
 			if (newPos.isValid() && getContentAt(newPos)==playerContent){
 				if (j==0 && i==0){}

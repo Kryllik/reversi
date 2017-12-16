@@ -60,7 +60,6 @@ Game::~Game() {
  */
 void Game::gameStart(){
 	Position pos;			 	/* The position selected by the current player */
-	int turn = 1;
 
 	/* Display first turn info */
 	IO::displayFirstTurn(*board);
@@ -73,8 +72,8 @@ void Game::gameStart(){
 	while (not board->isGameOver()) {
 		IO::displayWhoPlays(*currentPlayer, *board);
 
-		pos = currentPlayer->getMove(*board, turn); /* *this needed to validate the move (need to check if the given position is valid for the current board) */
-//		if (turn==30) {
+		pos = currentPlayer->getMove(*board); /* *this needed to validate the move (need to check if the given position is valid for the current board) */
+		//		if (turn==30) {
 //			cout << "d1" << endl;
 //		}
 //		cout << pos.toString() << endl;
@@ -88,7 +87,6 @@ void Game::gameStart(){
 //		if (turn==30) {
 //			cout << "d2" << endl;
 //		}
-		turn++;
 
 		opponentPlayer->giveMove(pos);
 
@@ -100,6 +98,8 @@ void Game::gameStart(){
 			opponentPlayer = playerBlack;
 		}
 		/* TODO : press enter to continue */
+//		cout << "Press Enter to Continue";
+//		cin.ignore();
 	}
 
 
@@ -108,6 +108,8 @@ void Game::gameStart(){
 	int whiteScore = score.second;
 	
 	IO::displayScore(blackScore,whiteScore);
+	delete playerWhite;
+	delete playerBlack;
 }
 
 /*!

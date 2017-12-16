@@ -19,13 +19,6 @@ class Board{
 		void flipContentAt(Position pos);
 		void switchCells(cellContent playerContent, Position pos);
 		
-		/*!
-		*  \brief Returns the number of corners containing the given color
-		*
-		*  \param color : the player's color
-		*  \return the number of corners
-		*/
-		int cornerNumber(cellContent color) const;
 		
 		pair<int,int> getScore() const; //Imprime les scores
 		

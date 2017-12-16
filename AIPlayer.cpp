@@ -13,8 +13,19 @@ using namespace std;
 AIPlayer::AIPlayer(cellContent color) : Player(color){
 	if (playerColor==White) opponentColor=Black;
 	else opponentColor=White;
+	minimaxCall=0;
+	alphabetaCall=0;
 }
 
+AIPlayer::~AIPlayer() {
+	cout << "minimax call for player ";
+	if (playerColor==Black) cout << "black "; else cout << "white ";
+	cout << this->minimaxCall << endl;
+
+	cout << "alphabeta call for player ";
+	if (playerColor==Black) cout << "black "; else cout << "white ";
+	cout << this->alphabetaCall << endl;
+}
 /* Basic AI : return one possible move */
 //Position AIPlayer::getMove(Board gameBoard, int turn){
 //	vector<Position> moves = gameBoard.validMoves(playerColor);
@@ -46,23 +57,21 @@ int AIPlayer::evalBoard(Board board, cellContent playerColor) {
 	}
 	return tot;
 }
-int minimaxCall=0;
-int AIPlayer::MiniMax(Board gameBoard, cellContent playerColor, int depth, bool maximizeForPlayer) {
 
+
+
+int AIPlayer::AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int alpha, int beta) {
+	alphabetaCall++;
 
 	/* check if max depth is reacher or if the game is over because no player can play */
 	if ((depth==0) or (gameBoard.isGameOver())) {
 		return evalBoard(gameBoard, this->playerColor); /* return the board's evaluation for this leaf */
 	}
 
-	int bestValue;
+	/* note: left with 2 big if/then clause for readibility. Could be further improved as there is much
+		 * in common in the two parts of the if/them */
 
-	cellContent opponentColor;
-	if (playerColor==White) opponentColor=Black;
-	else opponentColor=White;
-
-	if (maximizeForPlayer) {
-		bestValue = INT_MIN;
+	if (playerColor==this->playerColor) { /* player is us, so we are maximimzing for player on this round */
 		vector<Position> moves = gameBoard.validMoves(playerColor);
 		if (moves.size() == 0) return evalBoard(gameBoard, this->playerColor);
 
@@ -71,11 +80,18 @@ int AIPlayer::MiniMax(Board gameBoard, cellContent playerColor, int depth, bool 
 			Position p = moves[i];
 			tempBoard.setContentAt(p, playerColor);
 			tempBoard.switchCells(playerColor, p);
-			int v = MiniMax(tempBoard, opponentColor,depth-1, false);
-			bestValue = std::max(bestValue, v);
+
+			int v = AlphaBeta(tempBoard, this->opponentColor, depth-1, alpha, beta);
+
+			if (v> alpha) {
+				alpha = v;
+				if (alpha >= beta) {
+					break;
+				}
+			}
 		}
-	} else {
-		bestValue=INT_MAX;
+		return alpha;
+	} else {  /* player is opponent, so we are minimizing for player this round */
 		vector<Position> moves = gameBoard.validMoves(playerColor);
 		if (moves.size() == 0) return evalBoard(gameBoard,this->playerColor);
 		for (unsigned int i = 0; i<moves.size(); i++) {
@@ -83,58 +99,107 @@ int AIPlayer::MiniMax(Board gameBoard, cellContent playerColor, int depth, bool 
 			Position p = moves[i];
 			tempBoard.setContentAt(p, playerColor);
 			tempBoard.switchCells(playerColor, p);
-			int v = MiniMax(tempBoard, opponentColor,depth-1, true);
+
+			int v = AlphaBeta(tempBoard, this->playerColor, depth-1, alpha, beta);
+
+			if ( v < beta) {
+				beta=v;
+				if (alpha>=beta) {
+					break;
+				}
+			}
+		}
+		return beta;
+	}
+}
+
+
+
+int AIPlayer::MiniMax(Board gameBoard, cellContent playerColor, int depth) {
+	this->minimaxCall++;
+
+	/* check if max depth is reacher or if the game is over because no player can play */
+	if ((depth==0) or (gameBoard.isGameOver())) {
+		return evalBoard(gameBoard, this->playerColor); /* return the board's evaluation for this leaf */
+	}
+
+	int bestValue;
+
+	/* note: left with 2 big if/then clause for readibility. Could be further improved as there is much
+	 * in common in the two parts of the if/them */
+
+	if (playerColor==this->playerColor) { /* player is us, so we are maximimzing for player on this round */
+		bestValue = INT_MIN;
+		vector<Position> moves = gameBoard.validMoves(this->playerColor);
+		if (moves.size() == 0) return evalBoard(gameBoard, this->playerColor);
+
+		for (unsigned int i = 0; i<moves.size(); i++) {
+			Board tempBoard = gameBoard;
+			Position p = moves[i];
+			tempBoard.setContentAt(p, playerColor);
+			tempBoard.switchCells(playerColor, p);
+			int v = MiniMax(tempBoard, this->opponentColor,depth-1); /* next level will be for opponent */
+			bestValue = std::max(bestValue, v);
+		}
+	} else {				/* player is opponent, so we are minimizing for player this round */
+		bestValue=INT_MAX;
+		vector<Position> moves = gameBoard.validMoves(this->opponentColor);
+		if (moves.size() == 0) return evalBoard(gameBoard,this->playerColor);
+		for (unsigned int i = 0; i<moves.size(); i++) {
+			Board tempBoard = gameBoard;
+			Position p = moves[i];
+			tempBoard.setContentAt(p, playerColor);
+			tempBoard.switchCells(playerColor, p);
+			int v = MiniMax(tempBoard, this->playerColor,depth-1); /* next level will be for us */
 			bestValue = std::min(bestValue, v);
 
 		}
 	}
-	minimaxCall++;
 	return bestValue;
 }
 
-Position AIPlayer::getMove(Board gameBoard, int turn){
+Position AIPlayer::getMove(Board gameBoard){
 
 	vector<Position> moves = gameBoard.validMoves(playerColor);
 
-	if (playerColor == White) {
-		if (moves.size()>0) return moves[0];
-		else return Position(0,0);
-	}
+/* Uncomment below to have an AI with trivial algo (return first possible move) for white or black) */
+//	if (playerColor == White) {
+//		if (moves.size()>0) return moves[0];
+//		else return Position(0,0);
+//	}
 
 
-	minimaxCall=0;
 
 	int maxPoints = INT_MIN;	/* start with worse points possible */
 
 	Position bestMove;
 
-	/* for each possible moves at this level proceed with a minimax evaluation to choose the best move */
+	/* for each possible moves at this level proceed with a minimax or alphabeta evaluation to choose the best move */
 	for (unsigned int i = 0; i<moves.size(); i++) {
-
 		/* build a temp board with the current move */
 		Board tempBoard = gameBoard;
 		Position p = moves[i];
 		tempBoard.setContentAt(p, playerColor);
 		tempBoard.switchCells(playerColor, p);
 
-		/* start minimax recursion to evaluate current move */
-		unsigned int depth = 3;
-		int points = MiniMax(tempBoard, this->opponentColor, depth, false);
+		unsigned int depth = 8;
+
+		/* current move is this player's move. So we enter minimax / alphabeta recursion at opponent's level */
+		//int points = MiniMax(tempBoard, this->opponentColor, depth);
+		int points = AlphaBeta(tempBoard, this->opponentColor, depth,INT_MIN, INT_MAX);
 
 		if (points > maxPoints) {	/* if current move leads to better score, remember it as best move */
 			maxPoints = points;
 			bestMove=p;
-
 		}
 
+		/* some progress indication on screen */
 		int progression = (100*(i+1))/moves.size();
 		cout << progression << " % (" << (i+1) << "/" << moves.size() << ") Points = "
 			 << maxPoints << " (" << bestMove.toString() << ")" << endl;
-
-
 	}
-	cout << "minimax Call : "<<minimaxCall<<endl;
-	/* TODO: check bestMove is valid */
+
+	/* TODO: check bestMove is valid, if not, maybe fall back on first move of list of move */
 	return bestMove;
 }
 

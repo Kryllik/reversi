@@ -12,11 +12,11 @@
  *
  */
 class HumanPlayer: public Player{
-		public:
-			HumanPlayer(cellContent color);
-			~HumanPlayer() {}
-			Position getMove(Board gameBoard, int turn);
-		private:
+public:
+	HumanPlayer(cellContent color);
+	~HumanPlayer() {}
+	Position getMove(Board gameBoard);
+private:
 };
 
 #endif /* HUMANPLAYER_H */

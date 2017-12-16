@@ -13,7 +13,7 @@ class Player;
 
 /*!
  * @class Game
- * @brief class reprensenting a game between two player instance of a board
+ * @brief class representing a game between two player instance and a board
  */
 class Game {
 	public:
@@ -24,7 +24,7 @@ class Game {
 		static cellContent oppositeColor(cellContent color); //used in AIPlayer
 		
 	private:
-		Board *board;			/*<! The Board instance */
+		Board  *board;			/*<! The Board instance */
 		Player *playerBlack; 	/*<! The black player instance */
 		Player *playerWhite; 	/*<! The white player instance */
 };

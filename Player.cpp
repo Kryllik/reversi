@@ -60,7 +60,7 @@ cellContent Player::getOpponentColor() const {
  *  @param the current game that can be used to validate the player's move before returning it
  *  @return the position where the player move
  */
-Position Player::getMove(Board gameBoard, int turn) {
+Position Player::getMove(Board gameBoard) {
 	return Position(0,0);
 }
 
@@ -72,11 +72,4 @@ Position Player::getMove(Board gameBoard, int turn) {
  */
 void Player::giveMove(Position pos){}
 
-/*!
- *  @brief virtual function that tells to the player that the opponent couldn't make a valid move
- *
- *  @param none
- *  @return none
- */
-//void Player::giveVoidMove(){}
 

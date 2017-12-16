@@ -6,6 +6,7 @@
 #include "limits.h"
 #include "AIPlayer.h"
 #include <climits>
+#include <chrono>
 
 using namespace std;
 
@@ -15,6 +16,7 @@ AIPlayer::AIPlayer(cellContent color) : Player(color){
 	else opponentColor=White;
 	minimaxCall=0;
 	alphabetaCall=0;
+	depthStart=8; /* default start depth */
 }
 
 AIPlayer::~AIPlayer() {
@@ -174,6 +176,9 @@ Position AIPlayer::getMove(Board gameBoard){
 
 	Position bestMove;
 
+	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+
 	/* for each possible moves at this level proceed with a minimax or alphabeta evaluation to choose the best move */
 	for (unsigned int i = 0; i<moves.size(); i++) {
 		/* build a temp board with the current move */
@@ -182,11 +187,10 @@ Position AIPlayer::getMove(Board gameBoard){
 		tempBoard.setContentAt(p, playerColor);
 		tempBoard.switchCells(playerColor, p);
 
-		unsigned int depth = 8;
 
 		/* current move is this player's move. So we enter minimax / alphabeta recursion at opponent's level */
-		//int points = MiniMax(tempBoard, this->opponentColor, depth);
-		int points = AlphaBeta(tempBoard, this->opponentColor, depth,INT_MIN, INT_MAX);
+		//int points = MiniMax(tempBoard, this->opponentColor, this->depthStart);
+		int points = AlphaBeta(tempBoard, this->opponentColor, this->depthStart,INT_MIN, INT_MAX);
 
 		if (points > maxPoints) {	/* if current move leads to better score, remember it as best move */
 			maxPoints = points;
@@ -195,8 +199,17 @@ Position AIPlayer::getMove(Board gameBoard){
 
 		/* some progress indication on screen */
 		int progression = (100*(i+1))/moves.size();
+
+
+		std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+		double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - begin).count();
+
+
 		cout << progression << " % (" << (i+1) << "/" << moves.size() << ") Points = "
-			 << maxPoints << " (" << bestMove.toString() << ")" << endl;
+					 << maxPoints << " (" << bestMove.toString() << ")" << " elapsed : "
+					 << elapsed/1000.0 << std::endl;
+
 	}
 
 	/* TODO: check bestMove is valid, if not, maybe fall back on first move of list of move */

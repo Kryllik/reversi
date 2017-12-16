@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	game->gameStart();
 	std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
 
-	std::cout << "Game took (sec) : " << (std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()) /1000000.0 <<std::endl;delete game;
+	std::cout << "Game took (sec) : " << (std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()) /1000000.0 <<std::endl;
 	
 	delete game;
 	return 0;

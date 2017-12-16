@@ -36,7 +36,6 @@ void Board::initBoard(){
 	setContentAt(Position(5,5),White);	
 	setContentAt(Position(4,5),Black);
 	setContentAt(Position(5,4),Black);
-	
 }
 
 
@@ -196,6 +195,7 @@ void Board::switchCells(cellContent playerContent, Position pos){
 	//si i=1,j=-1: diagonale en bas a droite
 	//si i=1, j=0: a droite
 	//si i=1, j=1: diagonale en haut a droite
+
 	for(int i=-1;i<=1;i++){
 		for(int j=-1;j<=1;j++){
 			Position newPos= pos.incrementedBy(i,j);
@@ -218,14 +218,12 @@ void Board::switchCells(cellContent playerContent, Position pos){
 						for(int l=1;l<abs(diffy);l=l+1){
 							switchPos.increment(0,j);
 							flipContentAt(switchPos);
-							//switchCells(playerContent, switchPos);
 						}
 					}
 					else if(diffx!=0 && diffy!=0){//changement des diagonales, diffy=diffx
 						for(int m=1;m<abs(diffx);m=m+1){
 							switchPos.increment(i,j);
 							flipContentAt(switchPos);
-							//switchCells(playerContent, switchPos);
 						}
 					}
 				}

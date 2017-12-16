@@ -21,6 +21,7 @@ class AIPlayer : public Player{
 		cellContent opponentColor; /* our opponent color */
 		int minimaxCall;
 		int alphabetaCall;
+		int depthStart;
 
 
 };

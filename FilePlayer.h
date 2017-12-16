@@ -16,8 +16,8 @@ using std::endl;
 using std::string;
 using std::getline;
 
-/*! \class FilePlayer
- * \brief child class based on Player.cpp that handles players acting through files
+/*! @class FilePlayer
+ * @brief child class based on Player.cpp that handles players acting through files
  *
  * two files shall be used by the player, noir.txt and blanc.txt
  * if player is black, the player movements will be read from noir.txt and the opponent's move written to blanc.txt
@@ -32,6 +32,8 @@ class FilePlayer : public Player{
 	private:
 		ifstream playerFile; 	/*!< the player's input file */
 		ofstream opponentFile;	/*!< the opponent's output file */
+		string playerFileName;
+		string opponentFileName;
 
 };
 

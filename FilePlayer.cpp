@@ -5,16 +5,15 @@
 
 
 /*!
- *  \brief FilePlayer's constructor
+ *  @brief FilePlayer's constructor
  *
  *  Construct a FilePlayer of the given color and open the required files.
  *  Wait until the player's file exists on disk
  *
- *  \param color : the player's color
- *  \return none
+ *  @param color : the player's color
+ *  @return none
  */
 FilePlayer::FilePlayer(cellContent color) : Player(color){
-	string playerFileName, opponentFileName;
 
 	string pathToFiles = IO::askForFilePath(color);
 	if (pathToFiles == "") pathToFiles="."; /* Make sure we won't end up with an absolute path to / */
@@ -38,7 +37,7 @@ FilePlayer::FilePlayer(cellContent color) : Player(color){
 	{
 		cout << "Attente du joueur (fichier "<< playerFileName <<" indisponible)" << endl;
 		// Ajout d'une temporisation avant de réessayer
-	    //std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+	    //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		playerFile.open(playerFileName);
 	}
 	
@@ -46,26 +45,25 @@ FilePlayer::FilePlayer(cellContent color) : Player(color){
 }
 
 /*!
- *  \brief get the player's next move from its input file
+ *  @brief get the player's next move from its input file
  *
  *  Loop until the next move can be read in the file and until that it is a valid moves.
  *
- *  \param game : a reference to the game that can be used to validate the player's move
- *  \return the player's next position
+ *  @param game : a reference to the game that can be used to validate the player's move
+ *  @return the player's next position
  */
 Position FilePlayer::getMove(Board gameBoard){
 	string ligne;
 	Position pos;
 	while (true) {
-		while (!(getline(playerFile, ligne, '\x0a'))) //caractère de fin de chaine sous linux (?)
+		cout << "waiting to receive next move in file " << playerFileName << endl;
+		while (!(getline(playerFile, ligne))) //, '\x0a'))) //caractère de fin de chaine sous linux (?)
 		{
 			// Echec de la lecture - Effacement des flags d'erreur
 			playerFile.clear();
 			// Ajout d'une temporisation avant de réessayer
 			//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-			cout << "waiting" << endl;
 		}
-		cout << "read : " << ligne << endl;
 		bool positionOk;
 		pos = Position::positionFromString(ligne,positionOk);
 		if (positionOk) {
@@ -90,12 +88,11 @@ Position FilePlayer::getMove(Board gameBoard){
 }
 
 /*!
- *  \brief write the opponent's last move to its file
+ *  @brief write the opponent's last move to its file
  *
- *  \param pos : The position of the opponent's last move
- *  \return none
+ *  @param pos : The position of the opponent's last move
+ *  @return none
  */
 void FilePlayer::giveMove(Position pos){
-	cout << "give move" << pos.toString() << endl;
 	opponentFile << pos.toString() << endl;
 }

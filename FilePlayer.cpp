@@ -75,7 +75,7 @@ Position FilePlayer::getMove(Board gameBoard, int turn){
 				} else {
 					cout << "Not a valid move, try again" << endl;
 				}
-			} else {			/* means the position is actually 'user passes its turn because he can't play */
+			} else {  /* means the position is actually 'user passes its turn because he can't play' */
 				if (gameBoard.validMovesExist(this->playerColor)) {
 					cout << "user cannot pass its turn, possible moves exists, try again" << endl;
 				} else {

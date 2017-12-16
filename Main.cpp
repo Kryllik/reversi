@@ -8,14 +8,26 @@
 #include <iostream>
 #include "Game.h"
 #include "IO.h"
+#include <chrono>
 using namespace std;
 
 int main(int argc, char **argv)
 {
 	pair<char,char> players = IO::playerCreation();
 	Game *game = new Game(players.first, players.second);
+
+	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	game->gameStart();
-	delete game;
+	std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
+
+	std::cout << "Game took (sec) : " << (std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()) /1000000.0 <<std::endl;delete game;
 	
+	delete game;
 	return 0;
 }
+
+
+
+
+
+

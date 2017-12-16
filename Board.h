@@ -16,7 +16,7 @@ class Board{
 		~Board();
 		cellContent getContentAt(Position pos) const;
 		void setContentAt(Position pos, cellContent content);
-		void switchContentAt(Position pos);
+		void flipContentAt(Position pos);
 		void switchCells(cellContent playerContent, Position pos);
 		
 		/*!
@@ -62,6 +62,9 @@ class Board{
 		bool validMovesExist(cellContent playerContent) const;
 		
 		
+		bool isGameOver() const;
+
+
 	private:
 		/*!
 		*  \brief Checks if playing at the given position with the given color causes a switch in the given direction

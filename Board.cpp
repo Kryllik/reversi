@@ -13,6 +13,7 @@ Board::Board(){
 	initBoard();
 }
 
+
 /*!
  * destruct a board
  */
@@ -62,7 +63,7 @@ void Board::setContentAt(const Position pos, const cellContent content){
  * No check is done to ensure the cell is not empty
  * @param pos : the position of the cell to flip
  */
-void Board::switchContentAt(const Position pos){
+void Board::flipContentAt(const Position pos){
 	(this->array[pos.getX()-1][pos.getY()-1]).switchContent(); 
 }
 
@@ -233,20 +234,20 @@ void Board::switchCells(cellContent playerContent, Position pos){
 					if(diffy==0){//changement que en x
 						for(int k=1;k<abs(diffx);k=k+1){
 							switchPos.increment(i,0);
-							switchContentAt(switchPos);
+							flipContentAt(switchPos);
 						}
 					}
 					else if (diffx==0){//changement que en y
 						for(int l=1;l<abs(diffy);l=l+1){
 							switchPos.increment(0,j);
-							switchContentAt(switchPos);
+							flipContentAt(switchPos);
 							//switchCells(playerContent, switchPos);
 						}
 					}
 					else if(diffx!=0 && diffy!=0){//changement des diagonales, diffy=diffx
 						for(int m=1;m<abs(diffx);m=m+1){
 							switchPos.increment(i,j);
-							switchContentAt(switchPos);
+							flipContentAt(switchPos);
 							//switchCells(playerContent, switchPos);
 						}
 					}
@@ -256,4 +257,22 @@ void Board::switchCells(cellContent playerContent, Position pos){
 	}
 }
 	
-
+/*!
+ * check if the game is over. Return false if at least one player can play to at least one position
+ * Optimised : return false as soon as the condition is met (doesn't goes through the complete board)
+ * @param
+ * @return true if the game is over
+ */
+bool Board::isGameOver() const {
+	vector<Position> v;
+	Position pos;
+	for (int i = 1; i<=Board::BOARD_SIZE; i++) {
+		for (int j = 1; j<=Board::BOARD_SIZE; j++) {
+			pos = Position(i,j);
+			if (isValidMove(Black,pos) or isValidMove(White,pos)) {
+				return false;
+			}
+		}
+	}
+	return true;
+}

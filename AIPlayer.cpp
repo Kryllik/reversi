@@ -11,12 +11,13 @@
 using namespace std;
 
 
-AIPlayer::AIPlayer(cellContent color) : Player(color){
+AIPlayer::AIPlayer(cellContent color, int type) : Player(color){
 	if (playerColor==White) opponentColor=Black;
 	else opponentColor=White;
 	minimaxCall=0;
 	alphabetaCall=0;
-	depthStart=8; /* default start depth */
+	depthStart=6; /* default start depth */
+	evalType = type;
 }
 
 AIPlayer::~AIPlayer() {
@@ -35,8 +36,12 @@ AIPlayer::~AIPlayer() {
 //	else return Position(0,0);
 //}
 
-/*TODO: take into account opponents tiles to evaluate board */
-int AIPlayer::evalBoard(Board board, cellContent playerColor) {
+
+/**
+ * first eval board function : basic score of player - basic score of opponent
+ * cornes = 4, external lines = 2, lines/row 2/7 = 0, other = 1
+ */
+int AIPlayer::evalBoard1(Board board,cellContent playerColor) {
 	int tot = 0;
 	Position pos;
 	for(unsigned int x = 1; x <= Board::BOARD_SIZE; x++){
@@ -54,6 +59,50 @@ int AIPlayer::evalBoard(Board board, cellContent playerColor) {
 				}else {
 					tot+=1;
 				}
+			} else if (content != Empty) {
+				if ((x == 1 or x == 8 ) and (y == 1 or y == 8 )) {
+					tot -= 4; // corner
+				}
+				else if ((x == 1 or x == 8) or (y == 1 or y == 8)) {
+					tot -= 2; // side
+				} else if (x==2 or x==7 or y==2 or y==7) {
+					//tot -= 1;
+				}else {
+					tot-=1;
+				}
+			}
+		}
+	}
+	return tot;
+}
+
+int weightedPos[8][8] = {
+		{20,-4,5,5,5,5,-4,20},
+		{-4,-6,2,2,2,2,-6,-4},
+		{5,2,2,2,2,2,2,5},
+		{5,2,2,2,2,2,2,5},
+		{5,2,2,2,2,2,2,5},
+		{5,2,2,2,2,2,2,5},
+		{-4,-6,2,2,2,2,-6,-4},
+		{20,-4,5,5,5,5,-4,20}
+};
+/**
+ * second eval board function : weighted score of player - weighted score of opponent
+ * score weight is taken in above array
+ *
+ */
+int AIPlayer::evalBoard2(Board board,cellContent playerColor) {
+	int tot = 0;
+	Position pos;
+	for(unsigned int x = 1; x <= Board::BOARD_SIZE; x++){
+		for(unsigned int y = 1; y<= Board::BOARD_SIZE; y++){
+			pos = Position(x,y);
+			cellContent content = board.getContentAt(pos);
+			int weight = weightedPos[x-1][y-1];
+			if (content == playerColor) {
+				tot+=weight;
+			} else if (content != Empty) {
+				tot-=weight;
 			}
 		}
 	}
@@ -61,13 +110,55 @@ int AIPlayer::evalBoard(Board board, cellContent playerColor) {
 }
 
 
+/**
+ * third eval board function :
+ * - weighted score of player - weighted score of opponent
+ * - if round player is our player, remove 50 points if we won't end the game (parity)
+ * - if round player is our player, add 10 points per possible moves (mobility)
+ */
+int AIPlayer::evalBoard3(Board board,cellContent roundColor) {
+	int tot = 0;
+	int freeCell=0;
+	Position pos;
+	for(unsigned int x = 1; x <= Board::BOARD_SIZE; x++){
+		for(unsigned int y = 1; y<= Board::BOARD_SIZE; y++){
+			pos = Position(x,y);
+			cellContent content = board.getContentAt(pos);
+			int weight = weightedPos[x-1][y-1];
+			if (content == playerColor) {
+				tot+=weight;
+			} else if (content == opponentColor) {
+				tot-=weight;
+			} else {
+				freeCell++; /* count free cell for parity check */
+			}
+		}
+	}
+	if ((freeCell%2) == 0) { /* odd cell number remaining, player won't be the last player in the game */
+		if (roundColor==this->playerColor) tot-=50; /* try to avoid this path by giving it a bad score */
+	}
+	if (roundColor==this->playerColor) { /* check mobility for our player */
+		vector<Position> pos = board.validMoves(this->playerColor);
+		tot+=pos.size()*10;
+	}
+	return tot;
+}
+
+int AIPlayer::evalBoard(Board board,cellContent playerColor) {
+	switch (this->evalType) {
+	case 1: return evalBoard1(board,playerColor);
+	case 2: return evalBoard2(board,playerColor);
+	case 3:
+	default: return evalBoard3(board, playerColor);
+	}
+}
 
 int AIPlayer::AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int alpha, int beta) {
 	alphabetaCall++;
 
 	/* check if max depth is reacher or if the game is over because no player can play */
 	if ((depth==0) or (gameBoard.isGameOver())) {
-		return evalBoard(gameBoard, this->playerColor); /* return the board's evaluation for this leaf */
+		return evalBoard(gameBoard,playerColor); /* return the board's evaluation for this leaf */
 	}
 
 	/* note: left with 2 big if/then clause for readibility. Could be further improved as there is much
@@ -75,7 +166,7 @@ int AIPlayer::AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int
 
 	if (playerColor==this->playerColor) { /* player is us, so we are maximimzing for player on this round */
 		vector<Position> moves = gameBoard.validMoves(playerColor);
-		if (moves.size() == 0) return evalBoard(gameBoard, this->playerColor);
+		if (moves.size() == 0) return evalBoard(gameBoard,playerColor);
 
 		for (unsigned int i = 0; i<moves.size(); i++) {
 			Board tempBoard = gameBoard;
@@ -95,7 +186,7 @@ int AIPlayer::AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int
 		return alpha;
 	} else {  /* player is opponent, so we are minimizing for player this round */
 		vector<Position> moves = gameBoard.validMoves(playerColor);
-		if (moves.size() == 0) return evalBoard(gameBoard,this->playerColor);
+		if (moves.size() == 0) return evalBoard(gameBoard,playerColor);
 		for (unsigned int i = 0; i<moves.size(); i++) {
 			Board tempBoard = gameBoard;
 			Position p = moves[i];
@@ -122,7 +213,7 @@ int AIPlayer::MiniMax(Board gameBoard, cellContent playerColor, int depth) {
 
 	/* check if max depth is reacher or if the game is over because no player can play */
 	if ((depth==0) or (gameBoard.isGameOver())) {
-		return evalBoard(gameBoard, this->playerColor); /* return the board's evaluation for this leaf */
+		return evalBoard(gameBoard,playerColor); /* return the board's evaluation for this leaf */
 	}
 
 	int bestValue;
@@ -133,7 +224,7 @@ int AIPlayer::MiniMax(Board gameBoard, cellContent playerColor, int depth) {
 	if (playerColor==this->playerColor) { /* player is us, so we are maximimzing for player on this round */
 		bestValue = INT_MIN;
 		vector<Position> moves = gameBoard.validMoves(this->playerColor);
-		if (moves.size() == 0) return evalBoard(gameBoard, this->playerColor);
+		if (moves.size() == 0) return evalBoard(gameBoard,playerColor);
 
 		for (unsigned int i = 0; i<moves.size(); i++) {
 			Board tempBoard = gameBoard;
@@ -146,7 +237,7 @@ int AIPlayer::MiniMax(Board gameBoard, cellContent playerColor, int depth) {
 	} else {				/* player is opponent, so we are minimizing for player this round */
 		bestValue=INT_MAX;
 		vector<Position> moves = gameBoard.validMoves(this->opponentColor);
-		if (moves.size() == 0) return evalBoard(gameBoard,this->playerColor);
+		if (moves.size() == 0) return evalBoard(gameBoard,playerColor);
 		for (unsigned int i = 0; i<moves.size(); i++) {
 			Board tempBoard = gameBoard;
 			Position p = moves[i];
@@ -206,7 +297,7 @@ Position AIPlayer::getMove(Board gameBoard){
 		double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - begin).count();
 
 
-		cout << progression << " % (" << (i+1) << "/" << moves.size() << ") Points = "
+		cout << progression << " % (" << (i+1) << "/" << moves.size() << ")"<<" Score = "<< points <<"; Best Score = "
 					 << maxPoints << " (" << bestMove.toString() << ")" << " elapsed : "
 					 << elapsed/1000.0 << std::endl;
 

@@ -29,7 +29,7 @@ Game::Game(char player1, char player2)  {
 		playerBlack = new FilePlayer(blackColor);
 	}
 	else if(player1 == 'A'){
-		playerBlack = new AIPlayer(blackColor);
+		playerBlack = new AIPlayer(blackColor,3);
 	}
 	else{
 		cout << "ERREUR DE CONFIGURATION DES JOUEURS " << endl; //sécurité, mais ne devrait jamais être déclenché, après la vérif dans IO
@@ -41,7 +41,7 @@ Game::Game(char player1, char player2)  {
 		playerWhite = new FilePlayer(whiteColor);
 	}
 	else if(player2 == 'A'){
-		playerWhite = new AIPlayer(whiteColor);
+		playerWhite = new AIPlayer(whiteColor,3);
 	}
 	else{
 		cout << "ERREUR DE CONFIGURATION DES JOUEURS " << endl;

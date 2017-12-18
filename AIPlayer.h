@@ -8,9 +8,12 @@
 
 class AIPlayer : public Player{
 	public:
-		AIPlayer(cellContent color);
+		AIPlayer(cellContent color, int type);
 		~AIPlayer();
-		int evalBoard(Board board, cellContent playerColor);
+		int evalBoard1(Board board,cellContent playerColor);
+		int evalBoard2(Board board,cellContent playerColor);
+		int evalBoard3(Board board,cellContent playerColor);
+		int evalBoard(Board board,cellContent playerColor);
 		int AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int alpha, int beta);
 		int MiniMax(Board gameBoard, cellContent playerColor, int depth);
 		Position getMove(Board gameBoard);
@@ -22,6 +25,7 @@ class AIPlayer : public Player{
 		int minimaxCall;
 		int alphabetaCall;
 		int depthStart;
+		int evalType;
 
 
 };

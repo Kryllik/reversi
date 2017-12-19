@@ -5,10 +5,11 @@
 
 #include "Player.h"
 #include <vector>
+#include <chrono>
 
 class AIPlayer : public Player{
 	public:
-		AIPlayer(cellContent color, int type);
+		AIPlayer(cellContent color);
 		~AIPlayer();
 		int evalBoard1(Board board,cellContent playerColor);
 		int evalBoard2(Board board,cellContent playerColor);
@@ -22,10 +23,12 @@ class AIPlayer : public Player{
 
 	private:
 		cellContent opponentColor; /* our opponent color */
-		int minimaxCall;
-		int alphabetaCall;
-		int depthStart;
-		int evalType;
+//		int minimaxCall;		/*<! keep track of how many times minimax has been called */
+		int alphabetaCall;		/*<! keep track of how many times alphabeta has been called */
+		int depthStart;			/*<! define how deep we shall dig */
+		int evalType;			/*<! define the evaluation function that will be used to evaluate a board */
+		int turnNumber; 		/*<! let's count the turn (+1 each time we play) */
+		std::chrono::steady_clock::time_point turnStartTime; /*<! remember the timestamp when we start a turn */
 
 
 };

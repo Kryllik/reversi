@@ -179,8 +179,8 @@ int AIPlayer::AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int
 		 * in common in the two parts of the if/them */
 
 	if (playerColor==this->playerColor) { /* player is us, so we are maximimzing for player on this round */
-		vector<Position> moves = gameBoard.validMoves(=this->playerColor);
-		if (moves.size() == 0) return evalBoard(gameBoard,=this->playerColor);
+		vector<Position> moves = gameBoard.validMoves(this->playerColor);
+		if (moves.size() == 0) return evalBoard(gameBoard,this->playerColor);
 
 		for (unsigned int i = 0; i<moves.size(); i++) {
 			Board tempBoard = gameBoard;

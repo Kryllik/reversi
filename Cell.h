@@ -7,8 +7,8 @@
  */
 typedef enum {Black,White,Empty} cellContent; 
 
-/*! \class Cell
-   * \brief Class for one board's cell. It can be either Black, White or Empty.
+/*! @class Cell
+   * @brief Class for one board's cell. It can be either Black, White or Empty.
    *
    *  allow to get / set / switch (toggle) content
    */
@@ -28,7 +28,7 @@ public:
 	}
 	cellContent switchContent();
 private:
-	cellContent content;
+	cellContent content;		/*<! the content of this cell */
 };
 
 #endif /* CELL_H */

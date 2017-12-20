@@ -18,6 +18,7 @@ FilePlayer::FilePlayer(cellContent color) : Player(color){
 	string pathToFiles = IO::askForFilePath(color);
 	if (pathToFiles == "") pathToFiles="."; /* Make sure we won't end up with an absolute path to / */
 
+	/* build up paths to file */
 	if(this->getColor()==Black) {
 		playerFileName = pathToFiles+"/noir.txt";
 		opponentFileName = pathToFiles+"/blanc.txt";
@@ -36,8 +37,8 @@ FilePlayer::FilePlayer(cellContent color) : Player(color){
 	while (!playerFile.is_open())
 	{
 		cout << "Attente du joueur (fichier "<< playerFileName <<" indisponible)" << endl;
-		// Ajout d'une temporisation avant de réessayer
-	    //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		/* sleep for a while before retrying */
+	    std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		playerFile.open(playerFileName);
 	}
 	
@@ -57,12 +58,11 @@ Position FilePlayer::getMove(Board gameBoard){
 	Position pos;
 	while (true) {
 		cout << "waiting to receive next move in file " << playerFileName << endl;
-		while (!(getline(playerFile, ligne))) //, '\x0a'))) //caractère de fin de chaine sous linux (?)
+		while (!(getline(playerFile, ligne))) //, '\x0a'))) /* (??end of line char under windows/linux is different??) */
 		{
-			// Echec de la lecture - Effacement des flags d'erreur
-			playerFile.clear();
-			// Ajout d'une temporisation avant de réessayer
-			//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			playerFile.clear(); /* getline failed, clear errors */
+			/* sleep for a while before retrying */
+			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		}
 		bool positionOk;
 		pos = Position::positionFromString(ligne,positionOk);

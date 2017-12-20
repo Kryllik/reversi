@@ -9,7 +9,7 @@
 #include "Game.h"
 #include "IO.h"
 #include <chrono>
-#include <sys/resource.h>
+
 using namespace std;
 
 int main(int argc, char **argv)
@@ -27,9 +27,3 @@ int main(int argc, char **argv)
 	delete game;
 	return 0;
 }
-
-
-
-
-
-

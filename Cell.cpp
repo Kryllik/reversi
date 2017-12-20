@@ -37,7 +37,7 @@ void Cell::setContent(const cellContent content){
 
 
 /*!
- *  @brief switch (toggle) the content of a cell
+ *  @brief switch (flip) the content of a cell
  *
  *  @param  none
  *  @return the new content of the cell

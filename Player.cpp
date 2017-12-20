@@ -71,5 +71,3 @@ Position Player::getMove(Board gameBoard) {
  *  @return none
  */
 void Player::giveMove(Position pos){}
-
-

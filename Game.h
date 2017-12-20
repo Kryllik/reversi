@@ -21,7 +21,6 @@ class Game {
 		~Game();
 		
 		void gameStart();
-		static cellContent oppositeColor(cellContent color); //used in AIPlayer
 		
 	private:
 		Board  *board;			/*<! The Board instance */

@@ -30,10 +30,10 @@ class FilePlayer : public Player{
 		Position getMove(Board gameBoard);
 		void giveMove(Position pos);
 	private:
-		ifstream playerFile; 	/*!< the player's input file */
-		ofstream opponentFile;	/*!< the opponent's output file */
-		string playerFileName;
-		string opponentFileName;
+		ifstream playerFile; 	 /*!< the player's input stream */
+		ofstream opponentFile;	 /*!< the opponent's output stream */
+		string playerFileName;   /*!< the player's input file name */
+		string opponentFileName; /*!< the opponent's output file name */
 
 };
 

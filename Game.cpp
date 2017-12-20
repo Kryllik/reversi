@@ -18,7 +18,7 @@ using namespace std;
 Game::Game(char player1, char player2)  {
 	cout << "Bienvenue dans ce super jeu !" << endl<< endl;
 	cout << "plateau initial : " << endl << endl;
-	Board *board = new Board(); //Cree un nouveau Board et l'initialise. Renvoie un pointeur.
+	Board *board = new Board(); //Create a new board and init it.
 	this->board = board;
 	cellContent blackColor = Black;
 	cellContent whiteColor = White;
@@ -73,10 +73,7 @@ void Game::gameStart(){
 		IO::displayWhoPlays(*currentPlayer, *board);
 
 		pos = currentPlayer->getMove(*board); /* *this needed to validate the move (need to check if the given position is valid for the current board) */
-		//		if (turn==30) {
-//			cout << "d1" << endl;
-//		}
-//		cout << pos.toString() << endl;
+
 		if (pos.isValid()) {
 			/* update board by switching cells affected by player's move */
 			board->setContentAt(pos, currentPlayer->getColor());
@@ -84,9 +81,6 @@ void Game::gameStart(){
 		}
 		/* display board info */
 		IO::display(*board, *currentPlayer, pos);
-//		if (turn==30) {
-//			cout << "d2" << endl;
-//		}
 
 		opponentPlayer->giveMove(pos);
 
@@ -97,8 +91,8 @@ void Game::gameStart(){
 			currentPlayer = playerWhite;
 			opponentPlayer = playerBlack;
 		}
-		/* TODO : press enter to continue */
-//		cout << "Press Enter to Continue";
+		/* uncomment next two lines if you want the user to press enter to continue */
+//		cout << "\r\n >>> Press Enter to Continue";
 //		cin.ignore();
 	}
 
@@ -111,23 +105,3 @@ void Game::gameStart(){
 	delete playerWhite;
 	delete playerBlack;
 }
-
-/*!
- * MVE : What is it for ? couldn't be replaced by player->getOponentColor() ??
- * @param color
- * @return
- */
-cellContent Game::oppositeColor(cellContent color) {
-	if (color == Black)
-		return cellContent::White;
-	else
-		return cellContent::Black;
-}
-
-
-
-
-
-
-
-

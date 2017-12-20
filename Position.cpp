@@ -83,6 +83,3 @@ Position Position::positionFromString(string s, bool &ok) {
 	}
 	return pos;
 }
-
-
-

@@ -40,11 +40,7 @@ void Board::initBoard(){
 }
 
 
-/*!
- * Return the content of the cell at position pos
- * @param pos : the position of the cell of which to return content
- * @return the content of the cell at position pos
- */
+
 
 
 /*!

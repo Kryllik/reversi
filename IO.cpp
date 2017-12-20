@@ -2,6 +2,8 @@
 #include <vector>
 #include <sys/stat.h>
 
+
+/* returns true if "path" is a directory that exists */
 bool dirExists(string path) {
 struct stat sb;
 return  (stat(path.c_str(), &sb) == 0 && S_ISDIR(sb.st_mode));

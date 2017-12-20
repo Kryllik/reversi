@@ -43,7 +43,7 @@ Position::Position(const int x, const int y){
  *  @return a 2-char string [a-h][1-8]
  */
 string Position::toString() const {
-	if (this->getX()==0 && this->getY()==0) return "OO";
+	if (this->getX()==0 && this->getY()==0) return "00";
 	int xInt = this->getX()+'a'-1;
 	string xString;
 	xString = (char) xInt;
@@ -65,7 +65,7 @@ Position Position::positionFromString(string s, bool &ok) {
 		ok = false;
 	} else {
 
-		if (s[0]=='O' && s[1] == 'O') {
+		if (s[0]=='0' && s[1] == '0') {
 			pos = Position(0,0);
 		} else {
 			if ( (s[0]<'a' || s[0]>'h') ||

@@ -116,6 +116,7 @@ bool Board::validMovesExist(cellContent playerContent) const {
 vector<Position> Board::validMoves(cellContent playerContent) const {
 	vector<Position> v;
 	Position pos;
+	v.reserve(2 * Board::BOARD_SIZE);
 	for (int i = 1; i<=Board::BOARD_SIZE; i++) {
 		for (int j = 1; j<=Board::BOARD_SIZE; j++) {
 			pos = Position(i,j);

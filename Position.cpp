@@ -117,22 +117,4 @@ Position Position::positionFromString(string s, bool &ok) {
 }
 
 
-/*!
- *  @brief get the X of the Position
- *
- *  @param none
- *  @return this.x
- */
-int Position::getX() const {
-	return x;
-}
 
-/*!
- *  @brief get the Y of the Position
- *
- *  @param none
- *  @return this.y
- */
-int Position::getY() const {
-	return y;
-}

@@ -14,7 +14,9 @@ class Board{
 		static constexpr int BOARD_SIZE = 8; //Taille standard d'un plateau de jeu
 		Board(); 
 		~Board();
-		cellContent getContentAt(Position pos) const;
+		cellContent getContentAt(const Position pos) const{
+			return (this->array[pos.getX()-1][pos.getY()-1]).getContent();
+		}
 		void setContentAt(Position pos, cellContent content);
 		void flipContentAt(Position pos);
 		void switchCells(cellContent playerContent, Position pos);

@@ -162,7 +162,7 @@ int AIPlayer::evalBoard(Board board,cellContent playerColor) {
  *
  * Returns the best score (given by an evaluation function)
  */
-int AIPlayer::AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int alpha, int beta) {
+int AIPlayer::AlphaBeta(Board& gameBoard, cellContent playerColor, int depth, int alpha, int beta) {
 	alphabetaCall++;
 
 	/* check if max depth is reacher or if the game is over because no player can play */
@@ -187,7 +187,7 @@ int AIPlayer::AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int
 			Position p = moves[i];
 			tempBoard.setContentAt(p, playerColor);
 			tempBoard.switchCells(playerColor, p);
-
+		
 			int v = AlphaBeta(tempBoard, this->opponentColor, depth-1, alpha, beta);
 
 			if (v> alpha) {
@@ -227,7 +227,7 @@ int AIPlayer::AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int
 // *
 // * Returns the best score (given by an evaluation function)
 // */
-//int AIPlayer::MiniMax(Board gameBoard, cellContent playerColor, int depth) {
+//int AIPlayer::MiniMax(Board& gameBoard, cellContent playerColor, int depth) {
 //	this->minimaxCall++;
 //
 //	/* check if max depth is reacher or if the game is over because no player can play */

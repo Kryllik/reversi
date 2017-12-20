@@ -45,9 +45,7 @@ void Board::initBoard(){
  * @param pos : the position of the cell of which to return content
  * @return the content of the cell at position pos
  */
-cellContent Board::getContentAt(const Position pos) const{
-	return (this->array[pos.getX()-1][pos.getY()-1]).getContent();
-}
+
 
 /*!
  * set to content of the cell at position pos to content

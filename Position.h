@@ -17,8 +17,25 @@ class Position {
 		void increment(int xAdd, int yAdd);
 		Position incrementedBy(int xAdd, int yAdd) const;
 		bool isValid() const;
-		int getX() const;
-		int getY() const;
+		/*!
+		 *  @brief get the X of the Position
+		 *
+		 *  @param none
+		 *  @return this.x
+		 */
+		int getX() const {
+			return x;
+		}
+
+		/*!
+		 *  @brief get the Y of the Position
+		 *
+		 *  @param none
+		 *  @return this.y
+		 */
+		int getY() const {
+			return y;
+		}
 	private:
 		int x;
 		int y;

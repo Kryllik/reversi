@@ -15,8 +15,8 @@ class AIPlayer : public Player{
 		int evalBoard2(Board board,cellContent playerColor);
 		int evalBoard3(Board board,cellContent playerColor);
 		int evalBoard(Board board,cellContent playerColor);
-		int AlphaBeta(Board gameBoard, cellContent playerColor, int depth, int alpha, int beta);
-		int MiniMax(Board gameBoard, cellContent playerColor, int depth);
+		int AlphaBeta(Board& gameBoard, cellContent playerColor, int depth, int alpha, int beta);
+		int MiniMax(Board& gameBoard, cellContent playerColor, int depth);
 		Position getMove(Board gameBoard);
 
 		

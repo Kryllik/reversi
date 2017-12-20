@@ -17,7 +17,15 @@ public:
 	Cell();
 	~Cell();
 	void setContent(cellContent content);
-	cellContent getContent() const;
+	/*!
+	 *  @brief get the content of a Cell
+	 *
+	 *  @param  none
+	 *  @return the current content of the cell
+	 */
+	cellContent getContent() const {
+		return this->content;
+	}
 	cellContent switchContent();
 private:
 	cellContent content;

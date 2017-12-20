@@ -1,5 +1,5 @@
 all: Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o IO.o
-	g++ -std=c++11 -O3 -flto -mtune=native Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o IO.o Main.cpp -o projet
+	g++ -std=c++11 -g -O3 -mtune=native Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Cell.o IO.o Main.cpp -o projet
 
 #Game.o:
 #	g++ -std=c++11 -c Game.cpp
@@ -28,7 +28,7 @@ all: Game.o Position.o Board.o Player.o HumanPlayer.o FilePlayer.o AIPlayer.o Ce
 ### $@ correspond à l'entrée (.o) et $< correspond à la sortie (.cpp)
 
 %.o: %.cpp
-	g++ -std=c++11 -O3 -flto -mtune=native -Wall -c -o $@ $<
+	g++ -std=c++11 -O3 -mtune=native -Wall -g -c -o $@ $<
 
 
 

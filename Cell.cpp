@@ -34,15 +34,7 @@ void Cell::setContent(const cellContent content){
 	this->content = content;
 }
 
-/*!
- *  @brief get the content of a Cell
- *
- *  @param  none
- *  @return the current content of the cell
- */
-cellContent Cell::getContent() const {
-	return this->content;
-}
+
 
 /*!
  *  @brief switch (toggle) the content of a cell
